@@ -1,0 +1,38 @@
+{
+  "stem": "0.hook",
+  "HookHash": "78BE208AC93C9AF660231403B9A1AD7AB4632B7564F98B588A070E39486AAACC",
+  "size": 754,
+  "sha256": "b1725cc581523f6d643a6a6b7702de3f74901ca7be97932bf8801eb44d55eb2f",
+  "platforms": {
+    "linux/amd64": {
+      "recipe": "hookc-llvm22-amd64",
+      "recipe_digest": "05324ae199bf25149d83bc5846d608c83a786441f1fa287b1af3ef4c6d372550",
+      "image_id": "sha256:88484099eaaf8f335bf9730b5b4ca4219b7851769957fabe5d52c079068840ab",
+      "builds_identical": true
+    },
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "5b51815f8d800d4912f7e79e963f58b5ba922c64f5f34ad7ac6152d5308d6d3d",
+      "image_id": "sha256:5e321e71441014322b03c5200a28bb31f7e86fd0b7316a75f3450bfe9dc94f93",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 133,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "0a10b61b4f361384395a00ebc56e585f8389627f",
+      "path": "",
+      "tree": "ce026102306391a66f310e4838958481596277db",
+      "dirty": false
+    },
+    "tree_sha256": "be7d5a118f7141de298b0acb46ec4b6a35cd29cfdfd32efa0d987f48dd9a3bb8",
+    "file_count": 12,
+    "entry": "claimReward.c"
+  }
+}

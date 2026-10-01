@@ -1,0 +1,43 @@
+{
+ "name": "hookc-wce",
+ "summary": "hookc WCE analyser: xahaud's own validateGuards() (include/xrpl/hook/Guard.h + Enum.h + hook_api.macro at release bb244ef, byte-identical to rshooks-build 0.2.3's vendored copies) compiled unmodified in GUARD_CHECKER_BUILD mode with g++ 12 at image-build time (--network=none). Prints {hook, cbak} worst-case instruction counts.",
+ "platform": "linux/arm64",
+ "base_image": "rust@sha256:587f5c8de927f3360b160126b7cd42b2215e2f055dfbe2eb1890a9b056fb5c38",
+ "base_image_note": "docker.io/library/rust:1.89.0-bookworm linux/arm64/v8 (same pinned base as rshooks-0.2.3); used only for its g++ 12.",
+ "artifacts": [
+  {
+   "name": "Guard.h",
+   "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/include/xrpl/hook/Guard.h",
+   "sha256": "705e7e9cf8b2e02f0a031a86ad9ddd292ba19e838a14f7a4e5a23c93e6d6c518",
+   "into": "hdr/Guard.h"
+  },
+  {
+   "name": "Enum.h",
+   "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/include/xrpl/hook/Enum.h",
+   "sha256": "82cd19d717dbf8d33bf0e1bc357d7c57e9457a629e3b6d7e03777b67f4e4e0d8",
+   "into": "hdr/Enum.h"
+  },
+  {
+   "name": "hook_api.macro",
+   "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/include/xrpl/hook/hook_api.macro",
+   "sha256": "868ccad771110eb78ff23e7679076c6b2d9e2f8811a6dcfedea67c5e54c45b4c",
+   "into": "hdr/hook_api.macro"
+  }
+ ],
+ "vendored": [
+  "wce.cpp"
+ ],
+ "pipeline": "run.sh",
+ "dockerfile_extra": [
+  "RUN --network=none g++ -std=c++17 -O1 -o /tc/hookc-wce /tc/wce.cpp -I/hdr"
+ ],
+ "params": {},
+ "presets": {
+  "default": {}
+ },
+ "tool_versions": {
+  "Guard.h": "Xahau/xahaud release @bb244ef7 include/xrpl/hook/Guard.h sha256 705e7e9c\u2026",
+  "guard rules": "GUARD_CHECKER_BUILD: featureHooksUpdate1, featureHooksUpdate2, fix20250131, fixGuardDepth32 all treated as enabled (Enum.h standalone branch)",
+  "compiler": "g++ 12 from rust:1.89.0-bookworm"
+ }
+}

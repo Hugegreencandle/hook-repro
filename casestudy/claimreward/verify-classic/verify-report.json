@@ -1,0 +1,72 @@
+{
+  "builds": [
+    {
+      "image_id": "sha256:71ed9debbb6b7d69931ec7ca24af1dcad3f50443670a656719191fd4e596d1b3",
+      "n": 1,
+      "params": {
+        "CLANG_OPT": "-O2",
+        "STAGES": "opt,clean",
+        "WASMOPT": "-O2"
+      },
+      "recipe_digest": "13455c906e3c01aca7a51973acac2600cc34393582e7a3dddeb8fa33f2256b81",
+      "sha256": "5c572d41750440119473d729d2d146a3161ce09c699415cf0a138a2a3d16bb15",
+      "sha512half": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+      "size": 808,
+      "source_tree_sha256": "d390030d5da2425d3e208ee78672221f56803bf6ed0d879c9c118be57ec115fc"
+    },
+    {
+      "image_id": "sha256:71ed9debbb6b7d69931ec7ca24af1dcad3f50443670a656719191fd4e596d1b3",
+      "n": 2,
+      "params": {
+        "CLANG_OPT": "-O2",
+        "STAGES": "opt,clean",
+        "WASMOPT": "-O2"
+      },
+      "recipe_digest": "13455c906e3c01aca7a51973acac2600cc34393582e7a3dddeb8fa33f2256b81",
+      "sha256": "5c572d41750440119473d729d2d146a3161ce09c699415cf0a138a2a3d16bb15",
+      "sha512half": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+      "size": 808,
+      "source_tree_sha256": "d390030d5da2425d3e208ee78672221f56803bf6ed0d879c9c118be57ec115fc"
+    }
+  ],
+  "diff": null,
+  "distinct_operators": 2,
+  "generated_utc": "2026-10-01T01:53:01Z",
+  "hookhash": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+  "ledger": {
+    "ledger_hash": "25C71673E201E82E4E09FC68C02290E262E2BC70336F6CE7D5F25FF8D607EDD4",
+    "ledger_index": 26196829
+  },
+  "network": "xahau-mainnet",
+  "params": {},
+  "preset": "classic",
+  "reads": [
+    {
+      "build_version": "2026.6.21-release+3350",
+      "hook_set_txn": "C7469131A46D07E777D4FCAFD574F64CF7E25EF0A4428564F5F6986F7CEC8AAE",
+      "ledger_hash": "25C71673E201E82E4E09FC68C02290E262E2BC70336F6CE7D5F25FF8D607EDD4",
+      "ledger_index": 26196829,
+      "network_id": 21337,
+      "node_key": "n9JYxms4BTRi8v2YmsUH4fiV4Zco9CqWcmdY1ddY3BBEocLcEkMD",
+      "sha512half": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+      "size": 808,
+      "url": "https://xahau.network"
+    },
+    {
+      "build_version": "2026.6.21-release+3350",
+      "hook_set_txn": "C7469131A46D07E777D4FCAFD574F64CF7E25EF0A4428564F5F6986F7CEC8AAE",
+      "ledger_hash": "25C71673E201E82E4E09FC68C02290E262E2BC70336F6CE7D5F25FF8D607EDD4",
+      "ledger_index": 26196829,
+      "network_id": 21337,
+      "node_key": "n9JAe6yk1aEQAiFR9wFcbK6cZbomNXPaWs2Bt2dQ3Ki8rZrDXUQr",
+      "sha512half": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+      "size": 808,
+      "url": "https://cluster.cbotlabs.xyz"
+    }
+  ],
+  "reason": "rebuild is byte-identical to on-ledger CreateCode (SHA512Half 805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA)",
+  "recipe": "xhc-bin127",
+  "schema": "hook-repro/verify-report/v1",
+  "source_dir": "casestudy/claimreward/src",
+  "verdict": "REPRODUCED"
+}

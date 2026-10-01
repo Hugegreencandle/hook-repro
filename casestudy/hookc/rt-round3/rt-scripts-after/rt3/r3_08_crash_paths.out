@@ -1,0 +1,9 @@
+(a) --wasm missing file: exit=3 UNVERIFIED: build error: cannot read metadata <scratchpad>
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+FileNotFoundError: [Errno 2] No such file or directory: '<scratchpad>/rt3fix/rerun-after/rt3/work-r3-01/o/0.hook.metadata.json'
+(b) builder.platforms twin not an object: exit=3 UNVERIFIED: build error: cannot read metadata <scratchpad>
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+FileNotFoundError: [Errno 2] No such file or directory: '<scratchpad>/rt3fix/rerun-after/rt3/work-r3-01/o/0.hook.metadata.json'
+(c) human not an object: exit=3  UNVERIFIED: build error: cannot read metadata <scratchpad>

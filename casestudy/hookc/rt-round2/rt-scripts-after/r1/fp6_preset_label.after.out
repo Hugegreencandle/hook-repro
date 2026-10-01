@@ -1,0 +1,2 @@
+preset=builder-2025 {'CLANG_OPT': '-O2', 'STAGES': 'opt,clean', 'WASMOPT': '-O2'}
+exit=3

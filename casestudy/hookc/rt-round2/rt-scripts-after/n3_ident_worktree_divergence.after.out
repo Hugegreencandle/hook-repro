@@ -1,0 +1,11 @@
+work tree (what a reviewer reads): static const char id[] = "$Id: d1bb0a181792582719402e03d9e6f271f24c3f9b $";
+git blob (what is compiled):        static const char id[] = "$Id$";
+git status: []
+hookc build <worktree> exit=3
+reproduce --src <worktree> exit=3
+build of the work-tree text exit=0
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import json;a=json.load(open('<scratchpad>/rt2/work-n3/out/0.hook.metadata.json'))['HookHash'];b=json.load(open('<scratchpad>/rt2/work-n3/out-asread/0.hook.metadata.json'))['HookHash'];print('sidecar HookHash',a);print('work-tree text  ',b,'(differs)' if a!=b else '(same)')
+                            ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<scratchpad>/rt2/work-n3/out/0.hook.metadata.json'

@@ -1,0 +1,15 @@
+[90m11:02AM[0m [32mINF[0m [1m0 commits scanned.[0m
+[90m11:02AM[0m [32mINF[0m [1mscanned ~113 bytes (113 bytes) in 20.9ms[0m
+[90m11:02AM[0m [32mINF[0m [1mno leaks found[0m
+[90m11:02AM[0m [32mINF[0m [1m0 commits scanned.[0m
+[90m11:02AM[0m [32mINF[0m [1mscanned ~118 bytes (118 bytes) in 20.5ms[0m
+[90m11:02AM[0m [32mINF[0m [1mno leaks found[0m
+evil-content build exit=0
+reconstructed ec8eaeb sidecar: HookHash D3C4280E1F4AE261BB38BC3130A47BCEFA8B18016A4714020EBF96D65520455E vcs e3db02c6792c ea33d2692025
+reproduce --src <replacing repo>: VERDICT: MISMATCH
+  exit=2
+reproduce --git <replacing repo> exit=2
+mirror has: refs/replace/ea33d2692025fb19debd6f400969433d54fee415
+reproduce --git <mirror clone> exit=2
+GIT_DIR=<replacing repo> reproduce --git <clean clone> exit=2
+GIT_REPLACE_REF_BASE=refs/evil/ reproduce exit=2

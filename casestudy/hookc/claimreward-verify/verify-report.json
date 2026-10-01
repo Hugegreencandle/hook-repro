@@ -1,0 +1,307 @@
+{
+  "builds": [
+    {
+      "image_id": "sha256:cbfd50d71f185cbd6fe2db77b1a605198d27cd8bb90ce2b8e50204a6dc8fb8f8",
+      "n": 1,
+      "params": {
+        "CLANG_OPT": "-O2",
+        "STAGES": "opt,clean",
+        "WASMOPT": "-O2"
+      },
+      "recipe_digest": "3e81eab9375f5471201929024c54cc609fbd2fe1d4dacbdba850d6f1b1271d18",
+      "sha256": "5c572d41750440119473d729d2d146a3161ce09c699415cf0a138a2a3d16bb15",
+      "sha512half": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+      "size": 808,
+      "source_tree_sha256": "be7d5a118f7141de298b0acb46ec4b6a35cd29cfdfd32efa0d987f48dd9a3bb8"
+    },
+    {
+      "image_id": "sha256:cbfd50d71f185cbd6fe2db77b1a605198d27cd8bb90ce2b8e50204a6dc8fb8f8",
+      "n": 2,
+      "params": {
+        "CLANG_OPT": "-O2",
+        "STAGES": "opt,clean",
+        "WASMOPT": "-O2"
+      },
+      "recipe_digest": "3e81eab9375f5471201929024c54cc609fbd2fe1d4dacbdba850d6f1b1271d18",
+      "sha256": "5c572d41750440119473d729d2d146a3161ce09c699415cf0a138a2a3d16bb15",
+      "sha512half": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+      "size": 808,
+      "source_tree_sha256": "be7d5a118f7141de298b0acb46ec4b6a35cd29cfdfd32efa0d987f48dd9a3bb8"
+    }
+  ],
+  "definition_check": {
+    "fields": [
+      {
+        "definition": "Fee",
+        "definition_value": "149",
+        "match": true,
+        "metadata": "WCE.hook",
+        "metadata_value": 149
+      },
+      {
+        "definition": "HookCallbackFee",
+        "definition_value": "7",
+        "match": true,
+        "metadata": "WCE.cbak",
+        "metadata_value": 7
+      },
+      {
+        "definition": "HookOn",
+        "definition_value": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFBFFFFF",
+        "match": true,
+        "metadata": "HookOn",
+        "metadata_value": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFBFFFFF"
+      },
+      {
+        "definition": "HookCanEmit",
+        "definition_value": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFFFFFFFFFFFFFFFBFFFF",
+        "match": false,
+        "metadata": "HookCanEmit",
+        "metadata_value": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFFFFFFFFFFFFFFBFFFFF"
+      }
+    ],
+    "note": "informational; the verdict rests on CreateCode bytes only"
+  },
+  "diff": null,
+  "distinct_operators": 2,
+  "generated_utc": "2026-09-28T14:04:34Z",
+  "hookhash": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+  "metadata": {
+    "doc": {
+      "HookCanEmit": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFFFFFFFFFFFFFFBFFFFF",
+      "HookHash": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+      "HookName": null,
+      "HookOn": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFBFFFFF",
+      "WCE": {
+        "cbak": 7,
+        "hook": 149
+      },
+      "builder": {
+        "cc": "clang version 15.0.0",
+        "commands": [
+          "/tc/wasi-sdk/bin/clang -O2 --sysroot=/tc/wasi-sdk/share/wasi-sysroot -xc -ffile-prefix-map=/work/src/= -fdiagnostics-print-source-range-info -Werror=implicit-function-declaration --no-standard-libraries -nostartfiles -Wl,--allow-undefined,--no-entry,--export-all claimReward.c  -o /work/out.wasm -I/hdr",
+          "/tc/wasm-opt -O2",
+          "/tc/hook-cleaner"
+        ],
+        "env": {
+          "LC_ALL": "C",
+          "SOURCE_DATE_EPOCH": "0",
+          "TZ": "UTC"
+        },
+        "name": "hookc",
+        "params": {
+          "CLANG_OPT": "-O2",
+          "STAGES": "opt,clean",
+          "WASMOPT": "-O2"
+        },
+        "platforms": {
+          "linux/amd64": {
+            "artifacts": [
+              {
+                "name": "bin.zip",
+                "sha256": "d6a94b6a0d3c38b0431eff28d3a3b68c9c9d2e74ec2afc0f50b71d4faa413891",
+                "url": "https://github.com/XRPLF/xrpl-hooks-compiler/releases/download/v1.27/bin.zip"
+              },
+              {
+                "name": "wasm-opt",
+                "sha256": "36f78112c8d629e27f8c68be89bee47c245cbde8794e1ff56c03212c02dc8484",
+                "url": "https://raw.githubusercontent.com/XRPLF/xrpl-hooks-compiler/61f3a0798a0ca584c8d8954b59ea6c991f334e18/docker/wasm-opt"
+              },
+              {
+                "name": "error.h",
+                "sha256": "682ae265dfdda491572af1fcb6c156cfb937a6f13667defed3167ce3814049cd",
+                "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/error.h"
+              },
+              {
+                "name": "extern.h",
+                "sha256": "897cbeaf0f20526cb431653c040af6914b2d42e61023fb4864b66c4afb8b4cba",
+                "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/extern.h"
+              },
+              {
+                "name": "hookapi.h",
+                "sha256": "f8dabdc9950dfededc6d86973e4904e4c83d1dea08ce690a7665f5747c1d513e",
+                "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/hookapi.h"
+              },
+              {
+                "name": "macro.h",
+                "sha256": "4e7c6f4142476ef022f92b4428b5298f653a81147472e140764981fc5dcc9d25",
+                "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/macro.h"
+              },
+              {
+                "name": "sfcodes.h",
+                "sha256": "fa5d0a61bfb569a03594f9eb8e8b584e8ef08b2b3ab800f7f16e19bc7c844c8a",
+                "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/sfcodes.h"
+              },
+              {
+                "name": "tts.h",
+                "sha256": "5b55f9274c128c910ab3d754efda4a9fcf35da1fc1fafa037d63b5a568b46265",
+                "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/tts.h"
+              }
+            ],
+            "base_image": "node@sha256:c7bde48048debf58dba50f8d2ba674854bdf7dfc8c43bd468f19a5212facfdbe",
+            "recipe": "xhc-bin127",
+            "recipe_digest": "3e81eab9375f5471201929024c54cc609fbd2fe1d4dacbdba850d6f1b1271d18"
+          }
+        },
+        "preset": "classic",
+        "toolchain": "xhc-bin127",
+        "version": "0.1.0",
+        "wasm_opt": true,
+        "wasm_opt_version": "wasm-opt version 108 (version_108)",
+        "wce": {
+          "bound": "worst-case count of wasm instructions per validateGuards (guard-derived loop multipliers; host-function internals not counted); SetHook stores the same numbers as HookDefinition Fee / HookCallbackFee via computeExecutionFee",
+          "headers": {
+            "Enum.h": "82cd19d717dbf8d33bf0e1bc357d7c57e9457a629e3b6d7e03777b67f4e4e0d8",
+            "Guard.h": "705e7e9cf8b2e02f0a031a86ad9ddd292ba19e838a14f7a4e5a23c93e6d6c518",
+            "hook_api.macro": "868ccad771110eb78ff23e7679076c6b2d9e2f8811a6dcfedea67c5e54c45b4c"
+          },
+          "reason": null,
+          "recipe": "hookc-wce",
+          "recipe_digest": "463b60020ea3b6d518cb652c3347c5818926c04195ec0d20371a911423cedc97",
+          "tool": "xahaud validateGuards (include/xrpl/hook/Guard.h), GUARD_CHECKER_BUILD",
+          "xahaud_commit": "bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2"
+        }
+      },
+      "cbak_fn": "cbak",
+      "chain": null,
+      "description": null,
+      "hook_fn": "hook",
+      "human": {
+        "HookCanEmit": [
+          "ClaimReward"
+        ],
+        "HookName": null,
+        "on": {
+          "HookOn": [
+            "Cron"
+          ],
+          "HookOnIncoming": null,
+          "HookOnOutgoing": null,
+          "form": "list"
+        }
+      },
+      "index": 0,
+      "name": "hook",
+      "source": {
+        "entry": null,
+        "file_count": 12,
+        "tree_sha256": "be7d5a118f7141de298b0acb46ec4b6a35cd29cfdfd32efa0d987f48dd9a3bb8",
+        "vcs": {
+          "commit": "0a10b61b4f361384395a00ebc56e585f8389627f",
+          "dirty": false,
+          "path": "",
+          "tree": "ce026102306391a66f310e4838958481596277db",
+          "type": "git"
+        }
+      }
+    },
+    "entry": "0.hook",
+    "hookhash": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+    "index": 0,
+    "params": {
+      "CLANG_OPT": "-O2",
+      "STAGES": "opt,clean",
+      "WASMOPT": "-O2"
+    },
+    "platforms": {
+      "linux/amd64": {
+        "artifacts": [
+          {
+            "name": "bin.zip",
+            "sha256": "d6a94b6a0d3c38b0431eff28d3a3b68c9c9d2e74ec2afc0f50b71d4faa413891",
+            "url": "https://github.com/XRPLF/xrpl-hooks-compiler/releases/download/v1.27/bin.zip"
+          },
+          {
+            "name": "wasm-opt",
+            "sha256": "36f78112c8d629e27f8c68be89bee47c245cbde8794e1ff56c03212c02dc8484",
+            "url": "https://raw.githubusercontent.com/XRPLF/xrpl-hooks-compiler/61f3a0798a0ca584c8d8954b59ea6c991f334e18/docker/wasm-opt"
+          },
+          {
+            "name": "error.h",
+            "sha256": "682ae265dfdda491572af1fcb6c156cfb937a6f13667defed3167ce3814049cd",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/error.h"
+          },
+          {
+            "name": "extern.h",
+            "sha256": "897cbeaf0f20526cb431653c040af6914b2d42e61023fb4864b66c4afb8b4cba",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/extern.h"
+          },
+          {
+            "name": "hookapi.h",
+            "sha256": "f8dabdc9950dfededc6d86973e4904e4c83d1dea08ce690a7665f5747c1d513e",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/hookapi.h"
+          },
+          {
+            "name": "macro.h",
+            "sha256": "4e7c6f4142476ef022f92b4428b5298f653a81147472e140764981fc5dcc9d25",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/macro.h"
+          },
+          {
+            "name": "sfcodes.h",
+            "sha256": "fa5d0a61bfb569a03594f9eb8e8b584e8ef08b2b3ab800f7f16e19bc7c844c8a",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/sfcodes.h"
+          },
+          {
+            "name": "tts.h",
+            "sha256": "5b55f9274c128c910ab3d754efda4a9fcf35da1fc1fafa037d63b5a568b46265",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/tts.h"
+          }
+        ],
+        "base_image": "node@sha256:c7bde48048debf58dba50f8d2ba674854bdf7dfc8c43bd468f19a5212facfdbe",
+        "recipe": "xhc-bin127",
+        "recipe_digest": "3e81eab9375f5471201929024c54cc609fbd2fe1d4dacbdba850d6f1b1271d18"
+      }
+    },
+    "preset": "classic",
+    "source": {
+      "entry": null,
+      "file_count": 12,
+      "tree_sha256": "be7d5a118f7141de298b0acb46ec4b6a35cd29cfdfd32efa0d987f48dd9a3bb8",
+      "vcs": {
+        "commit": "0a10b61b4f361384395a00ebc56e585f8389627f",
+        "dirty": false,
+        "path": "",
+        "tree": "ce026102306391a66f310e4838958481596277db",
+        "type": "git"
+      }
+    },
+    "toolchain": "xhc-bin127"
+  },
+  "metadata_hookhash_matches": true,
+  "network": "xahau-mainnet",
+  "params": {
+    "CLANG_OPT": "-O2",
+    "STAGES": "opt,clean",
+    "WASMOPT": "-O2"
+  },
+  "preset": "classic",
+  "reads": [
+    {
+      "build_version": "2026.6.21-release+3350",
+      "hook_set_txn": "C7469131A46D07E777D4FCAFD574F64CF7E25EF0A4428564F5F6986F7CEC8AAE",
+      "ledger_hash": "4FCEB5CE16DAA319806A9F5E51C81BB3A5BE8234017FF3202A7F7EDC869BF6F1",
+      "ledger_index": 26137366,
+      "network_id": 21337,
+      "node_key": "n9JYxms4BTRi8v2YmsUH4fiV4Zco9CqWcmdY1ddY3hQzTqwawKTn",
+      "sha512half": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+      "size": 808,
+      "url": "https://xahau.network"
+    },
+    {
+      "build_version": "2026.6.21-release+3350",
+      "hook_set_txn": "C7469131A46D07E777D4FCAFD574F64CF7E25EF0A4428564F5F6986F7CEC8AAE",
+      "ledger_hash": "4FCEB5CE16DAA319806A9F5E51C81BB3A5BE8234017FF3202A7F7EDC869BF6F1",
+      "ledger_index": 26137366,
+      "network_id": 21337,
+      "node_key": "n9JAe6yk1aEQAiFR9wFcbK6cZbomNXPaWs2Bt2dQ3Ki8rZrDXUQr",
+      "sha512half": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+      "size": 808,
+      "url": "https://cluster.cbotlabs.xyz"
+    }
+  ],
+  "reason": "rebuild is byte-identical to on-ledger CreateCode (SHA512Half 805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA)",
+  "recipe": "xhc-bin127",
+  "schema": "hook-repro/verify-report/v1",
+  "source_dir": "<scratchpad>/crsrc",
+  "verdict": "REPRODUCED"
+}

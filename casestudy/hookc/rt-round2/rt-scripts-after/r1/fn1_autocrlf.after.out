@@ -1,0 +1,3 @@
+status: []  crlf: 2
+build exit=0
+reproduce --git exit=0 reason:  two clean rebuilds on each of linux/arm64 of git 0a2dfd8cc4d8:. are byte-identical, HookHash 43C49707

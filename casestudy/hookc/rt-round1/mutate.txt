@@ -1,0 +1,395 @@
+hook-repro: 195 mutants from tools/mutants.py; baseline green; gate: -B -m pytest -q -x -p no:cacheprovider
+  [  1/195] KILLED        1.3s t+23s  fetch: accept operator disagreement
+  [  2/195] KILLED        1.1s t+24s  fetch: skip SHA512Half == HookHash check
+  [  3/195] KILLED        1.4s t+26s  fetch: accept single node as two operators
+  [  4/195] KILLED        0.9s t+27s  fetch: accept unvalidated ledger
+  [  5/195] KILLED        1.0s t+28s  fetch: tolerate one read failure
+  [  6/195] KILLED        0.9s t+28s  fetch: ignore network_id
+  [  7/195] KILLED        1.0s t+29s  fetch: ignore entry type
+  [  8/195] KILLED        0.9s t+30s  fetch: ignore HookHash field
+  [  9/195] KILLED        0.9s t+31s  fetch: accept error status
+  [ 10/195] KILLED        0.9s t+32s  fetch: accept missing node key
+  [ 11/195] KILLED        0.9s t+33s  verify: skip determinism check
+  [ 12/195] KILLED        0.9s t+34s  verify: size-only comparison
+  [ 13/195] KILLED        1.0s t+35s  verify: build error escapes
+  [ 14/195] KILLED        1.0s t+36s  verify: ignore source change between builds
+  [ 15/195] KILLED        1.0s t+37s  verify: build despite failed read
+  [ 16/195] KILLED        0.9s t+38s  verify: wrong verdict label
+  [ 17/195] KILLED        0.9s t+39s  hash: truncate wrong
+  [ 18/195] KILLED        1.1s t+40s  tree: unsorted listing
+  [ 19/195] KILLED        1.0s t+41s  tree: silently skip symlinks
+  [ 20/195] KILLED        0.9s t+42s  tree: hash .git contents
+  [ 21/195] KILLED        1.0s t+43s  diff: sections always same
+  [ 22/195] KILLED        0.9s t+44s  diff: functions always same
+  [ 23/195] KILLED        0.9s t+44s  parse: accept bad magic
+  [ 24/195] KILLED        0.9s t+45s  parse: accept overrunning section
+  [ 25/195] KILLED        0.9s t+46s  parse: function index ignores imports
+  [ 26/195] KILLED        1.0s t+47s  bind: accept review naming other hashes
+  [ 27/195] KILLED        1.0s t+48s  bind: accept non-REPRODUCED report
+  [ 28/195] KILLED        1.0s t+49s  bind: accept report for another hash
+  [ 29/195] KILLED        1.0s t+50s  bind: substring of longer hex counts
+  [ 30/195] KILLED        1.1s t+51s  bind: prefix-only not flagged
+  [ 31/195] KILLED        1.0s t+52s  build: params not allowlisted
+  [ 32/195] KILLED        1.1s t+53s  build: pattern not enforced
+  [ 33/195] KILLED        1.0s t+54s  build: base image unpinned
+  [ 34/195] KILLED        1.0s t+55s  build: artifact unpinned
+  [ 35/195] KILLED        1.0s t+56s  build: artifact sha not checked
+  [ 36/195] KILLED        1.0s t+57s  build: escaping symlink allowed
+  [ 37/195] KILLED        1.0s t+58s  build: recipe digest ignores recipe
+  [ 38/195] KILLED        1.0s t+59s  build: exact include matches as prefix
+  [ 39/195] KILLED        5.2s t+65s  lock: accept git/other-registry source
+  [ 40/195] KILLED        5.3s t+70s  lock: accept registry package without checksum
+  [ 41/195] KILLED        5.4s t+75s  lock: loose checksum format
+  [ 42/195] KILLED        5.4s t+81s  lock: accept unsafe name/version
+  [ 43/195] KILLED        5.5s t+86s  lock: silently skip git sources
+  [ 44/195] KILLED        5.3s t+92s  lock: accept duplicate packages
+  [ 45/195] KILLED        4.9s t+96s  lock: checksum json drops package sha
+  [ 46/195] KILLED        5.3s t+102s  lock: vendor digest ignores checksums
+  [ 47/195] KILLED        5.3s t+107s  build: networked image-build step allowed
+  [ 48/195] KILLED        5.5s t+113s  build: tmpfs size unvalidated
+  [ 49/195] KILLED        5.7s t+118s  build: LOCK may escape source tree
+  [ 50/195] KILLED        5.4s t+124s  build: missing LOCK accepted
+  [ 51/195] KILLED        5.6s t+129s  build: crate without manifest accepted
+  [ 52/195] KILLED        5.5s t+135s  build: sidecar HookHash not checked
+  [ 53/195] KILLED        5.8s t+141s  build: missing sidecar tolerated
+  [ 54/195] KILLED        1.2s t+142s  build: dockerfile_extra dropped
+  [ 55/195] KILLED        5.6s t+148s  meta: any builder name
+  [ 56/195] KILLED        5.4s t+153s  meta: any builder version
+  [ 57/195] KILLED        5.5s t+158s  meta: index range/bool unchecked
+  [ 58/195] KILLED        5.9s t+164s  meta: hook_fn unchecked
+  [ 59/195] KILLED        5.5s t+170s  meta: HookHash unchecked
+  [ 60/195] KILLED        5.6s t+175s  meta: rustc unchecked
+  [ 61/195] KILLED        5.7s t+181s  meta: wasm_opt type unchecked
+  [ 62/195] KILLED        5.3s t+186s  select: toolchain version ignored
+  [ 63/195] KILLED        5.2s t+192s  select: cargo_args ignored
+  [ 64/195] KILLED        5.4s t+197s  select: rustc_args ignored
+  [ 65/195] KILLED        5.4s t+202s  select: wasm_opt ignored
+  [ 66/195] KILLED        5.6s t+208s  select: explicit recipe overrides metadata
+  [ 67/195] KILLED        5.8s t+214s  select: unknown version not refused early
+  [ 68/195] KILLED        5.4s t+219s  select: recipe without pin block
+  [ 69/195] KILLED        5.5s t+225s  cli: --param ENTRY overrides metadata
+  [ 70/195] KILLED        5.4s t+230s  verify: metadata claim always matches
+  [ 71/195] KILLED        1.1s t+231s  hookc: SetHook bit not inverted
+  [ 72/195] KILLED        1.2s t+233s  hookc: mask byte order reversed
+  [ 73/195] KILLED        1.1s t+234s  hookc: unknown tx type accepted
+  [ 74/195] KILLED        1.1s t+235s  hookc: duplicate tx type accepted
+  [ 75/195] KILLED        1.0s t+236s  hookc: unknown declaration keys ignored
+  [ 76/195] KILLED        1.1s t+237s  hookc: decl index range unchecked
+  [ 77/195] KILLED        1.1s t+238s  hookc: HookName length unchecked (L3)
+  [ 78/195] KILLED        1.0s t+239s  hookc: toml extra tables accepted
+  [ 79/195] KILLED        4.9s t+244s  hookc: export path traversal
+  [ 80/195] KILLED        4.2s t+248s  hookc: symlink exported
+  [ 81/195] KILLED        4.6s t+252s  hookc: dirty work tree treated as clean
+  [ 82/195] KILLED        4.7s t+257s  hookc: untracked files ignored
+  [ 83/195] KILLED        4.7s t+262s  hookc: unversioned source accepted
+  [ 84/195] KILLED        1.0s t+263s  hookc: twin platform not checked
+  [ 85/195] KILLED        1.1s t+264s  hookc: WCE output unvalidated
+  [ 86/195] KILLED        1.1s t+265s  hookc: guard rejection becomes null WCE
+  [ 87/195] KILLED        1.1s t+266s  hookc: WCE accepted from failed run
+  [ 88/195] KILLED        1.1s t+267s  hookc: module without hook export
+  [ 89/195] KILLED        1.1s t+269s  hookc: extra exports accepted
+  [ 90/195] KILLED        1.1s t+270s  hookc: cbak_fn not detected
+  [ 91/195] KILLED        1.2s t+271s  hookc: HookName lowercase hex
+  [ 92/195] KILLED        1.1s t+272s  hookc: on=all dropped
+  [ 93/195] KILLED        1.0s t+273s  hookc: emit with deny-all not warned
+  [ 94/195] KILLED        1.1s t+274s  hookc: unused can_emit not warned
+  [ 95/195] KILLED        1.0s t+275s  hookc: no trailing newline
+  [ 96/195] KILLED        1.0s t+276s  hookc: any builder name
+  [ 97/195] KILLED        1.0s t+277s  hookc: any hookc version
+  [ 98/195] KILLED        1.1s t+278s  hookc: meta index unchecked
+  [ 99/195] KILLED        1.0s t+279s  hookc: hook_fn unchecked
+  [100/195] KILLED        1.1s t+280s  hookc: HookHash unchecked
+  [101/195] KILLED        1.1s t+282s  hookc: masks unchecked
+  [102/195] KILLED        5.1s t+287s  hookc: param values unchecked
+  [103/195] KILLED        1.0s t+288s  hookc: empty platforms accepted
+  [104/195] KILLED        1.0s t+289s  hookc: missing source block accepted
+  [105/195] KILLED        1.2s t+290s  hookc: non-git vcs accepted
+  [106/195] KILLED        1.0s t+291s  hookc: commit/tree unchecked
+  [107/195] KILLED        1.1s t+292s  hookc: dirty missing accepted
+  [108/195] KILLED        1.1s t+293s  hookc: meta path unchecked
+  [109/195] KILLED        1.1s t+294s  hookc: tree_sha256 unchecked
+  [110/195] KILLED        5.2s t+299s  hookc: meta entry unchecked
+  [111/195] KILLED        1.1s t+301s  hookc: twin recipe name unchecked
+  [112/195] KILLED        1.2s t+302s  hookc: toolchain drift accepted
+  [113/195] KILLED        1.2s t+303s  hookc: unlisted platform accepted
+  [114/195] KILLED        4.8s t+308s  hookc: entry name unchecked
+  [115/195] KILLED        4.8s t+313s  hookc: entry on toolchain without selector
+  [116/195] KILLED        2.2s t+315s  hookc: nondeterministic build accepted
+  [117/195] KILLED        5.0s t+320s  hookc: missing twin not refused
+  [118/195] KILLED        5.2s t+325s  hookc: cross-platform mismatch accepted
+  [119/195] KILLED        1.1s t+326s  hookc: diff ignores bool/int
+  [120/195] KILLED        3.4s t+330s  hookc: foreign reference wasm accepted
+  [121/195] KILLED        2.0s t+332s  hookc: HookHash not compared
+  [122/195] KILLED        3.1s t+335s  hookc: metadata formatting drift accepted
+  [123/195] KILLED        1.1s t+336s  hookc: loose relative path
+  [124/195] KILLED        5.4s t+341s  verify: definition fields from disagreeing operators
+  [125/195] KILLED        5.6s t+347s  verify: definition fields always match
+  [126/195] KILLED        1.1s t+348s  cli: --recipe overrides hookc metadata
+  [127/195] KILLED        1.2s t+349s  cli: --param overrides hookc metadata
+  [128/195] KILLED        3.2s t+352s  hookc: human.on form unchecked
+  [129/195] KILLED        3.2s t+355s  hookc: human list form without list
+  [130/195] KILLED        3.0s t+358s  hookc: human on=all lost
+  [131/195] KILLED        6.5s t+365s  rt FP1: --src HEAD tree not checked
+  [132/195] KILLED       19.2s t+384s  rt FP1: exported commit/tree not compared
+  [133/195] KILLED       19.3s t+403s  rt FP1: both/neither sources accepted
+  [134/195] KILLED        6.4s t+410s  rt O4: --src not a git work tree accepted
+  [135/195] KILLED       12.2s t+422s  rt FP4: work tree built instead of its commit
+  [136/195] KILLED        7.2s t+429s  rt FP2: compiled entry not recorded
+  [137/195] KILLED        7.3s t+436s  rt FP2: source.entry vs params unchecked
+  [138/195] KILLED       20.5s t+457s  rt FP2/FP6: incomplete params accepted
+  [139/195] KILLED       20.4s t+477s  rt: invalid params escape as BuildError
+  [140/195] KILLED       11.0s t+488s  rt FP1: source block copied from the sidecar
+  [141/195] KILLED       21.2s t+509s  rt F7: regenerate ignores container tree
+  [142/195] KILLED       21.5s t+531s  rt F7: double build ignores container tree
+  [143/195] KILLED       21.2s t+552s  rt O5: double build on two images
+  [144/195] KILLED       19.0s t+571s  rt FP6: preset label unchecked
+  [145/195] KILLED       19.7s t+591s  rt FP6: preset resolution not compared
+  [146/195] KILLED       21.0s t+612s  rt FP6: unknown preset matches
+  [147/195] KILLED       19.4s t+631s  rt FP6: overridden params keep the label
+  [148/195] KILLED       18.6s t+650s  rt C2: non-UTF-8 name decoded lossily
+  [149/195] KILLED       21.5s t+671s  rt C1: absolute / . components accepted
+  [150/195] KILLED       17.2s t+688s  rt C1: backslash/control chars accepted
+  [151/195] KILLED       16.1s t+704s  rt C1: .GIT (case) accepted
+  [152/195] KILLED       21.6s t+726s  rt F7: ignore dirs exported
+  [153/195] KILLED       14.7s t+741s  rt FP5: collisions accepted
+  [154/195] KILLED       14.5s t+755s  rt FP5: NFC/NFD collisions missed
+  [155/195] KILLED       14.2s t+769s  rt FP5: case-fold collisions missed
+  [156/195] KILLED       19.8s t+789s  rt: corrupt git object accepted
+  [157/195] KILLED       21.5s t+811s  rt C1: lexical escape not refused
+  [158/195] KILLED       17.2s t+828s  rt C1: symlinked parent escape not refused
+  [159/195] KILLED       19.4s t+847s  rt C1: export overwrites / follows links
+  [160/195] KILLED       20.2s t+867s  rt FP5: re-listing not compared
+  [161/195] KILLED       20.0s t+887s  rt: non-empty export dir accepted
+  [162/195] KILLED        5.7s t+893s  rt FP3: sidecar for another HookHash accepted
+  [163/195] KILLED       20.4s t+914s  rt FP3: hookc sidecar not regenerated
+  [164/195] KILLED       21.5s t+935s  rt FP3: regeneration error escapes
+  [165/195] KILLED        9.2s t+944s  rt FP3: regenerated sidecar difference ignored
+  [166/195] KILLED       21.3s t+966s  rt FP3: disagreeing definitions not refused
+  [167/195] KILLED        8.0s t+974s  rt FP3: HookCanEmit enforced
+  [168/195] KILLED       10.6s t+984s  rt FP3: definition DIFF only printed
+  [169/195] KILLED       12.0s t+996s  rt FP3: HookOn not enforced
+  [170/195] KILLED       11.6s t+1008s  rt L4: ReferenceCount compared
+  [171/195] KILLED       19.2s t+1027s  rt O5: rebuilds on different images
+  [172/195] KILLED       20.6s t+1048s  rt L1: read without ledger hash
+  [173/195] KILLED       22.2s t+1070s  rt L1: re-read at another ledger accepted
+  [174/195] KILLED       21.5s t+1091s  rt L1: common ledger = newest
+  [175/195] KILLED       19.4s t+1111s  rt L1: newer operator not re-read
+  [176/195] KILLED       18.9s t+1130s  rt L1: ledger hash disagreement accepted
+  [177/195] KILLED       21.3s t+1151s  rt L1: re-read failure ignored
+  [178/195] KILLED        1.2s t+1152s  rt L2: hook-repro version not in recipe digest
+  [179/195] KILLED       19.0s t+1171s  rt L2: cached artifact not re-hashed
+  [180/195] KILLED       19.0s t+1190s  rt L2: download error escapes
+  [181/195] KILLED       22.2s t+1212s  rt O5: tag rebound to another image accepted
+  [182/195] KILLED       19.2s t+1231s  rt O5: unrecorded tag accepted
+  [183/195] KILLED       22.3s t+1254s  rt O5: failed inspect after build accepted
+  [184/195] KILLED       21.4s t+1275s  rt O5: built image not recorded
+  [185/195] KILLED       19.5s t+1295s  rt L2: stale build context reused
+  [186/195] KILLED       21.5s t+1316s  rt L2: vendor tree trusted
+  [187/195] KILLED       21.6s t+1338s  rt L2: content digest ignores files
+  [188/195] KILLED       21.9s t+1360s  rt L2: content digest ignores symlinks
+  [189/195] KILLED       20.9s t+1381s  rt L2: content digest ignores exec bit
+  [190/195] KILLED       19.1s t+1400s  rt F7: ignored dirs staged into the container
+  [191/195] KILLED       21.9s t+1422s  rt F7: symlinked dir silently skipped
+  [192/195] KILLED       21.4s t+1443s  rt F7: symlinked file followed
+  [193/195] KILLED       21.9s t+1465s  rt F7: source swapped during build
+  [194/195] KILLED       17.7s t+1483s  rt F7: container gets the unstaged dir
+  [195/195] KILLED       21.5s t+1504s  rt: missing metadata file is a traceback
+  1  killed    fetch: accept operator disagreement                  hook_repro/fetch.py
+  2  killed    fetch: skip SHA512Half == HookHash check             hook_repro/fetch.py
+  3  killed    fetch: accept single node as two operators           hook_repro/fetch.py
+  4  killed    fetch: accept unvalidated ledger                     hook_repro/fetch.py
+  5  killed    fetch: tolerate one read failure                     hook_repro/fetch.py
+  6  killed    fetch: ignore network_id                             hook_repro/fetch.py
+  7  killed    fetch: ignore entry type                             hook_repro/fetch.py
+  8  killed    fetch: ignore HookHash field                         hook_repro/fetch.py
+  9  killed    fetch: accept error status                           hook_repro/fetch.py
+ 10  killed    fetch: accept missing node key                       hook_repro/fetch.py
+ 11  killed    verify: skip determinism check                       hook_repro/verify.py
+ 12  killed    verify: size-only comparison                         hook_repro/verify.py
+ 13  killed    verify: build error escapes                          hook_repro/verify.py
+ 14  killed    verify: ignore source change between builds          hook_repro/verify.py
+ 15  killed    verify: build despite failed read                    hook_repro/verify.py
+ 16  killed    verify: wrong verdict label                          hook_repro/verify.py
+ 17  killed    hash: truncate wrong                                 hook_repro/hashing.py
+ 18  killed    tree: unsorted listing                               hook_repro/hashing.py
+ 19  killed    tree: silently skip symlinks                         hook_repro/hashing.py
+ 20  killed    tree: hash .git contents                             hook_repro/hashing.py
+ 21  killed    diff: sections always same                           hook_repro/wasm.py
+ 22  killed    diff: functions always same                          hook_repro/wasm.py
+ 23  killed    parse: accept bad magic                              hook_repro/wasm.py
+ 24  killed    parse: accept overrunning section                    hook_repro/wasm.py
+ 25  killed    parse: function index ignores imports                hook_repro/wasm.py
+ 26  killed    bind: accept review naming other hashes              hook_repro/bind.py
+ 27  killed    bind: accept non-REPRODUCED report                   hook_repro/bind.py
+ 28  killed    bind: accept report for another hash                 hook_repro/bind.py
+ 29  killed    bind: substring of longer hex counts                 hook_repro/bind.py
+ 30  killed    bind: prefix-only not flagged                        hook_repro/bind.py
+ 31  killed    build: params not allowlisted                        hook_repro/build.py
+ 32  killed    build: pattern not enforced                          hook_repro/build.py
+ 33  killed    build: base image unpinned                           hook_repro/build.py
+ 34  killed    build: artifact unpinned                             hook_repro/build.py
+ 35  killed    build: artifact sha not checked                      hook_repro/build.py
+ 36  killed    build: escaping symlink allowed                      hook_repro/build.py
+ 37  killed    build: recipe digest ignores recipe                  hook_repro/build.py
+ 38  killed    build: exact include matches as prefix               hook_repro/build.py
+ 39  killed    lock: accept git/other-registry source               hook_repro/cargo_lock.py
+ 40  killed    lock: accept registry package without checksum       hook_repro/cargo_lock.py
+ 41  killed    lock: loose checksum format                          hook_repro/cargo_lock.py
+ 42  killed    lock: accept unsafe name/version                     hook_repro/cargo_lock.py
+ 43  killed    lock: silently skip git sources                      hook_repro/cargo_lock.py
+ 44  killed    lock: accept duplicate packages                      hook_repro/cargo_lock.py
+ 45  killed    lock: checksum json drops package sha                hook_repro/cargo_lock.py
+ 46  killed    lock: vendor digest ignores checksums                hook_repro/cargo_lock.py
+ 47  killed    build: networked image-build step allowed            hook_repro/build.py
+ 48  killed    build: tmpfs size unvalidated                        hook_repro/build.py
+ 49  killed    build: LOCK may escape source tree                   hook_repro/build.py
+ 50  killed    build: missing LOCK accepted                         hook_repro/build.py
+ 51  killed    build: crate without manifest accepted               hook_repro/build.py
+ 52  killed    build: sidecar HookHash not checked                  hook_repro/build.py
+ 53  killed    build: missing sidecar tolerated                     hook_repro/build.py
+ 54  killed    build: dockerfile_extra dropped                      hook_repro/build.py
+ 55  killed    meta: any builder name                               hook_repro/rshooks_meta.py
+ 56  killed    meta: any builder version                            hook_repro/rshooks_meta.py
+ 57  killed    meta: index range/bool unchecked                     hook_repro/rshooks_meta.py
+ 58  killed    meta: hook_fn unchecked                              hook_repro/rshooks_meta.py
+ 59  killed    meta: HookHash unchecked                             hook_repro/rshooks_meta.py
+ 60  killed    meta: rustc unchecked                                hook_repro/rshooks_meta.py
+ 61  killed    meta: wasm_opt type unchecked                        hook_repro/rshooks_meta.py
+ 62  killed    select: toolchain version ignored                    hook_repro/rshooks_meta.py
+ 63  killed    select: cargo_args ignored                           hook_repro/rshooks_meta.py
+ 64  killed    select: rustc_args ignored                           hook_repro/rshooks_meta.py
+ 65  killed    select: wasm_opt ignored                             hook_repro/rshooks_meta.py
+ 66  killed    select: explicit recipe overrides metadata           hook_repro/rshooks_meta.py
+ 67  killed    select: unknown version not refused early            hook_repro/rshooks_meta.py
+ 68  killed    select: recipe without pin block                     hook_repro/rshooks_meta.py
+ 69  killed    cli: --param ENTRY overrides metadata                hook_repro/cli.py
+ 70  killed    verify: metadata claim always matches                hook_repro/verify.py
+ 71  killed    hookc: SetHook bit not inverted                      hook_repro/hookc.py
+ 72  killed    hookc: mask byte order reversed                      hook_repro/hookc.py
+ 73  killed    hookc: unknown tx type accepted                      hook_repro/hookc.py
+ 74  killed    hookc: duplicate tx type accepted                    hook_repro/hookc.py
+ 75  killed    hookc: unknown declaration keys ignored              hook_repro/hookc.py
+ 76  killed    hookc: decl index range unchecked                    hook_repro/hookc.py
+ 77  killed    hookc: HookName length unchecked (L3)                hook_repro/hookc.py
+ 78  killed    hookc: toml extra tables accepted                    hook_repro/hookc.py
+ 79  killed    hookc: export path traversal                         hook_repro/hookc.py
+ 80  killed    hookc: symlink exported                              hook_repro/hookc.py
+ 81  killed    hookc: dirty work tree treated as clean              hook_repro/hookc.py
+ 82  killed    hookc: untracked files ignored                       hook_repro/hookc.py
+ 83  killed    hookc: unversioned source accepted                   hook_repro/hookc.py
+ 84  killed    hookc: twin platform not checked                     hook_repro/hookc.py
+ 85  killed    hookc: WCE output unvalidated                        hook_repro/hookc.py
+ 86  killed    hookc: guard rejection becomes null WCE              hook_repro/hookc.py
+ 87  killed    hookc: WCE accepted from failed run                  hook_repro/hookc.py
+ 88  killed    hookc: module without hook export                    hook_repro/hookc.py
+ 89  killed    hookc: extra exports accepted                        hook_repro/hookc.py
+ 90  killed    hookc: cbak_fn not detected                          hook_repro/hookc.py
+ 91  killed    hookc: HookName lowercase hex                        hook_repro/hookc.py
+ 92  killed    hookc: on=all dropped                                hook_repro/hookc.py
+ 93  killed    hookc: emit with deny-all not warned                 hook_repro/hookc.py
+ 94  killed    hookc: unused can_emit not warned                    hook_repro/hookc.py
+ 95  killed    hookc: no trailing newline                           hook_repro/hookc.py
+ 96  killed    hookc: any builder name                              hook_repro/hookc.py
+ 97  killed    hookc: any hookc version                             hook_repro/hookc.py
+ 98  killed    hookc: meta index unchecked                          hook_repro/hookc.py
+ 99  killed    hookc: hook_fn unchecked                             hook_repro/hookc.py
+100  killed    hookc: HookHash unchecked                            hook_repro/hookc.py
+101  killed    hookc: masks unchecked                               hook_repro/hookc.py
+102  killed    hookc: param values unchecked                        hook_repro/hookc.py
+103  killed    hookc: empty platforms accepted                      hook_repro/hookc.py
+104  killed    hookc: missing source block accepted                 hook_repro/hookc.py
+105  killed    hookc: non-git vcs accepted                          hook_repro/hookc.py
+106  killed    hookc: commit/tree unchecked                         hook_repro/hookc.py
+107  killed    hookc: dirty missing accepted                        hook_repro/hookc.py
+108  killed    hookc: meta path unchecked                           hook_repro/hookc.py
+109  killed    hookc: tree_sha256 unchecked                         hook_repro/hookc.py
+110  killed    hookc: meta entry unchecked                          hook_repro/hookc.py
+111  killed    hookc: twin recipe name unchecked                    hook_repro/hookc.py
+112  killed    hookc: toolchain drift accepted                      hook_repro/hookc.py
+113  killed    hookc: unlisted platform accepted                    hook_repro/hookc.py
+114  killed    hookc: entry name unchecked                          hook_repro/hookc.py
+115  killed    hookc: entry on toolchain without selector           hook_repro/hookc.py
+116  killed    hookc: nondeterministic build accepted               hook_repro/hookc.py
+117  killed    hookc: missing twin not refused                      hook_repro/hookc.py
+118  killed    hookc: cross-platform mismatch accepted              hook_repro/hookc.py
+119  killed    hookc: diff ignores bool/int                         hook_repro/hookc.py
+120  killed    hookc: foreign reference wasm accepted               hook_repro/hookc.py
+121  killed    hookc: HookHash not compared                         hook_repro/hookc.py
+122  killed    hookc: metadata formatting drift accepted            hook_repro/hookc.py
+123  killed    hookc: loose relative path                           hook_repro/hookc.py
+124  killed    verify: definition fields from disagreeing operators hook_repro/verify.py
+125  killed    verify: definition fields always match               hook_repro/verify.py
+126  killed    cli: --recipe overrides hookc metadata               hook_repro/cli.py
+127  killed    cli: --param overrides hookc metadata                hook_repro/cli.py
+128  killed    hookc: human.on form unchecked                       hook_repro/hookc.py
+129  killed    hookc: human list form without list                  hook_repro/hookc.py
+130  killed    hookc: human on=all lost                             hook_repro/hookc.py
+131  killed    rt FP1: --src HEAD tree not checked                  hook_repro/hookc.py
+132  killed    rt FP1: exported commit/tree not compared            hook_repro/hookc.py
+133  killed    rt FP1: both/neither sources accepted                hook_repro/hookc.py
+134  killed    rt O4: --src not a git work tree accepted            hook_repro/hookc.py
+135  killed    rt FP4: work tree built instead of its commit        hook_repro/hookc.py
+136  killed    rt FP2: compiled entry not recorded                  hook_repro/hookc.py
+137  killed    rt FP2: source.entry vs params unchecked             hook_repro/hookc.py
+138  killed    rt FP2/FP6: incomplete params accepted               hook_repro/hookc.py
+139  killed    rt: invalid params escape as BuildError              hook_repro/hookc.py
+140  killed    rt FP1: source block copied from the sidecar         hook_repro/hookc.py
+141  killed    rt F7: regenerate ignores container tree             hook_repro/hookc.py
+142  killed    rt F7: double build ignores container tree           hook_repro/hookc.py
+143  killed    rt O5: double build on two images                    hook_repro/hookc.py
+144  killed    rt FP6: preset label unchecked                       hook_repro/hookc.py
+145  killed    rt FP6: preset resolution not compared               hook_repro/hookc.py
+146  killed    rt FP6: unknown preset matches                       hook_repro/hookc.py
+147  killed    rt FP6: overridden params keep the label             hook_repro/hookc.py
+148  killed    rt C2: non-UTF-8 name decoded lossily                hook_repro/hookc.py
+149  killed    rt C1: absolute / . components accepted              hook_repro/hookc.py
+150  killed    rt C1: backslash/control chars accepted              hook_repro/hookc.py
+151  killed    rt C1: .GIT (case) accepted                          hook_repro/hookc.py
+152  killed    rt F7: ignore dirs exported                          hook_repro/hookc.py
+153  killed    rt FP5: collisions accepted                          hook_repro/hookc.py
+154  killed    rt FP5: NFC/NFD collisions missed                    hook_repro/hookc.py
+155  killed    rt FP5: case-fold collisions missed                  hook_repro/hookc.py
+156  killed    rt: corrupt git object accepted                      hook_repro/hookc.py
+157  killed    rt C1: lexical escape not refused                    hook_repro/hookc.py
+158  killed    rt C1: symlinked parent escape not refused           hook_repro/hookc.py
+159  killed    rt C1: export overwrites / follows links             hook_repro/hookc.py
+160  killed    rt FP5: re-listing not compared                      hook_repro/hookc.py
+161  killed    rt: non-empty export dir accepted                    hook_repro/hookc.py
+162  killed    rt FP3: sidecar for another HookHash accepted        hook_repro/verify.py
+163  killed    rt FP3: hookc sidecar not regenerated                hook_repro/verify.py
+164  killed    rt FP3: regeneration error escapes                   hook_repro/verify.py
+165  killed    rt FP3: regenerated sidecar difference ignored       hook_repro/verify.py
+166  killed    rt FP3: disagreeing definitions not refused          hook_repro/verify.py
+167  killed    rt FP3: HookCanEmit enforced                         hook_repro/verify.py
+168  killed    rt FP3: definition DIFF only printed                 hook_repro/verify.py
+169  killed    rt FP3: HookOn not enforced                          hook_repro/verify.py
+170  killed    rt L4: ReferenceCount compared                       hook_repro/verify.py
+171  killed    rt O5: rebuilds on different images                  hook_repro/verify.py
+172  killed    rt L1: read without ledger hash                      hook_repro/fetch.py
+173  killed    rt L1: re-read at another ledger accepted            hook_repro/fetch.py
+174  killed    rt L1: common ledger = newest                        hook_repro/fetch.py
+175  killed    rt L1: newer operator not re-read                    hook_repro/fetch.py
+176  killed    rt L1: ledger hash disagreement accepted             hook_repro/fetch.py
+177  killed    rt L1: re-read failure ignored                       hook_repro/fetch.py
+178  killed    rt L2: hook-repro version not in recipe digest       hook_repro/build.py
+179  killed    rt L2: cached artifact not re-hashed                 hook_repro/build.py
+180  killed    rt L2: download error escapes                        hook_repro/build.py
+181  killed    rt O5: tag rebound to another image accepted         hook_repro/build.py
+182  killed    rt O5: unrecorded tag accepted                       hook_repro/build.py
+183  killed    rt O5: failed inspect after build accepted           hook_repro/build.py
+184  killed    rt O5: built image not recorded                      hook_repro/build.py
+185  killed    rt L2: stale build context reused                    hook_repro/build.py
+186  killed    rt L2: vendor tree trusted                           hook_repro/build.py
+187  killed    rt L2: content digest ignores files                  hook_repro/build.py
+188  killed    rt L2: content digest ignores symlinks               hook_repro/build.py
+189  killed    rt L2: content digest ignores exec bit               hook_repro/build.py
+190  killed    rt F7: ignored dirs staged into the container        hook_repro/build.py
+191  killed    rt F7: symlinked dir silently skipped                hook_repro/build.py
+192  killed    rt F7: symlinked file followed                       hook_repro/build.py
+193  killed    rt F7: source swapped during build                   hook_repro/build.py
+194  killed    rt F7: container gets the unstaged dir               hook_repro/build.py
+195  killed    rt: missing metadata file is a traceback             hook_repro/hookc.py
+
+195 mutants, 195 killed, 0 survived/stale
+exit=0
+mutate exit=0

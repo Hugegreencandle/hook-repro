@@ -1,0 +1,3 @@
+#!/bin/sh
+# hookc: deterministic C hook builds (= hook-repro hookc ...)
+exec "$(cd "$(dirname "$0")" && pwd)/hook-repro" hookc "$@"

@@ -1,0 +1,2 @@
+exit=3
+UNVERIFIED: build error: source . has a file name that is not valid UTF-8: b'bad\xffname'

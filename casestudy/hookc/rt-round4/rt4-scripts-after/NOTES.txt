@@ -1,0 +1,13 @@
+RT round 4 reproducers re-run against fix/rt-round4 (casestudy/hookc/rt4-scripts-rerun.sh; scripts copied
+unchanged except HR). Every finding now fails closed:
+  f2   reproduce --src (skip-worktree edit, git status clean) exit 3; verify --src exit 3; visibly dirty exit 3
+  f1   xhc-bin127 bytes say BUILT[Jan  1 1970] (was the build day), same as hookc-llvm22
+  f1b  xhc-bin127 __TIME__/__TIMESTAMP__ = 00:00:00 / Thu Jan  1 00:00:00 1970 in both builds; build exit 0
+       (was exit 3, NOT DETERMINISTIC, wall-clock times)
+  f3   reproduce --no-wce, and reproduce/verify with the hookc-wce image unusable: UNVERIFIED exit 3 (was MISMATCH 2)
+  f3b  build with the WCE tool unusable: exit 3, no sidecar written (was exit 0 with a docker image id in
+       builder.wce.reason). The script's own follow-up python then reads the absent sidecar -> FileNotFoundError
+       traceback, and its reproduce of that absent file exits 3: expected, not a tool fault.
+  f4   binding carries caveat / distinct_operators / network (script prints "mentions ...: True");
+       --network xahau-mainnet with the testnet report: NOT BOUND exit 3, no binding file written, so the
+       script's follow-up python raises FileNotFoundError and the script exits 1: expected.

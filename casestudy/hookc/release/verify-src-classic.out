@@ -1,0 +1,8 @@
+VERDICT: REPRODUCED
+reason:  rebuild is byte-identical to on-ledger CreateCode (SHA512Half 805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA)
+hookhash 805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA  network xahau-mainnet  recipe xhc-bin127 preset classic params {}
+  read https://xahau.network              node n9JYxms4BTRi.. ledger 26196829 25C71673E201E82E.. size 808 sha512half 805351CE26FB79DA
+  read https://cluster.cbotlabs.xyz       node n9JAe6yk1aEQ.. ledger 26196829 25C71673E201E82E.. size 808 sha512half 805351CE26FB79DA
+  build1 size 808 sha512half 805351CE26FB79DA recipe 13455c906e3c01ac src d390030d5da2425d
+  build2 size 808 sha512half 805351CE26FB79DA recipe 13455c906e3c01ac src d390030d5da2425d
+report: casestudy/claimreward/verify-classic/verify-report.json

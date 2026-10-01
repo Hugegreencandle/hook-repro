@@ -1,0 +1,73 @@
+hook-repro-rt4fix: 34 mutants from tools/mutants.py; baseline green 145.2s; mutant timeout 900s; gate: -B -m pytest -q -x -p no:cacheprovider
+  [ 1/34] KILLED       22.7s t+168s  rt4 F2: --src work tree bytes never compared
+  [ 2/34] KILLED      153.3s t+299s  rt4 F2: skip-worktree/assume-unchanged index flags accepted
+  [ 3/34] KILLED       25.5s t+324s  rt4 F2: extra (untracked/ignored) work-tree files accepted
+  [ 4/34] KILLED      159.2s t+327s  rt4 F2: assume-unchanged (lowercase tag) accepted
+  [ 5/34] KILLED      154.6s t+479s  rt4 F2: work-tree names compared, bytes not
+  [ 6/34] KILLED      164.5s t+492s  rt4 F2: nested .git dirs skipped
+  [ 7/34] KILLED      163.8s t+643s  rt4 F2: symlinks in the work tree skipped
+  [ 8/34] KILLED      155.8s t+648s  rt4 F2: symlinked --path component followed
+  [ 9/34] KILLED      164.2s t+807s  rt4 F3: WCE tool failure escapes the reproduce report
+  [10/34] KILLED      164.2s t+812s  rt4 F3: --no-wce recomputes nothing yet passes
+  [11/34] KILLED      153.3s t+960s  rt4 F3: WCE tool failure regenerates null (MISMATCH)
+  [12/34] KILLED      154.8s t+967s  rt4 F3: --no-wce sidecar recomputed (MISMATCH with a working tool)
+  [13/34] KILLED      169.6s t+1130s  rt4 F3b: build writes a null-WCE sidecar when the tool fails
+  [14/34] KILLED      174.4s t+1141s  rt4 F3b: make_metadata accepts any WCE reason
+  [15/34] KILLED      190.1s t+1320s  rt4 F3b: bool / negative WCE accepted by parse
+  [16/34] KILLED      187.3s t+1328s  rt4 F3b: host-specific null-WCE reason accepted by parse
+  [17/34] KILLED      164.4s t+1484s  rt4 F3b: WCE numbers with a reason accepted by parse
+  [18/34] KILLED      168.0s t+1496s  rt4 F4: binding network not checked against the report
+  [19/34] KILLED      187.8s t+1672s  rt4 F4: report caveat dropped from the binding
+  [20/34] KILLED      188.2s t+1685s  rt4 F4: distinct_operators dropped from the binding
+  [21/34] KILLED      192.2s t+1864s  rt4 F4: platforms_built_rechecked dropped from the binding
+  [22/34] KILLED      194.0s t+1879s  rt4 F4: missing/bool operator count not a caveat
+  [23/34] KILLED      173.5s t+2038s  rt4 F4: not-re-checked twins not a caveat
+  [24/34] KILLED      173.4s t+2052s  rt4 F4: binding network not taken from the report
+  [25/34] KILLED      160.2s t+2198s  rt4 H1: --git repository config never checked
+  [26/34] KILLED      166.8s t+2219s  rt4 H1: work-tree repo config checked only after git status
+  [27/34] KILLED      182.4s t+2381s  rt4 H1: config includes accepted
+  [28/34] KILLED      178.6s t+2398s  rt4 H1: repo filter drivers accepted
+  [29/34] KILLED      164.3s t+2545s  rt4 H1: core.worktree accepted
+  [30/34] KILLED        3.9s t+2549s  rt4 F1: xhc-bin127 __DATE__ left to clang 15 (wall clock)
+  [31/34] KILLED        1.7s t+2550s  rt4 F1: date defines word-split
+  [32/34] KILLED        1.7s t+2552s  rt4 F1: __DATE__ not clang's SOURCE_DATE_EPOCH=0 form
+  [33/34] KILLED        1.7s t+2554s  rt4 F1: __TIMESTAMP__ not clang's SOURCE_DATE_EPOCH=0 form
+  [34/34] KILLED      163.7s t+2561s  rt4 H1: repo core.attributesFile honoured
+  1  killed    rt4 F2: --src work tree bytes never compared         hook_repro/hookc.py
+  2  killed    rt4 F2: skip-worktree/assume-unchanged index flags a hook_repro/hookc.py
+  3  killed    rt4 F2: assume-unchanged (lowercase tag) accepted    hook_repro/hookc.py
+  4  killed    rt4 F2: extra (untracked/ignored) work-tree files ac hook_repro/hookc.py
+  5  killed    rt4 F2: work-tree names compared, bytes not          hook_repro/hookc.py
+  6  killed    rt4 F2: nested .git dirs skipped                     hook_repro/hookc.py
+  7  killed    rt4 F2: symlinks in the work tree skipped            hook_repro/hookc.py
+  8  killed    rt4 F2: symlinked --path component followed          hook_repro/hookc.py
+  9  killed    rt4 F3: WCE tool failure escapes the reproduce repor hook_repro/hookc.py
+ 10  killed    rt4 F3: --no-wce recomputes nothing yet passes       hook_repro/hookc.py
+ 11  killed    rt4 F3: WCE tool failure regenerates null (MISMATCH) hook_repro/hookc.py
+ 12  killed    rt4 F3: --no-wce sidecar recomputed (MISMATCH with a hook_repro/hookc.py
+ 13  killed    rt4 F3b: build writes a null-WCE sidecar when the to hook_repro/hookc.py
+ 14  killed    rt4 F3b: make_metadata accepts any WCE reason        hook_repro/hookc.py
+ 15  killed    rt4 F3b: bool / negative WCE accepted by parse       hook_repro/hookc.py
+ 16  killed    rt4 F3b: host-specific null-WCE reason accepted by p hook_repro/hookc.py
+ 17  killed    rt4 F3b: WCE numbers with a reason accepted by parse hook_repro/hookc.py
+ 18  killed    rt4 F4: binding network not checked against the repo hook_repro/bind.py
+ 19  killed    rt4 F4: report caveat dropped from the binding       hook_repro/bind.py
+ 20  killed    rt4 F4: distinct_operators dropped from the binding  hook_repro/bind.py
+ 21  killed    rt4 F4: platforms_built_rechecked dropped from the b hook_repro/bind.py
+ 22  killed    rt4 F4: missing/bool operator count not a caveat     hook_repro/bind.py
+ 23  killed    rt4 F4: not-re-checked twins not a caveat            hook_repro/bind.py
+ 24  killed    rt4 F4: binding network not taken from the report    hook_repro/bind.py
+ 25  killed    rt4 H1: --git repository config never checked        hook_repro/hookc.py
+ 26  killed    rt4 H1: work-tree repo config checked only after git hook_repro/hookc.py
+ 27  killed    rt4 H1: config includes accepted                     hook_repro/hookc.py
+ 28  killed    rt4 H1: repo filter drivers accepted                 hook_repro/hookc.py
+ 29  killed    rt4 H1: core.worktree accepted                       hook_repro/hookc.py
+ 30  killed    rt4 H1: repo core.attributesFile honoured            hook_repro/hookc.py
+ 31  killed    rt4 F1: xhc-bin127 __DATE__ left to clang 15 (wall c hook_repro/recipes/xhc-bin127/pipeline.sh
+ 32  killed    rt4 F1: date defines word-split                      hook_repro/recipes/xhc-bin127/pipeline.sh
+ 33  killed    rt4 F1: __DATE__ not clang's SOURCE_DATE_EPOCH=0 for hook_repro/recipes/xhc-bin127/pipeline.sh
+ 34  killed    rt4 F1: __TIMESTAMP__ not clang's SOURCE_DATE_EPOCH= hook_repro/recipes/xhc-bin127/pipeline.sh
+
+34 mutants, 34 killed, 0 survived/stale
+exit=0
+mutate exit=0

@@ -1,0 +1,12 @@
+VERDICT: REPRODUCED
+reason:  rebuild is byte-identical to on-ledger CreateCode (SHA512Half 805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA)
+hookhash 805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA  network xahau-mainnet  recipe xhc-bin127 preset classic params {'CLANG_OPT': '-O2', 'STAGES': 'opt,clean', 'WASMOPT': '-O2'}
+  read https://xahau.network              node n9JYxms4BTRi.. ledger 26137366 size 808 sha512half 805351CE26FB79DA
+  read https://cluster.cbotlabs.xyz       node n9JAe6yk1aEQ.. ledger 26137366 size 808 sha512half 805351CE26FB79DA
+  build1 size 808 sha512half 805351CE26FB79DA recipe 3e81eab9375f5471 src be7d5a118f7141de
+  build2 size 808 sha512half 805351CE26FB79DA recipe 3e81eab9375f5471 src be7d5a118f7141de
+  definition Fee             metadata WCE.hook    match  149 vs 149
+  definition HookCallbackFee metadata WCE.cbak    match  7 vs 7
+  definition HookOn          metadata HookOn      match  FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFBFFFFF vs FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFBFFFFF
+  definition HookCanEmit     metadata HookCanEmit DIFF   FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFFFFFFFFFFFFFFFBFFFF vs FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFFFFFFFFFFFFFFBFFFFF
+report: casestudy/hookc/claimreward-verify/verify-report.json

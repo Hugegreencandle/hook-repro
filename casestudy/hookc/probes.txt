@@ -1,0 +1,13 @@
+cr-baseline-git                    HookHash 805351CE26FB79DA  tree be7d5a118f7141de  meta-minus-source 090b053a304b43ff  export of commit 0a10b61
+cr-other-host-path                 HookHash 805351CE26FB79DA  tree be7d5a118f7141de  meta-minus-source 090b053a304b43ff  clone at a path with spaces
+cr-host-TZ-locale-umask            HookHash 805351CE26FB79DA  tree be7d5a118f7141de  meta-minus-source 090b053a304b43ff  TZ=Asia/Tokyo LC_ALL=ja_JP.UTF-8 umask 077
+cr-mtimes-1990                     HookHash 805351CE26FB79DA  tree be7d5a118f7141de  meta-minus-source 090b053a304b43ff  every source mtime set to 1990
+cr-CRLF-source                     HookHash 805351CE26FB79DA  tree 1f7d682a3483cd2f  meta-minus-source 090b053a304b43ff  claimReward.c converted to CRLF (unversioned)
+cr-extra-unrelated-files           HookHash 805351CE26FB79DA  tree b4739936e989a4fb  meta-minus-source 090b053a304b43ff  NOTES.txt + sub/other.c (not top-level) added
+cr-extra-top-level-.c              REFUSED/FAILED (exit ?) aaa_helper.c added at top level
+cr-unversioned-no-flag             REFUSED/FAILED (exit 3) plain dir without --allow-unversioned
+cr-dirty-worktree                  REFUSED/FAILED (exit 3) uncommitted edit
+cr-parallel-A                      HookHash 805351CE26FB79DA  tree be7d5a118f7141de  meta-minus-source 090b053a304b43ff  two hookc builds at once (4 containers)
+cr-parallel-B                      HookHash 805351CE26FB79DA  tree be7d5a118f7141de  meta-minus-source 090b053a304b43ff  
+cr-llvm22-arm64                    REFUSED/FAILED (exit ?) not the deployed recipe
+cr-llvm22-amd64                    REFUSED/FAILED (exit ?) emulated

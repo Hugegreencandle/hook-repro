@@ -1,0 +1,21 @@
+rt2-hookc at 0232399
+### n1_replace_objects_e2e
+script exit=0
+### n1_replace_export
+script exit=0
+### n1b_planted_tree_object
+script exit=0
+### n2_filename_flag_injection
+script exit=0
+### n3_ident_worktree_divergence
+script exit=1
+### n5_host_kernel_embed
+script exit=0
+### n5b_computed_include_jail
+script exit=0
+### n6_platforms_not_built
+script exit=0
+### n4_definition_hookon
+script exit=0
+### n7_timeout_crash
+script exit=0

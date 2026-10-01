@@ -1,0 +1,36 @@
+rshooks-0.2.3 recipe: double-build evidence (2026-09-28)
+
+Source: tequdev/rshooks tag v0.2.3 = commit 4c6f65e0706b6e07853133c615ad53290adaed5f
+  `git archive v0.2.3` extracted to ~/.cache/hook-repro/src/rshooks-v0.2.3. The 4 crates/*/LICENSE symlinks
+  (-> ../../LICENSE) were replaced by copies because tree_hash refuses symlinks.
+  tree sha256 ad200650bfc1eb1c30e242432615972159b73e200037fd920f52df244e123263 (610 files)
+  LOCK=examples/Cargo.lock (59 crates.io packages), vendor digest 406345fae0a916c0...
+Recipe: rshooks-0.2.3, digest f677b9ff5834e3651e498a4ee07c300f6fa3a4b2334e4e820786a94693a4adac
+  image sha256:a02dd81c0f0169f0ad75f81e1385cb7d535491b8c609e3c9b2082ab62cf7f871 (local, not portable)
+
+Builds (each run in a fresh `--network none --read-only` container)
+  accept-all build1  --recipe rshooks-0.2.3                        171 B  68A7D6BD77FB98A7E05E0BFD12180352903F131B2780F848267C37DC0837707C
+  accept-all build2  --metadata build1/hook.metadata.json (ENTRY 0.main selected from the sidecar)
+                                                                    171 B  68A7D6BD77FB98A7E05E0BFD12180352903F131B2780F848267C37DC0837707C
+  firewall   build1  --recipe rshooks-0.2.3                        515 B  91F4BD5185032EF9C1289107A075B8055580E4203F0558DFFD895C585A87EC58
+  firewall   build2                                                 515 B  91F4BD5185032EF9C1289107A075B8055580E4203F0558DFFD895C585A87EC58
+  cmp build1 build2: identical for both; the sidecars are byte-identical too.
+  The build checked each sidecar's HookHash against the SHA512Half of the bytes it built. Both matched.
+  `strings` finds no path fragments (/, work, vendor, cargo) in either wasm.
+
+Cross-checks against values the rshooks repo publishes itself (these are not chain reads):
+  - The rshooks book (book/src/getting-started/first-hook.md, added in commit 36a6961) prints an AcceptAll sidecar
+    with HookHash 68A7D6BD...707C. The container build reproduces it exactly, which suggests the
+    author's own build environment gives the same bytes. We do not know which OS or setup the
+    author used.
+  - examples/*/metrics.json lists 171 B for accept-all and 515 B for firewall. Only the sizes match; these files carry no hash.
+
+Deployed rshooks hooks: none found.
+  Searched: rshooks README, book and docs (the only 64-hex values are HookOn masks, a state key and the book's
+  example hash); all 43 rshooks issues; tequdev repos pushed since 2026-06; GitHub code search for "rshooks",
+  "use rshooks" and "rshooks-build". The only third-party repo is tequdev/rshooks-template, which is from 2024 and
+  uses the older rshooks-api 0.6. crates.io lists rshooks-testenv as the only reverse dependency.
+  Read-only ledger_entry hook_definition lookups:
+    68A7D6BD... mainnet (xahau.network, cbotlabs) entryNotFound; testnet (xahau-test.net, xrpl-labs) entryNotFound
+    91F4BD51... mainnet entryNotFound; testnet entryNotFound
+  So `hook-repro verify` was not run on any rshooks hook. There is no on-ledger binary to compare against.

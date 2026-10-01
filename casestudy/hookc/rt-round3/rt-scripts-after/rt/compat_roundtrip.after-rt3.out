@@ -1,0 +1,10 @@
+roundtrip True rt-hookc/tests/fixtures/rshooks/recorded_firewall_0.main.metadata.json
+roundtrip False rt-hookc/tests/fixtures/rshooks/book_accept_all.metadata.json
+roundtrip True rt-hookc/casestudy/rshooks/accept-all/build1/hook.metadata.json
+roundtrip True rt-hookc/casestudy/rshooks/accept-all/build2/hook.metadata.json
+roundtrip True rt-hookc/casestudy/rshooks/firewall/build1/hook.metadata.json
+roundtrip True rt-hookc/casestudy/rshooks/firewall/build2/hook.metadata.json
+hookc chain: None | rshooks chain type: dict (entry_sidecar.rs: `chain: ChainSummary`, not Option)
+rshooks builder keys: ['name', 'version', 'rustc', 'cargo_args', 'rustc_args', 'wasm_opt']
+hookc builder keys:   ['name', 'version', 'toolchain', 'preset', 'params', 'cc', 'wasm_opt_version', 'commands', 'wasm_opt', 'env', 'platforms', 'platforms_built', 'wce']
+keys rshooks has that hookc builder lacks: ['rustc', 'cargo_args', 'rustc_args']

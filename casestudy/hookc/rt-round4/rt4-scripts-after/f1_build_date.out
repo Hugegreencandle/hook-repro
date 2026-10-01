@@ -1,0 +1,11 @@
+[90m7:44AM[0m [32mINF[0m [1m0 commits scanned.[0m
+[90m7:44AM[0m [32mINF[0m [1mscanned ~145 bytes (145 bytes) in 33.3ms[0m
+[90m7:44AM[0m [32mINF[0m [1mno leaks found[0m
+host date: Tue Sep 29 22:44:22 UTC 2026
+xhc-bin127 build exit=0
+BUILT[Jan  1 1970]
+sidecar HookHash 1B6539026A0C0D8BCF09F42D326E25832AF7EFAB847AD4A20347628C14EED27B env {'LC_ALL': 'C', 'SOURCE_DATE_EPOCH': '0', 'TZ': 'UTC'}
+xhc-bin127 reproduce (same day) exit=0
+VERDICT: REPRODUCED
+hookc-llvm22 build exit=0
+BUILT[Jan  1 1970]

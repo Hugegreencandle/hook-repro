@@ -1,0 +1,15 @@
+sources: claimReward.c
+guard_checker: pass
+clang_version: clang version 15.0.0
+wasm_opt_version: wasm-opt version 108 (version_108)
+HOOKC_WASM_OPT_RAN=1
+--- commands
+/tc/wasi-sdk/bin/clang -Wno-builtin-macro-redefined -D__DATE__="Jan  1 1970" -D__TIME__="00:00:00" -D__TIMESTAMP__="Thu Jan  1 00:00:00 1970" -O0 --sysroot=/tc/wasi-sdk/share/wasi-sysroot -xc -ffile-prefix-map=/work/src/= -fdiagnostics-print-source-range-info -Werror=implicit-function-declaration --no-standard-libraries -nostartfiles -Wl,--allow-undefined,--no-entry,--export-all -o /work/out.wasm -I/hdr -- claimReward.c
+/tc/wasm-opt -O2
+/tc/hook-cleaner
+/tc/wasm-opt -O2
+--- stages
+clang 2598 b517d7231fc04a63e2a76cbe5921c14a69563276ace323d4c53432cf4baa521a
+opt1 1284 e42e6ac692b8a62bc5882bc292e4113d1885086b0c63053112fc6a6e6c383e48
+clean2 1114 8886dcf13cd3f193614ddb495f8a35cd0faceab6ab849b770bb9810e4140bfa0
+opt3 1069 3a0e30a9d15185b13ba6618d5d72ad638eea286aa0c7d9d2257e5e98d451de07

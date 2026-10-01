@@ -1,0 +1,3644 @@
+FFFFFFFFFFFFFFFFFFFFFF.....FFFFFF.FFFFFFFFFFF.....FFFFFFFFFFFFFFFFFFFFFF [ 70%]
+FFFFFFFFFFFFFFFFFFFFFFFF...FFF                                           [100%]
+=================================== FAILURES ===================================
+______________ test_rt3_04a_rebuild_into_the_same_out_never_flips ______________
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-c6ce59e7ab40', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-a5ec261490c0', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_04a_rebuild_into_the_0')
+
+    def test_rt3_04a_rebuild_into_the_same_out_never_flips(sim, tmp_path):
+        # r3_04a_out_dir_rerun.sh: a 2nd build into the same --out saw run 1's hook.wasm in /out
+        r = mkrepo(tmp_path / "repo", {"hook.c": PROBE_OUT_WASM})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        h1 = sidecar_hash(tmp_path / "o")
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        h2 = sidecar_hash(tmp_path / "o")
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "fresh") == 0
+>       assert h1 == h2 == sidecar_hash(tmp_path / "fresh")  # same bytes as a build into a fresh dir
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 'A0FEF4BE133F...341C8D3E603F5' == '16B7A0FA0471...FCBDDC67901DE'
+E         
+E         - 16B7A0FA047165A0E2EB9013BB85DD62C887BC70B847A01351FFCBDDC67901DE
+E         + A0FEF4BE133FBA5F1512180782ECE65DC3ACB2A92F7EBE32344341C8D3E603F5
+
+tests/test_rt_round3.py:140: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "A0FEF4BE133FBA5F1512180782ECE65DC3ACB2A92F7EBE32344341C8D3E603F5",
+  "size": 105,
+  "sha256": "f3213ffe9590447d5726db0fd2e287f65ddcd5c7831f37a16e622a021e6145b2",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "9c1ccd7fc48c79ebaa143f92502eebd00c74cf0e",
+      "path": "",
+      "tree": "c58cdaa8a89868dc737eaeb856e5ad1385bd6ac0",
+      "dirty": false
+    },
+    "tree_sha256": "9d695cb0b4780711a2b0f90a5b5f5db78c8be64df31e74751b68df35b32c2093",
+    "file_count": 1,
+    "entry": null
+  }
+}
+{
+  "stem": "0.hook",
+  "HookHash": "16B7A0FA047165A0E2EB9013BB85DD62C887BC70B847A01351FFCBDDC67901DE",
+  "size": 105,
+  "sha256": "71a02542a78c077569b161a4f6f40bb5d36498ae083e127004c14bab9a8597fe",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "9c1ccd7fc48c79ebaa143f92502eebd00c74cf0e",
+      "path": "",
+      "tree": "c58cdaa8a89868dc737eaeb856e5ad1385bd6ac0",
+      "dirty": false
+    },
+    "tree_sha256": "9d695cb0b4780711a2b0f90a5b5f5db78c8be64df31e74751b68df35b32c2093",
+    "file_count": 1,
+    "entry": null
+  }
+}
+{
+  "stem": "0.hook",
+  "HookHash": "A0FEF4BE133FBA5F1512180782ECE65DC3ACB2A92F7EBE32344341C8D3E603F5",
+  "size": 105,
+  "sha256": "f3213ffe9590447d5726db0fd2e287f65ddcd5c7831f37a16e622a021e6145b2",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "9c1ccd7fc48c79ebaa143f92502eebd00c74cf0e",
+      "path": "",
+      "tree": "c58cdaa8a89868dc737eaeb856e5ad1385bd6ac0",
+      "dirty": false
+    },
+    "tree_sha256": "9d695cb0b4780711a2b0f90a5b5f5db78c8be64df31e74751b68df35b32c2093",
+    "file_count": 1,
+    "entry": null
+  }
+}
+_____________ test_rt3_04_planted_out_files_do_not_reach_the_bytes _____________
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-3cf0e16f880e', '--network', ...], 'out_before': ...ker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-bd9e04694721', '--network', ...], 'out_before': ['payload.h']}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_04_planted_out_files_0')
+
+    def test_rt3_04_planted_out_files_do_not_reach_the_bytes(sim, tmp_path):
+        # r3_04_out_dir_include.sh: the attacker pre-populated the build's out dir with payload.h
+        r = mkrepo(tmp_path / "repo", {"hook/hook.c": PROBE_PAYLOAD})
+        assert hookc("build", "--git", r, "--path", "hook", *TC_ARM, "--out", tmp_path / "clean") == 0
+        for b in ("build1", "build2"):
+            d = tmp_path / "o" / "builds" / "linux-arm64" / b
+            d.mkdir(parents=True)
+            (d / "payload.h").write_bytes(b"#define PAYLOAD 0x31337\n")
+        assert hookc("build", "--git", r, "--path", "hook", *TC_ARM, "--out", tmp_path / "o") == 0
+>       assert sidecar_hash(tmp_path / "o") == sidecar_hash(tmp_path / "clean")
+E       AssertionError: assert 'F340ED0C2A45...46560914FA4BF' == '3781075C808C...CA403F70CEC77'
+E         
+E         - 3781075C808CFDEF4F62AE81EE1A9D42EA4DBF36B969EACEBFCCA403F70CEC77
+E         + F340ED0C2A45810697C61DF73805686FC9327AB6F575B44A66A46560914FA4BF
+
+tests/test_rt_round3.py:156: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "3781075C808CFDEF4F62AE81EE1A9D42EA4DBF36B969EACEBFCCA403F70CEC77",
+  "size": 105,
+  "sha256": "d43bdd0ebe2b22b293d8b1149e1c2c81a4c15de98f6e318cadf60bd7ecc08d37",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "f19301ad7461cae62a295082c7fea6d5b0a9dd43",
+      "path": "hook",
+      "tree": "a811e437e9e2f3696c3d7086ff30687bc0833c07",
+      "dirty": false
+    },
+    "tree_sha256": "c14f06dbb8e5cb8d35b0037c84566d9f3937bbd60e82c52eca3e5811afabc61b",
+    "file_count": 1,
+    "entry": null
+  }
+}
+{
+  "stem": "0.hook",
+  "HookHash": "F340ED0C2A45810697C61DF73805686FC9327AB6F575B44A66A46560914FA4BF",
+  "size": 105,
+  "sha256": "b4ef7a11c99ede7bfc7203c291d3e5af73dda41b1e15dc76bc4d91f0bc3d256e",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "f19301ad7461cae62a295082c7fea6d5b0a9dd43",
+      "path": "hook",
+      "tree": "a811e437e9e2f3696c3d7086ff30687bc0833c07",
+      "dirty": false
+    },
+    "tree_sha256": "c14f06dbb8e5cb8d35b0037c84566d9f3937bbd60e82c52eca3e5811afabc61b",
+    "file_count": 1,
+    "entry": null
+  }
+}
+_____________ test_rt3_04_out_inside_the_reviewed_checkout_refused _____________
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-3ae3c3f0b26f', '--network', ...], 'out_before': ...ker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-863149a6cbee', '--network', ...], 'out_before': ['payload.h']}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_04_out_inside_the_rev0')
+
+    def test_rt3_04_out_inside_the_reviewed_checkout_refused(sim, tmp_path):
+        # r3_04 (b) / r3_04b: `--src . --out repro` inside the checkout (payload committed there)
+        r = mkrepo(tmp_path / "repo", {"hook/hook.c": PROBE_PAYLOAD,
+                                       "repro/linux-arm64/build1/payload.h": b"#define PAYLOAD 0x31337\n",
+                                       "repro/linux-arm64/build2/payload.h": b"#define PAYLOAD 0x31337\n"})
+        assert hookc("build", "--git", r, "--path", "hook", *TC_ARM, "--out", tmp_path / "o") == 0
+        m = str(tmp_path / "o" / "0.hook.metadata.json")
+        n = len(sim)
+>       assert hookc("reproduce", "--metadata", m, "--src", r, "--out", r / "repro") == 3
+E       AssertionError: assert 2 == 3
+E        +  where 2 = hookc('reproduce', '--metadata', '<tmp>/pytest-of-user/pytest-35289/test_rt3_04_out_inside_the_rev0/o/0.hook.metadata.json', '--src', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_04_out_inside_the_rev0/repo'), '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_04_out_inside_the_rev0/repo') / 'repro'))
+
+tests/test_rt_round3.py:173: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "3781075C808CFDEF4F62AE81EE1A9D42EA4DBF36B969EACEBFCCA403F70CEC77",
+  "size": 105,
+  "sha256": "d43bdd0ebe2b22b293d8b1149e1c2c81a4c15de98f6e318cadf60bd7ecc08d37",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "502af1191f3132fb89dfea85b8ee76da00cbd244",
+      "path": "hook",
+      "tree": "a811e437e9e2f3696c3d7086ff30687bc0833c07",
+      "dirty": false
+    },
+    "tree_sha256": "c14f06dbb8e5cb8d35b0037c84566d9f3937bbd60e82c52eca3e5811afabc61b",
+    "file_count": 1,
+    "entry": null
+  }
+}
+VERDICT: MISMATCH
+reason:  rebuilt HookHash F340ED0C2A45810697C61DF73805686FC9327AB6F575B44A66A46560914FA4BF (linux/arm64) != metadata HookHash 3781075C808CFDEF4F62AE81EE1A9D42EA4DBF36B969EACEBFCCA403F70CEC77
+___________ test_rt3_04b_verify_out_dir_is_never_read_by_the_rebuild ___________
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-549054552940', '--network', ...], 'out_before': ...ker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-a1bb9ece39d8', '--network', ...], 'out_before': ['payload.h']}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_04b_verify_out_dir_is0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x107ab2ad0>
+
+    def test_rt3_04b_verify_out_dir_is_never_read_by_the_rebuild(sim, tmp_path, monkeypatch):
+        # r3_04b_verify_out_dir.sh: verify built into DIR/build1, DIR/build2, readable as ../../out/
+        r = mkrepo(tmp_path / "repo", {"hook/hook.c": PROBE_PAYLOAD,
+                                       "vout/build1/payload.h": b"#define PAYLOAD 0x31337\n",
+                                       "vout/build2/payload.h": b"#define PAYLOAD 0x31337\n"})
+        assert hookc("build", "--git", r, "--path", "hook", *TC_ARM, "--out", tmp_path / "o") == 0
+        m = str(tmp_path / "o" / "0.hook.metadata.json")
+        h = stub_chain(monkeypatch, (tmp_path / "o" / "0.hook.wasm").read_bytes())
+>       assert verify(h, m, "--src", r, "--out", r / "vout", *ARM) == 3            # inside the checkout: refused
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 2 == 3
+E        +  where 2 = verify('3781075C808CFDEF4F62AE81EE1A9D42EA4DBF36B969EACEBFCCA403F70CEC77', '<tmp>/pytest-of-user/pytest-35289/test_rt3_04b_verify_out_dir_is0/o/0.hook.metadata.json', '--src', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_04b_verify_out_dir_is0/repo'), '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_04b_verify_out_dir_is0/repo') / 'vout'), *['--platform', 'linux/arm64'])
+
+tests/test_rt_round3.py:207: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "3781075C808CFDEF4F62AE81EE1A9D42EA4DBF36B969EACEBFCCA403F70CEC77",
+  "size": 105,
+  "sha256": "d43bdd0ebe2b22b293d8b1149e1c2c81a4c15de98f6e318cadf60bd7ecc08d37",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "ef35d4c795df888d0b1c6e6666fd4d3bb3ac36c1",
+      "path": "hook",
+      "tree": "a811e437e9e2f3696c3d7086ff30687bc0833c07",
+      "dirty": false
+    },
+    "tree_sha256": "c14f06dbb8e5cb8d35b0037c84566d9f3937bbd60e82c52eca3e5811afabc61b",
+    "file_count": 1,
+    "entry": null
+  }
+}
+VERDICT: MISMATCH
+reason:  deterministic rebuild F340ED0C2A45810697C61DF73805686FC9327AB6F575B44A66A46560914FA4BF differs from on-ledger 3781075C808CFDEF4F62AE81EE1A9D42EA4DBF36B969EACEBFCCA403F70CEC77
+hookhash 3781075C808CFDEF4F62AE81EE1A9D42EA4DBF36B969EACEBFCCA403F70CEC77  network xahau-mainnet  recipe hookc-llvm22 preset deploy params {'ENTRY': ''}
+  read https://xahau.network              node n9STUB.netwo.. ledger 100 ABABABABABABABAB.. size 105 sha512half 3781075C808CFDEF
+  read https://cluster.cbotlabs.xyz       node n9STUBlabs.x.. ledger 100 ABABABABABABABAB.. size 105 sha512half 3781075C808CFDEF
+  build1 size 105 sha512half F340ED0C2A458106 recipe 69dee2a756c3baf9 src c14f06dbb8e5cb8d
+  build2 size 105 sha512half F340ED0C2A458106 recipe 69dee2a756c3baf9 src c14f06dbb8e5cb8d
+size: on_ledger=105 B, rebuilt=105 B (delta +0)
+first differing byte offset: 73
+bytes differing (same length): 32
+  section custom:src     differs            on_ledger=36 rebuilt=36
+report: <tmp>/pytest-of-user/pytest-35289/test_rt3_04b_verify_out_dir_is0/repo/vout/verify-report.json
+__________ test_rt3_04_container_out_mount_is_fresh_private_and_empty __________
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-760ef2f4fc03', '--network', ...], 'out_before': ['left-over']}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_04_container_out_moun0')
+
+    def test_rt3_04_container_out_mount_is_fresh_private_and_empty(sim, tmp_path):
+        (tmp_path / "user-out").mkdir()
+        (tmp_path / "user-out" / "left-over").write_bytes(b"stale")
+        src = tmp_path / "src"
+        src.mkdir()
+        (src / "hook.c").write_bytes(HOOK_C)
+        m, w = B.build(str(src), "hookc-llvm22", out_dir=str(tmp_path / "user-out"), log=lambda *_: None)
+        cmd = sim[-1]["cmd"]
+        mounts = _mounts(cmd)
+        assert sorted(mounts) == ["/out", "/src"]                             # nothing else mounted
+        assert "%s:/jail/src:ro" % mounts["/src"] in cmd                      # source read-only
+>       assert os.path.realpath(mounts["/out"]) != os.path.realpath(tmp_path / "user-out")
+E       AssertionError: assert '<tmp>/pytest-of-user/pytest-35289/test_rt3_04_container_out_moun0/user-out' != '<tmp>/pytest-of-user/pytest-35289/test_rt3_04_container_out_moun0/user-out'
+E        +  where '<tmp>/pytest-of-user/pytest-35289/test_rt3_04_container_out_moun0/user-out' = <function realpath at 0x1007ff320>('<tmp>/pytest-of-user/pytest-35289/test_rt3_04_container_out_moun0/user-out')
+E        +    where <function realpath at 0x1007ff320> = <module 'posixpath' (frozen)>.realpath
+E        +      where <module 'posixpath' (frozen)> = os.path
+E        +  and   '<tmp>/pytest-of-user/pytest-35289/test_rt3_04_container_out_moun0/user-out' = <function realpath at 0x1007ff320>((PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_04_container_out_moun0') / 'user-out'))
+E        +    where <function realpath at 0x1007ff320> = <module 'posixpath' (frozen)>.realpath
+E        +      where <module 'posixpath' (frozen)> = os.path
+
+tests/test_rt_round3.py:230: AssertionError
+______________ test_rt3_04_run_container_refuses_a_non_empty_out _______________
+
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_04_run_container_refu0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x107560f50>
+
+    def test_rt3_04_run_container_refuses_a_non_empty_out(tmp_path, monkeypatch):
+        def no_docker(*a, **k):
+            raise AssertionError("docker must not run with a non-empty out dir")
+        monkeypatch.setattr(B, "run_named", no_docker)
+        (tmp_path / "x").write_bytes(b"x")
+        with pytest.raises(B.BuildError, match="not empty"):
+>           B.run_container(B.load_recipe("hookc-llvm22"), {"image_id": "sha256:x"}, str(tmp_path), str(tmp_path), {})
+
+tests/test_rt_round3.py:245: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+hook_repro/build.py:459: in run_container
+    r = run_named(cmd, name, timeout)
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+a = (['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-647c75b6d8c2', '--network', ...], 'hook-repro-hookc-llvm22-647c75b6d8c2', 900)
+k = {}
+
+    def no_docker(*a, **k):
+>       raise AssertionError("docker must not run with a non-empty out dir")
+E       AssertionError: docker must not run with a non-empty out dir
+
+tests/test_rt_round3.py:241: AssertionError
+_____________ test_rt3_04_hook_repro_build_out_inside_src_refused ______________
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-92ccc12f72eb', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_04_hook_repro_build_o0')
+
+    def test_rt3_04_hook_repro_build_out_inside_src_refused(sim, tmp_path):
+        src = tmp_path / "src"
+        src.mkdir()
+        (src / "hook.c").write_bytes(HOOK_C)
+>       assert cli.main(["build", str(src), "--recipe", "hookc-llvm22", "--out", str(src / "o")]) == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = <function main at 0x107642400>(['build', '<tmp>/pytest-of-user/pytest-35289/test_rt3_04_hook_...ar/folders/bl/<id>/T/pytest-of-user/pytest-35289/test_rt3_04_hook_repro_build_o0/src/o'])
+E        +    where <function main at 0x107642400> = cli.main
+
+tests/test_rt_round3.py:252: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "recipe": {
+    "name": "hookc-llvm22",
+    "digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+    "platform": "linux/arm64",
+    "base_image": "python@sha256:eb5be8e5b4d0a159c237946bbdd06356dda5d19c30fc4f7843e8046d3a590333",
+    "artifacts": [
+      {
+        "name": "llvm",
+        "url": "https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.7/LLVM-22.1.7-Linux-ARM64.tar.xz",
+        "sha256": "118ca2d3ad9da34367e05735317854e7977db45dc4c02a32af58da64c23b8789"
+      },
+      {
+        "name": "binaryen",
+        "url": "https://github.com/WebAssembly/binaryen/releases/download/version_130/binaryen-version_130-aarch64-linux.tar.gz",
+        "sha256": "e6ae6e09ac40f4e14bc5be6f687c58e2995c84170013975fa641809dd3b480a0"
+      },
+      {
+        "name": "wabt",
+        "url": "https://github.com/WebAssembly/wabt/releases/download/1.0.41/wabt-1.0.41-linux-arm64.tar.gz",
+        "sha256": "5e35416ee8725dc7cc0572e4392a8117cbf008b0e34c0db65c75506b0299cdbf"
+      },
+      {
+        "name": "libxml2",
+        "url": "https://deb.debian.org/debian/pool/main/libx/libxml2/libxml2_2.9.14+dfsg-1.3~deb12u6_arm64.deb",
+        "sha256": "0bc00975e459387535a4bbabe98a398f0e77c9ab82474face18d01ae8ed0dae4"
+      },
+      {
+        "name": "libicu72",
+        "url": "https://deb.debian.org/debian/pool/main/i/icu/libicu72_72.1-3+deb12u1_arm64.deb",
+        "sha256": "4f5d892fd81110435e45ed0a5f1b12899d7ff989d51db283cbc043f5631646d8"
+      },
+      {
+        "name": "error.h",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/error.h",
+        "sha256": "682ae265dfdda491572af1fcb6c156cfb937a6f13667defed3167ce3814049cd"
+      },
+      {
+        "name": "extern.h",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/extern.h",
+        "sha256": "83b077aa763f1a3bbbc38cc3669039ec9fcbc7543f5c1c63226bfd4bfbf94eb0"
+      },
+      {
+        "name": "hookapi.h",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/hookapi.h",
+        "sha256": "5927617ba052f51651a4a7478a91b5a98ce1340d5946b588a8f963c4d188e211"
+      },
+      {
+        "name": "macro.h",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/macro.h",
+        "sha256": "4e7c6f4142476ef022f92b4428b5298f653a81147472e140764981fc5dcc9d25"
+      },
+      {
+        "name": "sfcodes.h",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/sfcodes.h",
+        "sha256": "2f03622fb396b6116c9b9d0455efff320049fa2cb9cb8c8fbbf49e70580db8c9"
+      },
+      {
+        "name": "tts.h",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/tts.h",
+        "sha256": "5baa7ca07b0c1d40299c7d2d80902846467ae8eae2767e7b268be5ab1cede628"
+      },
+      {
+        "name": "ls_flags.h",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/ls_flags.h",
+        "sha256": "733bd02a19ee7bef7ea0d74192999142f501e60efe1928656ee699f7ca3a933b"
+      },
+      {
+        "name": "tx_flags.h",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/tx_flags.h",
+        "sha256": "49f66ba0a77743b36e182f6f7df28454b0893f6bc0ae31b5c7d320b7e99b8538"
+      }
+    ],
+    "tool_versions": {
+      "clang": "22.1.7 upstream release LLVM-22.1.7-Linux-ARM64 (the hook was originally built with Homebrew llvm 22.1.7_1 on macOS arm64)",
+      "wasm-opt": "binaryen version_130",
+      "wabt": "1.0.41 (wasm-strip, wasm-objdump used by guard_hoist.py, wasm-validate)",
+      "runtime libs": "Debian bookworm libxml2 2.9.14+dfsg-1.3~deb12u6 + libicu72 72.1-3+deb12u1 (arm64 .deb, sha256-pinned; wasm-ld needs libxml2.so.2)",
+      "guard_hoist.py": "vendored from KVT's deployable-hook build scripts (originally developed for an internal project; snapshot of 2026-07-06), sha256 d6ee360a0c03dd6b89961563b2f266a3f07613c5d95224cccf4afac3478546b4",
+      "headers": "Xahau/xahaud hook/*.h at release bb244ef7 (2026-06-21), each file sha256-pinned; tts.h = rshooks-core 0.2.3 vendored tts.h (sha256 5baa7ca0...)"
+    }
+  },
+  "params": {
+    "ENTRY": ""
+  },
+  "output": {
+    "file": "<tmp>/pytest-of-user/pytest-35289/test_rt3_04_hook_repro_build_o0/src/o/hook.wasm",
+    "size": 105,
+    "sha256": "008ab05d44aa1a583115b44289f01ef9c113e694561bb9da0933140d0211fcea",
+    "sha512half": "EB2400BF400000250813B67934B4E4535B24F20048A3FA8822DC7A77DE39CA43"
+  },
+  "source_tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+  "image_id": "sha256:sim-linux/arm64",
+  "manifest": "<tmp>/pytest-of-user/pytest-35289/test_rt3_04_hook_repro_build_o0/src/o/build-manifest.json"
+}
+_____ test_guard_04_publish_replaces_planted_symlink_without_following_it ______
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-c479941ffa46', '--network', ...], 'out_before': ['hook.wasm']}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_guard_04_publish_replaces0')
+
+    def test_guard_04_publish_replaces_planted_symlink_without_following_it(sim, tmp_path):
+        out = tmp_path / "out"
+        out.mkdir()
+        victim = tmp_path / "victim"
+        victim.write_bytes(b"keep")
+        os.symlink(victim, out / "hook.wasm")
+        src = tmp_path / "src"
+        src.mkdir()
+        (src / "hook.c").write_bytes(HOOK_C)
+        B.build(str(src), "hookc-llvm22", out_dir=str(out), log=lambda *_: None)
+>       assert victim.read_bytes() == b"keep" and not os.path.islink(out / "hook.wasm")
+E       AssertionError: assert (b'\x00asm\x01...\xf20\x16\x96' == b'keep'
+E         
+E         At index 0 diff: b'\x00' != b'k'
+E         Use -v to get more diff)
+
+tests/test_rt_round3.py:268: AssertionError
+______________ test_guard_04_non_regular_pipeline_output_refused _______________
+
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_guard_04_non_regular_pipe0')
+
+    def test_guard_04_non_regular_pipeline_output_refused(tmp_path):
+        (tmp_path / "p").mkdir()
+        (tmp_path / "p" / "d").mkdir()
+        with pytest.raises(B.BuildError, match="non-regular"):
+>           B.publish_outputs(str(tmp_path / "p"), str(tmp_path / "o"))
+            ^^^^^^^^^^^^^^^^^
+E           AttributeError: module 'hook_repro.build' has no attribute 'publish_outputs'
+
+tests/test_rt_round3.py:275: AttributeError
+____________ test_guard_04_out_inside_matches_only_real_containment ____________
+
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_guard_04_out_inside_match0')
+
+    def test_guard_04_out_inside_matches_only_real_containment(tmp_path):
+>       assert B.out_inside(str(tmp_path / "a" / "b"), str(tmp_path / "a")) == str(tmp_path / "a")
+               ^^^^^^^^^^^^
+E       AttributeError: module 'hook_repro.build' has no attribute 'out_inside'
+
+tests/test_rt_round3.py:279: AttributeError
+_ test_rt3_05_parent_relative_include_like_operands_refused[#if __has_include("../../out/hook.wasm")\n#endif\n] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-07c19402394a', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-730cb226aabe', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in0')
+src = b'#if __has_include("../../out/hook.wasm")\n#endif\n'
+
+    @pytest.mark.parametrize("src", [
+        b'#if __has_include("../../out/hook.wasm")\n#endif\n',                              # r3_04a
+        b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n',  # r3_04 / r3_04b
+        b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n',        # r3_05
+        b'#include "sub/../../x.h"\n', b'#include <../x.h>\n', b'  #  include_next "../x"\n',
+        b'#embed "../../out/x" limit(1)\n', b'#if __has_embed("..\\\\x")\n#endif\n',
+        b'__asm__(".incbin \\"../../out/x\\"");\n', b'#include ".\\\n./x.h"\n', b'#include " ../x.h"\n',
+        b'#include "ok.h"\n#include "../x.h"\n'])
+    def test_rt3_05_parent_relative_include_like_operands_refused(sim, tmp_path, src):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C, "inc/x.h": src})
+        n = len(sim)
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in0/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in0') / 'o'))
+
+tests/test_rt_round3.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "5EDFBF138257AB2A1AF7B604FC7920EB0EF37E8E90400D640437A4EB5E36D8A5",
+  "size": 105,
+  "sha256": "7bb82f809c2d6d5b98842ff809d5666e4eb2dd9858823348ecaafa0039ea6467",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "2549c392eb240d8b418a0c6802556dfba7fd21d2",
+      "path": "",
+      "tree": "05e0f407897a2393ac1a44e0824cc635e08b49ba",
+      "dirty": false
+    },
+    "tree_sha256": "e87305f20e576e35a015a2efbfea1af530a9d2280c753e42088c04f7d514ef76",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_rt3_05_parent_relative_include_like_operands_refused[#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-22082c90c48a', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-fb0b66b9cb06', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in1')
+src = b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n'
+
+    @pytest.mark.parametrize("src", [
+        b'#if __has_include("../../out/hook.wasm")\n#endif\n',                              # r3_04a
+        b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n',  # r3_04 / r3_04b
+        b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n',        # r3_05
+        b'#include "sub/../../x.h"\n', b'#include <../x.h>\n', b'  #  include_next "../x"\n',
+        b'#embed "../../out/x" limit(1)\n', b'#if __has_embed("..\\\\x")\n#endif\n',
+        b'__asm__(".incbin \\"../../out/x\\"");\n', b'#include ".\\\n./x.h"\n', b'#include " ../x.h"\n',
+        b'#include "ok.h"\n#include "../x.h"\n'])
+    def test_rt3_05_parent_relative_include_like_operands_refused(sim, tmp_path, src):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C, "inc/x.h": src})
+        n = len(sim)
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in1/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in1') / 'o'))
+
+tests/test_rt_round3.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "E2A379601EFB5226B6858806ACFC6B3951DF24BD37D757F12847A15A0E56722A",
+  "size": 105,
+  "sha256": "e6faade68e31c4a15f2677e93ec263590d7d8ef24eb3c3066c58ef8e979ae5a2",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "130794dbc0d0fdb6712f50ec830f6c4475ef9fe0",
+      "path": "",
+      "tree": "3143eaf218538633352d0180fc4129e11ef51038",
+      "dirty": false
+    },
+    "tree_sha256": "bf44fd9092fca0608cc898545a14f35629570cac123a8a73d43434355ece1074",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_rt3_05_parent_relative_include_like_operands_refused[#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-18e4a67dc2f9', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-10ca11caea4a', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in2')
+src = b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n'
+
+    @pytest.mark.parametrize("src", [
+        b'#if __has_include("../../out/hook.wasm")\n#endif\n',                              # r3_04a
+        b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n',  # r3_04 / r3_04b
+        b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n',        # r3_05
+        b'#include "sub/../../x.h"\n', b'#include <../x.h>\n', b'  #  include_next "../x"\n',
+        b'#embed "../../out/x" limit(1)\n', b'#if __has_embed("..\\\\x")\n#endif\n',
+        b'__asm__(".incbin \\"../../out/x\\"");\n', b'#include ".\\\n./x.h"\n', b'#include " ../x.h"\n',
+        b'#include "ok.h"\n#include "../x.h"\n'])
+    def test_rt3_05_parent_relative_include_like_operands_refused(sim, tmp_path, src):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C, "inc/x.h": src})
+        n = len(sim)
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in2/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in2') / 'o'))
+
+tests/test_rt_round3.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "7D5D665F15759D6A78E642200C9A66A96DEF4F33DA0FCF8E105B69D7326EF34B",
+  "size": 105,
+  "sha256": "c7329d170ca66c81c17fef923c9f228e01be582aafc4a5f3c0e6fd89267248e3",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "f8fac2dae1b90c769dab4fbe421d77f34f4a3f92",
+      "path": "",
+      "tree": "6c56b1af808230e65eaa65ab89c49757fbbe4021",
+      "dirty": false
+    },
+    "tree_sha256": "feca7c60d34c54b249ed3209cc5b26aa8a77647119e8dcddc40741338970d02b",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_rt3_05_parent_relative_include_like_operands_refused[#include "sub/../../x.h"\n] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-3c52bc881357', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-b870b4fe8cda', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in3')
+src = b'#include "sub/../../x.h"\n'
+
+    @pytest.mark.parametrize("src", [
+        b'#if __has_include("../../out/hook.wasm")\n#endif\n',                              # r3_04a
+        b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n',  # r3_04 / r3_04b
+        b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n',        # r3_05
+        b'#include "sub/../../x.h"\n', b'#include <../x.h>\n', b'  #  include_next "../x"\n',
+        b'#embed "../../out/x" limit(1)\n', b'#if __has_embed("..\\\\x")\n#endif\n',
+        b'__asm__(".incbin \\"../../out/x\\"");\n', b'#include ".\\\n./x.h"\n', b'#include " ../x.h"\n',
+        b'#include "ok.h"\n#include "../x.h"\n'])
+    def test_rt3_05_parent_relative_include_like_operands_refused(sim, tmp_path, src):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C, "inc/x.h": src})
+        n = len(sim)
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in3/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in3') / 'o'))
+
+tests/test_rt_round3.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "47A0BE06D4479117FA535B3629394ACDCF1F55E1408A2B2A940A046A296E6C98",
+  "size": 105,
+  "sha256": "3bfd7fb4ee8d76a709aa9006359e70e3777ab0ad3d5da6d3cf715dcce67c86a1",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "d1a9086503263269725791fcc064119d51350ce9",
+      "path": "",
+      "tree": "8f1988aeec8ed2445cfa911984b00e21c49cc63b",
+      "dirty": false
+    },
+    "tree_sha256": "9acb833c39fecc01040a8bccddca9e3a6ab8556e627498b937ba9e9c04e0d96a",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_rt3_05_parent_relative_include_like_operands_refused[#include <../x.h>\n] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-44357c3faca6', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-5c24818de7aa', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in4')
+src = b'#include <../x.h>\n'
+
+    @pytest.mark.parametrize("src", [
+        b'#if __has_include("../../out/hook.wasm")\n#endif\n',                              # r3_04a
+        b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n',  # r3_04 / r3_04b
+        b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n',        # r3_05
+        b'#include "sub/../../x.h"\n', b'#include <../x.h>\n', b'  #  include_next "../x"\n',
+        b'#embed "../../out/x" limit(1)\n', b'#if __has_embed("..\\\\x")\n#endif\n',
+        b'__asm__(".incbin \\"../../out/x\\"");\n', b'#include ".\\\n./x.h"\n', b'#include " ../x.h"\n',
+        b'#include "ok.h"\n#include "../x.h"\n'])
+    def test_rt3_05_parent_relative_include_like_operands_refused(sim, tmp_path, src):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C, "inc/x.h": src})
+        n = len(sim)
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in4/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in4') / 'o'))
+
+tests/test_rt_round3.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "5282EA20A5D4CC9F4CC169FA4432254F0A41486ADFB69705ACAC212F2D3F2F8B",
+  "size": 105,
+  "sha256": "0f8f08a7f12bdc52dfbe588ba444beb21a25a0abd4db414c85abdd24006a1d26",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "47109b282fb914e97701ebc1f0d168922a5aeb14",
+      "path": "",
+      "tree": "d00fce961988a573180b57c0dc65fefa539e146e",
+      "dirty": false
+    },
+    "tree_sha256": "1623fa2578f054583a655bddee29e1e01770fe1f9ca7d59d7f93f01fda71de07",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_rt3_05_parent_relative_include_like_operands_refused[  #  include_next "../x"\n] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-390d0944a666', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-85302dbca27c', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in5')
+src = b'  #  include_next "../x"\n'
+
+    @pytest.mark.parametrize("src", [
+        b'#if __has_include("../../out/hook.wasm")\n#endif\n',                              # r3_04a
+        b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n',  # r3_04 / r3_04b
+        b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n',        # r3_05
+        b'#include "sub/../../x.h"\n', b'#include <../x.h>\n', b'  #  include_next "../x"\n',
+        b'#embed "../../out/x" limit(1)\n', b'#if __has_embed("..\\\\x")\n#endif\n',
+        b'__asm__(".incbin \\"../../out/x\\"");\n', b'#include ".\\\n./x.h"\n', b'#include " ../x.h"\n',
+        b'#include "ok.h"\n#include "../x.h"\n'])
+    def test_rt3_05_parent_relative_include_like_operands_refused(sim, tmp_path, src):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C, "inc/x.h": src})
+        n = len(sim)
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in5/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in5') / 'o'))
+
+tests/test_rt_round3.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "BA57B3F678924A2FF3C530A3514132689F5A8C58070CAF6C17469C96AEE2D6E5",
+  "size": 105,
+  "sha256": "0508a3addd6c979d9943b5bd365a7c7ce2f3c5b748c871ca7d303cdf406c60c0",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "17893bb9f94c076bf25b7399baac855602ab2f64",
+      "path": "",
+      "tree": "c61e85a09bf1806e3dd0e6e24944d4b8c82268ce",
+      "dirty": false
+    },
+    "tree_sha256": "b26bdfb9779b526ee4671a65801b50aeac5637c0acf1259fb8d791e58f9b7972",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_rt3_05_parent_relative_include_like_operands_refused[#embed "../../out/x" limit(1)\n] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-cd421a0b1112', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-228e2f9e8eb7', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in6')
+src = b'#embed "../../out/x" limit(1)\n'
+
+    @pytest.mark.parametrize("src", [
+        b'#if __has_include("../../out/hook.wasm")\n#endif\n',                              # r3_04a
+        b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n',  # r3_04 / r3_04b
+        b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n',        # r3_05
+        b'#include "sub/../../x.h"\n', b'#include <../x.h>\n', b'  #  include_next "../x"\n',
+        b'#embed "../../out/x" limit(1)\n', b'#if __has_embed("..\\\\x")\n#endif\n',
+        b'__asm__(".incbin \\"../../out/x\\"");\n', b'#include ".\\\n./x.h"\n', b'#include " ../x.h"\n',
+        b'#include "ok.h"\n#include "../x.h"\n'])
+    def test_rt3_05_parent_relative_include_like_operands_refused(sim, tmp_path, src):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C, "inc/x.h": src})
+        n = len(sim)
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in6/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in6') / 'o'))
+
+tests/test_rt_round3.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "0D82D7AF05B80FE4A73BCBAFC0B91891BECFD674EDAE652E7B4877009E66E84D",
+  "size": 105,
+  "sha256": "f6ba3df271ec648d5b39e3285c35b3f9724fce1d9a5f6a565282dfe3ef934cd8",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "3eced139a8c8f2f80704935cc1d19f2f862a1426",
+      "path": "",
+      "tree": "73f708f30ba56d14f088fe1874364764ee0d6e89",
+      "dirty": false
+    },
+    "tree_sha256": "04068261dacabd27cd929ab0045968193565f6a729c6c7c0422c8b94117c2273",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_rt3_05_parent_relative_include_like_operands_refused[#if __has_embed("..\\x")\n#endif\n] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-87b34df4b9dd', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-1eef10b9dc83', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in7')
+src = b'#if __has_embed("..\\\\x")\n#endif\n'
+
+    @pytest.mark.parametrize("src", [
+        b'#if __has_include("../../out/hook.wasm")\n#endif\n',                              # r3_04a
+        b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n',  # r3_04 / r3_04b
+        b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n',        # r3_05
+        b'#include "sub/../../x.h"\n', b'#include <../x.h>\n', b'  #  include_next "../x"\n',
+        b'#embed "../../out/x" limit(1)\n', b'#if __has_embed("..\\\\x")\n#endif\n',
+        b'__asm__(".incbin \\"../../out/x\\"");\n', b'#include ".\\\n./x.h"\n', b'#include " ../x.h"\n',
+        b'#include "ok.h"\n#include "../x.h"\n'])
+    def test_rt3_05_parent_relative_include_like_operands_refused(sim, tmp_path, src):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C, "inc/x.h": src})
+        n = len(sim)
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in7/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in7') / 'o'))
+
+tests/test_rt_round3.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "007627B14DF6A3E3E8E2BC3035CFEDD15E5E359390BA2A6DF761C400893CF188",
+  "size": 105,
+  "sha256": "fb8a83e645185561095427190d4078aca0bacba73b2c5cb8f1ac9709cb8115b3",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "dd89baea725cc34e50ae450948c2f19aeabc583d",
+      "path": "",
+      "tree": "2d620da525ba954cdb8508cdf40a4105db2ef4ea",
+      "dirty": false
+    },
+    "tree_sha256": "8db988ac195e72d640491f4700a66251502610a0ad8f43d4ebd91686b027d455",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_rt3_05_parent_relative_include_like_operands_refused[__asm__(".incbin \"../../out/x\"");\n] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-4a73a755b2be', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-ae7b2eabc5c6', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in8')
+src = b'__asm__(".incbin \\"../../out/x\\"");\n'
+
+    @pytest.mark.parametrize("src", [
+        b'#if __has_include("../../out/hook.wasm")\n#endif\n',                              # r3_04a
+        b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n',  # r3_04 / r3_04b
+        b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n',        # r3_05
+        b'#include "sub/../../x.h"\n', b'#include <../x.h>\n', b'  #  include_next "../x"\n',
+        b'#embed "../../out/x" limit(1)\n', b'#if __has_embed("..\\\\x")\n#endif\n',
+        b'__asm__(".incbin \\"../../out/x\\"");\n', b'#include ".\\\n./x.h"\n', b'#include " ../x.h"\n',
+        b'#include "ok.h"\n#include "../x.h"\n'])
+    def test_rt3_05_parent_relative_include_like_operands_refused(sim, tmp_path, src):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C, "inc/x.h": src})
+        n = len(sim)
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in8/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in8') / 'o'))
+
+tests/test_rt_round3.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "FA8EF1926DA9A37CD0048D6E66E9946A54172501E38328D5F4C69686CBC34B93",
+  "size": 105,
+  "sha256": "246a3450a1f933c1a4e1f1381129fa24ae91b91062d22cf5c2e8c694ba3d7a13",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "0aaf46e9d393d62509009ac828273b3add322a83",
+      "path": "",
+      "tree": "37c1629ee6ea8b73ad2675baf61bba5a1ca29c7e",
+      "dirty": false
+    },
+    "tree_sha256": "f9d570c11bc7a0aa4383a2198b127c9edc23ea3d95798dcead258bbbe41765f9",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_rt3_05_parent_relative_include_like_operands_refused[#include ".\\n./x.h"\n] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-027f04cae5ff', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-5e9f12a38a6b', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in9')
+src = b'#include ".\\\n./x.h"\n'
+
+    @pytest.mark.parametrize("src", [
+        b'#if __has_include("../../out/hook.wasm")\n#endif\n',                              # r3_04a
+        b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n',  # r3_04 / r3_04b
+        b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n',        # r3_05
+        b'#include "sub/../../x.h"\n', b'#include <../x.h>\n', b'  #  include_next "../x"\n',
+        b'#embed "../../out/x" limit(1)\n', b'#if __has_embed("..\\\\x")\n#endif\n',
+        b'__asm__(".incbin \\"../../out/x\\"");\n', b'#include ".\\\n./x.h"\n', b'#include " ../x.h"\n',
+        b'#include "ok.h"\n#include "../x.h"\n'])
+    def test_rt3_05_parent_relative_include_like_operands_refused(sim, tmp_path, src):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C, "inc/x.h": src})
+        n = len(sim)
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in9/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in9') / 'o'))
+
+tests/test_rt_round3.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "1AA2C06BB0AD8D1C62A291DFD37F967B22D3978AECA12D21B076D35C0B1107D5",
+  "size": 105,
+  "sha256": "4adfdbd9df3b12efb8f5091fca2fc1ca751746928ae92666c543e6e61ab70ea5",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "e3550930ab5bda0fa1ed0974715dcbf8014190d9",
+      "path": "",
+      "tree": "859f98b6a44bbf358754a3b3d233790d3f40d99b",
+      "dirty": false
+    },
+    "tree_sha256": "cf4db68ba756bc46fb7e6162b0ae97dd3371d57b1f344fb766eec1e1aa8d58cd",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_rt3_05_parent_relative_include_like_operands_refused[#include " ../x.h"\n] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-b0d8486066b7', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-b37815e94b72', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in10')
+src = b'#include " ../x.h"\n'
+
+    @pytest.mark.parametrize("src", [
+        b'#if __has_include("../../out/hook.wasm")\n#endif\n',                              # r3_04a
+        b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n',  # r3_04 / r3_04b
+        b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n',        # r3_05
+        b'#include "sub/../../x.h"\n', b'#include <../x.h>\n', b'  #  include_next "../x"\n',
+        b'#embed "../../out/x" limit(1)\n', b'#if __has_embed("..\\\\x")\n#endif\n',
+        b'__asm__(".incbin \\"../../out/x\\"");\n', b'#include ".\\\n./x.h"\n', b'#include " ../x.h"\n',
+        b'#include "ok.h"\n#include "../x.h"\n'])
+    def test_rt3_05_parent_relative_include_like_operands_refused(sim, tmp_path, src):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C, "inc/x.h": src})
+        n = len(sim)
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in10/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in10') / 'o'))
+
+tests/test_rt_round3.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "F5529968D73CB9FA44496228385DB2248D31448F4C5968790D178F3DFA32565C",
+  "size": 105,
+  "sha256": "5c84fca4f3def7c9b0b457603f0ed23a47803f57539386f2718814ccb9be5808",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "d12b5b1303fd3a4caef86714d34e721844404c52",
+      "path": "",
+      "tree": "221a466a06caa19aadd153d1f828a86a724cd0f0",
+      "dirty": false
+    },
+    "tree_sha256": "b961fa57337b56d43d94099fcc04a17b29dd0c7afe863dfe58f4cddf24f78718",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_rt3_05_parent_relative_include_like_operands_refused[#include "ok.h"\n#include "../x.h"\n] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-cb5b15d3823a', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-ce1a5edff02a', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in11')
+src = b'#include "ok.h"\n#include "../x.h"\n'
+
+    @pytest.mark.parametrize("src", [
+        b'#if __has_include("../../out/hook.wasm")\n#endif\n',                              # r3_04a
+        b'#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n',  # r3_04 / r3_04b
+        b'#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n',        # r3_05
+        b'#include "sub/../../x.h"\n', b'#include <../x.h>\n', b'  #  include_next "../x"\n',
+        b'#embed "../../out/x" limit(1)\n', b'#if __has_embed("..\\\\x")\n#endif\n',
+        b'__asm__(".incbin \\"../../out/x\\"");\n', b'#include ".\\\n./x.h"\n', b'#include " ../x.h"\n',
+        b'#include "ok.h"\n#include "../x.h"\n'])
+    def test_rt3_05_parent_relative_include_like_operands_refused(sim, tmp_path, src):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C, "inc/x.h": src})
+        n = len(sim)
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in11/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_parent_relative_in11') / 'o'))
+
+tests/test_rt_round3.py:299: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "74AAAAB9EA4932318FBA2865B9F79F81EBDD61C5137EC0ABE1E2132692E234F1",
+  "size": 105,
+  "sha256": "a16fae6eba325964169694fd75a4da6329dbe208c94b4a01041aaebe83c4ce41",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "d956ae23edc2d84bb3e0656d84335b63df104383",
+      "path": "",
+      "tree": "99385db6facce98855ec9ed043ce41ad7f9c88f3",
+      "dirty": false
+    },
+    "tree_sha256": "dd114a22bb767387cccfea744fcc8255198aa329d703be954c86bb2f0d2b85f4",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_______________ test_guard_01_crafted_module_parses_as_intended ________________
+
+    def test_guard_01_crafted_module_parses_as_intended():
+        from hook_repro.wasm import parse
+>       assert parse(crafted_module([b"hook", b"cbak:0"], [b"cbak"]))["export_entries"] == [
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+            ("hook", 0, 0), ("cbak:0", 0, 1), ("cbak", 3, 0)]
+E       KeyError: 'export_entries'
+
+tests/test_rt_round3.py:336: KeyError
+___________ test_rt3_01_colon_named_function_exports_refused[names0] ___________
+
+fake = {'wasm': b'\x00asm\x01\x00\x00\x00\x01\x06\x01`\x01\x7f\x01~\x03\x04\x03\x00\x00\x00\x07\x1b\x03\x04hook\x00\x00\x06cb...8eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi0')
+names = [b'hook', b'cbak:0', b'evil:fn']
+
+    @pytest.mark.parametrize("names", [[b"hook", b"cbak:0", b"evil:fn"], [b"hook", b"cbak:0"], [b"hook", b"evil:fn"],
+                                       [b"hook", b"cbak", b"hook:0"], [b"hook", b"cbak "]])
+    def test_rt3_01_colon_named_function_exports_refused(fake, tmp_path, names):
+        # r3_01_colon_export.sh: "cbak:0" was taken for cbak, "evil:fn" escaped the extra-export refusal
+        fake["wasm"] = crafted_module(names)
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi0/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi0') / 'o'))
+
+tests/test_rt_round3.py:346: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "3D64C19CFC6E9FE3D3F2D71448B4014BF5E36A613CBF644C0FB0DCEE6A024C43",
+  "size": 69,
+  "sha256": "7f4b14bac8dde0c47961fbdb6a762b3f8e12242697946a9930de1bedf4cce583",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [
+    "module exports cbak but never imports emit"
+  ],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "eed070faac83460217b9cb009a94c409b9ab6bb0",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+----------------------------- Captured stderr call -----------------------------
+warning: module exports cbak but never imports emit
+___________ test_rt3_01_colon_named_function_exports_refused[names1] ___________
+
+fake = {'wasm': b'\x00asm\x01\x00\x00\x00\x01\x06\x01`\x01\x7f\x01~\x03\x03\x02\x00\x00\x07\x11\x02\x04hook\x00\x00\x06cbak:0...8eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi1')
+names = [b'hook', b'cbak:0']
+
+    @pytest.mark.parametrize("names", [[b"hook", b"cbak:0", b"evil:fn"], [b"hook", b"cbak:0"], [b"hook", b"evil:fn"],
+                                       [b"hook", b"cbak", b"hook:0"], [b"hook", b"cbak "]])
+    def test_rt3_01_colon_named_function_exports_refused(fake, tmp_path, names):
+        # r3_01_colon_export.sh: "cbak:0" was taken for cbak, "evil:fn" escaped the extra-export refusal
+        fake["wasm"] = crafted_module(names)
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi1/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi1') / 'o'))
+
+tests/test_rt_round3.py:346: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "43834DD0B18292CE7E8A74821762EF295650F85A71492307BD3A405DB8E57429",
+  "size": 53,
+  "sha256": "9da3e6aa0668dd0b4b60e34337f9dd78983b6ebe5a1f1e0ca68dcf6d3e7c49d8",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [
+    "module exports cbak but never imports emit"
+  ],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "eed070faac83460217b9cb009a94c409b9ab6bb0",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+----------------------------- Captured stderr call -----------------------------
+warning: module exports cbak but never imports emit
+___________ test_rt3_01_colon_named_function_exports_refused[names2] ___________
+
+fake = {'wasm': b'\x00asm\x01\x00\x00\x00\x01\x06\x01`\x01\x7f\x01~\x03\x03\x02\x00\x00\x07\x12\x02\x04hook\x00\x00\x07evil:f...8eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi2')
+names = [b'hook', b'evil:fn']
+
+    @pytest.mark.parametrize("names", [[b"hook", b"cbak:0", b"evil:fn"], [b"hook", b"cbak:0"], [b"hook", b"evil:fn"],
+                                       [b"hook", b"cbak", b"hook:0"], [b"hook", b"cbak "]])
+    def test_rt3_01_colon_named_function_exports_refused(fake, tmp_path, names):
+        # r3_01_colon_export.sh: "cbak:0" was taken for cbak, "evil:fn" escaped the extra-export refusal
+        fake["wasm"] = crafted_module(names)
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi2/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi2') / 'o'))
+
+tests/test_rt_round3.py:346: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "302AD54B8C710DBF94F7D50EDF3186E03C900410E5B352E42DEB20DCE3A322CD",
+  "size": 54,
+  "sha256": "6cbf7dd6697c7aa9cdf88156a255340ce132264da7ba5ad354c0b83e40f92866",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "5710ed8a5a681ed547f72edc52b8efd7ace257d2",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+___________ test_rt3_01_colon_named_function_exports_refused[names3] ___________
+
+fake = {'wasm': b'\x00asm\x01\x00\x00\x00\x01\x06\x01`\x01\x7f\x01~\x03\x04\x03\x00\x00\x00\x07\x18\x03\x04hook\x00\x00\x04cb...8eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi3')
+names = [b'hook', b'cbak', b'hook:0']
+
+    @pytest.mark.parametrize("names", [[b"hook", b"cbak:0", b"evil:fn"], [b"hook", b"cbak:0"], [b"hook", b"evil:fn"],
+                                       [b"hook", b"cbak", b"hook:0"], [b"hook", b"cbak "]])
+    def test_rt3_01_colon_named_function_exports_refused(fake, tmp_path, names):
+        # r3_01_colon_export.sh: "cbak:0" was taken for cbak, "evil:fn" escaped the extra-export refusal
+        fake["wasm"] = crafted_module(names)
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+>       assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+E       AssertionError: assert 0 == 3
+E        +  where 0 = hookc('build', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi3/repo'), *['--toolchain', 'hookc-llvm22', '--platform', 'linux/arm64'], '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi3') / 'o'))
+
+tests/test_rt_round3.py:346: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "BB0C56E8D2A16C39BBB5619DF2C72F673BDC4900CB3E02C6F75A084EB6B1F2EC",
+  "size": 66,
+  "sha256": "a680e3246ebc3c0ed85154247fdf4b298ba6704346c697fc84c1b0ad4173ff62",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [
+    "module exports cbak but never imports emit"
+  ],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "5710ed8a5a681ed547f72edc52b8efd7ace257d2",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+----------------------------- Captured stderr call -----------------------------
+warning: module exports cbak but never imports emit
+___________ test_rt3_01_colon_named_function_exports_refused[names4] ___________
+
+fake = {'wasm': b'\x00asm\x01\x00\x00\x00\x01\x06\x01`\x01\x7f\x01~\x03\x03\x02\x00\x00\x07\x10\x02\x04hook\x00\x00\x05cbak \...8eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_01_colon_named_functi4')
+names = [b'hook', b'cbak ']
+
+    @pytest.mark.parametrize("names", [[b"hook", b"cbak:0", b"evil:fn"], [b"hook", b"cbak:0"], [b"hook", b"evil:fn"],
+                                       [b"hook", b"cbak", b"hook:0"], [b"hook", b"cbak "]])
+    def test_rt3_01_colon_named_function_exports_refused(fake, tmp_path, names):
+        # r3_01_colon_export.sh: "cbak:0" was taken for cbak, "evil:fn" escaped the extra-export refusal
+        fake["wasm"] = crafted_module(names)
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 3
+>       with pytest.raises(HC.HookcError, match="other than exactly"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'other than exactly'
+E         Actual message: "built module exports functions other than hook/cbak: ['cbak ']"
+
+tests/test_rt_round3.py:347: AssertionError
+----------------------------- Captured stderr call -----------------------------
+UNVERIFIED: build error: built module exports functions other than hook/cbak: ['cbak ']
+_____________ test_guard_01_duplicate_function_export_name_refused _____________
+
+    def test_guard_01_duplicate_function_export_name_refused():
+>       with pytest.raises(HC.HookcError, match="twice"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:363: Failed
+___ test_rt3_02_xhc_clean_only_build_of_wasm_opt_c_says_wasm_opt_did_not_run ___
+
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_02_xhc_clean_only_bui0')
+
+    def test_rt3_02_xhc_clean_only_build_of_wasm_opt_c_says_wasm_opt_did_not_run(tmp_path):
+        # r3_02_wasm_opt_field.sh: a top-level wasm-opt.c put "wasm-opt" into clang's command line
+        rc, log, runs = run_pipeline("xhc-bin127", tmp_path, {"wasm-opt.c": b"int x;\n"},
+                                     CLANG_OPT="-O2", WASMOPT="-O2", STAGES="clean")
+        assert rc == 0 and runs == 0
+        assert any("wasm-opt.c" in c for c in HC._log_commands(log))  # the substring trap is present
+        d = HC.make_metadata(HC.normalize_decls({})[0], rd("tiny.wasm"), None, "r", "xhc-bin127", None,
+                             {"CLANG_OPT": "-O2", "STAGES": "clean", "WASMOPT": "-O2"}, log, {}, ["linux/amd64"])
+>       assert d["builder"]["wasm_opt"] is False
+E       assert True is False
+
+tests/test_rt_round3.py:424: AssertionError
+___ test_rt3_02_xhc_flag_follows_the_stage_that_executed[opt,clean--O2-True] ___
+
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_02_xhc_flag_follows_t0')
+stages = 'opt,clean', wasmopt = '-O2', ran = True
+
+    @pytest.mark.parametrize("stages,wasmopt,ran", [("opt,clean", "-O2", True), ("clean,opt", "builder2025", True),
+                                                    ("opt,clean", "none", False), ("clean", "-O2", False),
+                                                    ("opt,clean,opt", "-O2", True)])
+    def test_rt3_02_xhc_flag_follows_the_stage_that_executed(tmp_path, stages, wasmopt, ran):
+        rc, log, runs = run_pipeline("xhc-bin127", tmp_path, {"hook.c": b"int x;\n"},
+                                     CLANG_OPT="-O2", WASMOPT=wasmopt, STAGES=stages)
+>       assert rc == 0 and (runs > 0) is ran and HC.wasm_opt_ran(log) is ran
+                                                 ^^^^^^^^^^^^^^^
+E       AttributeError: module 'hook_repro.hookc' has no attribute 'wasm_opt_ran'
+
+tests/test_rt_round3.py:433: AttributeError
+_ test_rt3_02_xhc_flag_follows_the_stage_that_executed[clean,opt-builder2025-True] _
+
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_02_xhc_flag_follows_t1')
+stages = 'clean,opt', wasmopt = 'builder2025', ran = True
+
+    @pytest.mark.parametrize("stages,wasmopt,ran", [("opt,clean", "-O2", True), ("clean,opt", "builder2025", True),
+                                                    ("opt,clean", "none", False), ("clean", "-O2", False),
+                                                    ("opt,clean,opt", "-O2", True)])
+    def test_rt3_02_xhc_flag_follows_the_stage_that_executed(tmp_path, stages, wasmopt, ran):
+        rc, log, runs = run_pipeline("xhc-bin127", tmp_path, {"hook.c": b"int x;\n"},
+                                     CLANG_OPT="-O2", WASMOPT=wasmopt, STAGES=stages)
+>       assert rc == 0 and (runs > 0) is ran and HC.wasm_opt_ran(log) is ran
+                                                 ^^^^^^^^^^^^^^^
+E       AttributeError: module 'hook_repro.hookc' has no attribute 'wasm_opt_ran'
+
+tests/test_rt_round3.py:433: AttributeError
+__ test_rt3_02_xhc_flag_follows_the_stage_that_executed[opt,clean-none-False] __
+
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_02_xhc_flag_follows_t2')
+stages = 'opt,clean', wasmopt = 'none', ran = False
+
+    @pytest.mark.parametrize("stages,wasmopt,ran", [("opt,clean", "-O2", True), ("clean,opt", "builder2025", True),
+                                                    ("opt,clean", "none", False), ("clean", "-O2", False),
+                                                    ("opt,clean,opt", "-O2", True)])
+    def test_rt3_02_xhc_flag_follows_the_stage_that_executed(tmp_path, stages, wasmopt, ran):
+        rc, log, runs = run_pipeline("xhc-bin127", tmp_path, {"hook.c": b"int x;\n"},
+                                     CLANG_OPT="-O2", WASMOPT=wasmopt, STAGES=stages)
+>       assert rc == 0 and (runs > 0) is ran and HC.wasm_opt_ran(log) is ran
+                                                 ^^^^^^^^^^^^^^^
+E       AttributeError: module 'hook_repro.hookc' has no attribute 'wasm_opt_ran'
+
+tests/test_rt_round3.py:433: AttributeError
+____ test_rt3_02_xhc_flag_follows_the_stage_that_executed[clean--O2-False] _____
+
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_02_xhc_flag_follows_t3')
+stages = 'clean', wasmopt = '-O2', ran = False
+
+    @pytest.mark.parametrize("stages,wasmopt,ran", [("opt,clean", "-O2", True), ("clean,opt", "builder2025", True),
+                                                    ("opt,clean", "none", False), ("clean", "-O2", False),
+                                                    ("opt,clean,opt", "-O2", True)])
+    def test_rt3_02_xhc_flag_follows_the_stage_that_executed(tmp_path, stages, wasmopt, ran):
+        rc, log, runs = run_pipeline("xhc-bin127", tmp_path, {"hook.c": b"int x;\n"},
+                                     CLANG_OPT="-O2", WASMOPT=wasmopt, STAGES=stages)
+>       assert rc == 0 and (runs > 0) is ran and HC.wasm_opt_ran(log) is ran
+                                                 ^^^^^^^^^^^^^^^
+E       AttributeError: module 'hook_repro.hookc' has no attribute 'wasm_opt_ran'
+
+tests/test_rt_round3.py:433: AttributeError
+_ test_rt3_02_xhc_flag_follows_the_stage_that_executed[opt,clean,opt--O2-True] _
+
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_02_xhc_flag_follows_t4')
+stages = 'opt,clean,opt', wasmopt = '-O2', ran = True
+
+    @pytest.mark.parametrize("stages,wasmopt,ran", [("opt,clean", "-O2", True), ("clean,opt", "builder2025", True),
+                                                    ("opt,clean", "none", False), ("clean", "-O2", False),
+                                                    ("opt,clean,opt", "-O2", True)])
+    def test_rt3_02_xhc_flag_follows_the_stage_that_executed(tmp_path, stages, wasmopt, ran):
+        rc, log, runs = run_pipeline("xhc-bin127", tmp_path, {"hook.c": b"int x;\n"},
+                                     CLANG_OPT="-O2", WASMOPT=wasmopt, STAGES=stages)
+>       assert rc == 0 and (runs > 0) is ran and HC.wasm_opt_ran(log) is ran
+                                                 ^^^^^^^^^^^^^^^
+E       AttributeError: module 'hook_repro.hookc' has no attribute 'wasm_opt_ran'
+
+tests/test_rt_round3.py:433: AttributeError
+_________ test_rt3_02_llvm_pipelines_state_wasm_opt_ran[hookc-llvm22] __________
+
+recipe = 'hookc-llvm22'
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_02_llvm_pipelines_sta0')
+
+    @pytest.mark.parametrize("recipe", C_PIPELINES[:4])
+    def test_rt3_02_llvm_pipelines_state_wasm_opt_ran(recipe, tmp_path):
+        rc, log, runs = run_pipeline(recipe, tmp_path, {"wasm-opt.c": b"int x;\n"})
+>       assert rc == 0 and runs == 1 and HC.wasm_opt_ran(log) is True
+                                         ^^^^^^^^^^^^^^^
+E       AttributeError: module 'hook_repro.hookc' has no attribute 'wasm_opt_ran'
+
+tests/test_rt_round3.py:439: AttributeError
+______ test_rt3_02_llvm_pipelines_state_wasm_opt_ran[hookc-llvm22-amd64] _______
+
+recipe = 'hookc-llvm22-amd64'
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_02_llvm_pipelines_sta1')
+
+    @pytest.mark.parametrize("recipe", C_PIPELINES[:4])
+    def test_rt3_02_llvm_pipelines_state_wasm_opt_ran(recipe, tmp_path):
+        rc, log, runs = run_pipeline(recipe, tmp_path, {"wasm-opt.c": b"int x;\n"})
+>       assert rc == 0 and runs == 1 and HC.wasm_opt_ran(log) is True
+                                         ^^^^^^^^^^^^^^^
+E       AttributeError: module 'hook_repro.hookc' has no attribute 'wasm_opt_ran'
+
+tests/test_rt_round3.py:439: AttributeError
+__________ test_rt3_02_llvm_pipelines_state_wasm_opt_ran[kvt-llvm22] ___________
+
+recipe = 'kvt-llvm22'
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_02_llvm_pipelines_sta2')
+
+    @pytest.mark.parametrize("recipe", C_PIPELINES[:4])
+    def test_rt3_02_llvm_pipelines_state_wasm_opt_ran(recipe, tmp_path):
+        rc, log, runs = run_pipeline(recipe, tmp_path, {"wasm-opt.c": b"int x;\n"})
+>       assert rc == 0 and runs == 1 and HC.wasm_opt_ran(log) is True
+                                         ^^^^^^^^^^^^^^^
+E       AttributeError: module 'hook_repro.hookc' has no attribute 'wasm_opt_ran'
+
+tests/test_rt_round3.py:439: AttributeError
+_______ test_rt3_02_llvm_pipelines_state_wasm_opt_ran[kvt-llvm22-amd64] ________
+
+recipe = 'kvt-llvm22-amd64'
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_02_llvm_pipelines_sta3')
+
+    @pytest.mark.parametrize("recipe", C_PIPELINES[:4])
+    def test_rt3_02_llvm_pipelines_state_wasm_opt_ran(recipe, tmp_path):
+        rc, log, runs = run_pipeline(recipe, tmp_path, {"wasm-opt.c": b"int x;\n"})
+>       assert rc == 0 and runs == 1 and HC.wasm_opt_ran(log) is True
+                                         ^^^^^^^^^^^^^^^
+E       AttributeError: module 'hook_repro.hookc' has no attribute 'wasm_opt_ran'
+
+tests/test_rt_round3.py:439: AttributeError
+___________ test_rt3_02_missing_repeated_or_malformed_flag_refused[] ___________
+
+log = ''
+
+    @pytest.mark.parametrize("log", ["", "--- commands\nHOOKC_WASM_OPT_RAN=1\n", "HOOKC_WASM_OPT_RAN=1\nHOOKC_WASM_OPT_RAN=1\n",
+                                     "HOOKC_WASM_OPT_RAN=2\n", "HOOKC_WASM_OPT_RAN=1 \n", "HOOKC_WASM_OPT_RAN=yes\n",
+                                     "HOOKC_WASM_OPT_RAN=0\nHOOKC_WASM_OPT_RAN=1\n"])
+    def test_rt3_02_missing_repeated_or_malformed_flag_refused(log):
+>       with pytest.raises(HC.HookcError, match="HOOKC_WASM_OPT_RAN"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:454: Failed
+_ test_rt3_02_missing_repeated_or_malformed_flag_refused[--- commands\nHOOKC_WASM_OPT_RAN=1\n] _
+
+log = '--- commands\nHOOKC_WASM_OPT_RAN=1\n'
+
+    @pytest.mark.parametrize("log", ["", "--- commands\nHOOKC_WASM_OPT_RAN=1\n", "HOOKC_WASM_OPT_RAN=1\nHOOKC_WASM_OPT_RAN=1\n",
+                                     "HOOKC_WASM_OPT_RAN=2\n", "HOOKC_WASM_OPT_RAN=1 \n", "HOOKC_WASM_OPT_RAN=yes\n",
+                                     "HOOKC_WASM_OPT_RAN=0\nHOOKC_WASM_OPT_RAN=1\n"])
+    def test_rt3_02_missing_repeated_or_malformed_flag_refused(log):
+>       with pytest.raises(HC.HookcError, match="HOOKC_WASM_OPT_RAN"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:454: Failed
+_ test_rt3_02_missing_repeated_or_malformed_flag_refused[HOOKC_WASM_OPT_RAN=1\nHOOKC_WASM_OPT_RAN=1\n] _
+
+log = 'HOOKC_WASM_OPT_RAN=1\nHOOKC_WASM_OPT_RAN=1\n'
+
+    @pytest.mark.parametrize("log", ["", "--- commands\nHOOKC_WASM_OPT_RAN=1\n", "HOOKC_WASM_OPT_RAN=1\nHOOKC_WASM_OPT_RAN=1\n",
+                                     "HOOKC_WASM_OPT_RAN=2\n", "HOOKC_WASM_OPT_RAN=1 \n", "HOOKC_WASM_OPT_RAN=yes\n",
+                                     "HOOKC_WASM_OPT_RAN=0\nHOOKC_WASM_OPT_RAN=1\n"])
+    def test_rt3_02_missing_repeated_or_malformed_flag_refused(log):
+>       with pytest.raises(HC.HookcError, match="HOOKC_WASM_OPT_RAN"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:454: Failed
+_ test_rt3_02_missing_repeated_or_malformed_flag_refused[HOOKC_WASM_OPT_RAN=2\n] _
+
+log = 'HOOKC_WASM_OPT_RAN=2\n'
+
+    @pytest.mark.parametrize("log", ["", "--- commands\nHOOKC_WASM_OPT_RAN=1\n", "HOOKC_WASM_OPT_RAN=1\nHOOKC_WASM_OPT_RAN=1\n",
+                                     "HOOKC_WASM_OPT_RAN=2\n", "HOOKC_WASM_OPT_RAN=1 \n", "HOOKC_WASM_OPT_RAN=yes\n",
+                                     "HOOKC_WASM_OPT_RAN=0\nHOOKC_WASM_OPT_RAN=1\n"])
+    def test_rt3_02_missing_repeated_or_malformed_flag_refused(log):
+>       with pytest.raises(HC.HookcError, match="HOOKC_WASM_OPT_RAN"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:454: Failed
+_ test_rt3_02_missing_repeated_or_malformed_flag_refused[HOOKC_WASM_OPT_RAN=1 \n] _
+
+log = 'HOOKC_WASM_OPT_RAN=1 \n'
+
+    @pytest.mark.parametrize("log", ["", "--- commands\nHOOKC_WASM_OPT_RAN=1\n", "HOOKC_WASM_OPT_RAN=1\nHOOKC_WASM_OPT_RAN=1\n",
+                                     "HOOKC_WASM_OPT_RAN=2\n", "HOOKC_WASM_OPT_RAN=1 \n", "HOOKC_WASM_OPT_RAN=yes\n",
+                                     "HOOKC_WASM_OPT_RAN=0\nHOOKC_WASM_OPT_RAN=1\n"])
+    def test_rt3_02_missing_repeated_or_malformed_flag_refused(log):
+>       with pytest.raises(HC.HookcError, match="HOOKC_WASM_OPT_RAN"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:454: Failed
+_ test_rt3_02_missing_repeated_or_malformed_flag_refused[HOOKC_WASM_OPT_RAN=yes\n] _
+
+log = 'HOOKC_WASM_OPT_RAN=yes\n'
+
+    @pytest.mark.parametrize("log", ["", "--- commands\nHOOKC_WASM_OPT_RAN=1\n", "HOOKC_WASM_OPT_RAN=1\nHOOKC_WASM_OPT_RAN=1\n",
+                                     "HOOKC_WASM_OPT_RAN=2\n", "HOOKC_WASM_OPT_RAN=1 \n", "HOOKC_WASM_OPT_RAN=yes\n",
+                                     "HOOKC_WASM_OPT_RAN=0\nHOOKC_WASM_OPT_RAN=1\n"])
+    def test_rt3_02_missing_repeated_or_malformed_flag_refused(log):
+>       with pytest.raises(HC.HookcError, match="HOOKC_WASM_OPT_RAN"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:454: Failed
+_ test_rt3_02_missing_repeated_or_malformed_flag_refused[HOOKC_WASM_OPT_RAN=0\nHOOKC_WASM_OPT_RAN=1\n] _
+
+log = 'HOOKC_WASM_OPT_RAN=0\nHOOKC_WASM_OPT_RAN=1\n'
+
+    @pytest.mark.parametrize("log", ["", "--- commands\nHOOKC_WASM_OPT_RAN=1\n", "HOOKC_WASM_OPT_RAN=1\nHOOKC_WASM_OPT_RAN=1\n",
+                                     "HOOKC_WASM_OPT_RAN=2\n", "HOOKC_WASM_OPT_RAN=1 \n", "HOOKC_WASM_OPT_RAN=yes\n",
+                                     "HOOKC_WASM_OPT_RAN=0\nHOOKC_WASM_OPT_RAN=1\n"])
+    def test_rt3_02_missing_repeated_or_malformed_flag_refused(log):
+>       with pytest.raises(HC.HookcError, match="HOOKC_WASM_OPT_RAN"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:454: Failed
+__________________________ test_guard_02_flag_values ___________________________
+
+    def test_guard_02_flag_values():
+>       assert HC.wasm_opt_ran("a: b\nHOOKC_WASM_OPT_RAN=0\n--- commands\nwasm-opt -O2\n") is False
+               ^^^^^^^^^^^^^^^
+E       AttributeError: module 'hook_repro.hookc' has no attribute 'wasm_opt_ran'
+
+tests/test_rt_round3.py:461: AttributeError
+_ test_rt3_03_verify_restricted_to_one_twin_says_platforms_built_not_rechecked _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-794d82c4b0b4', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-e45adfdf803c', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_03_verify_restricted_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10775fd90>
+
+    def test_rt3_03_verify_restricted_to_one_twin_says_platforms_built_not_rechecked(sim, tmp_path, monkeypatch):
+        # r3_03_verify_platforms_built.sh: arm64-only build, platforms_built forged to both twins,
+        # `verify --platform linux/arm64` said REPRODUCED with no word about platforms_built
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        d["builder"]["platforms_built"] = ["linux/amd64", "linux/arm64"]
+        forged = save(tmp_path / "forged.json", d)
+        h = stub_chain(monkeypatch, (tmp_path / "o" / "0.hook.wasm").read_bytes())
+        assert verify(h, forged, "--git", r, *ARM, "--out", tmp_path / "v") == 0
+        rep = load(tmp_path / "v" / "verify-report.json")
+>       assert rep["platforms_built_rechecked"] is False and rep["platforms_rebuilt"] == ["linux/arm64"]
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'platforms_built_rechecked'
+
+tests/test_rt_round3.py:482: KeyError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "EB2400BF400000250813B67934B4E4535B24F20048A3FA8822DC7A77DE39CA43",
+  "size": 105,
+  "sha256": "008ab05d44aa1a583115b44289f01ef9c113e694561bb9da0933140d0211fcea",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "13690d4f8f10a788e9824f020ef4fe0547f928dd",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+VERDICT: REPRODUCED
+reason:  rebuild is byte-identical to on-ledger CreateCode (SHA512Half EB2400BF400000250813B67934B4E4535B24F20048A3FA8822DC7A77DE39CA43); sidecar regenerated byte-identical; HookDefinition Fee equal to the sidecar (enforced); HookCallbackFee not compared (absent on one side); informational: HookOn not compared, HookCanEmit not compared
+hookhash EB2400BF400000250813B67934B4E4535B24F20048A3FA8822DC7A77DE39CA43  network xahau-mainnet  recipe hookc-llvm22 preset deploy params {'ENTRY': ''}
+  read https://xahau.network              node n9STUB.netwo.. ledger 100 ABABABABABABABAB.. size 105 sha512half EB2400BF40000025
+  read https://cluster.cbotlabs.xyz       node n9STUBlabs.x.. ledger 100 ABABABABABABABAB.. size 105 sha512half EB2400BF40000025
+  build1 size 105 sha512half EB2400BF40000025 recipe 69dee2a756c3baf9 src eb1e3db374654a74
+  build2 size 105 sha512half EB2400BF40000025 recipe 69dee2a756c3baf9 src eb1e3db374654a74
+  definition Fee             metadata WCE.hook    match (enforced)    20 vs 20
+  definition HookCallbackFee metadata WCE.cbak    n/a   (enforced)    None vs 0
+  definition HookOn          metadata HookOn      n/a   (informative) None vs None
+  definition HookCanEmit     metadata HookCanEmit n/a   (informative) None vs None
+report: <tmp>/pytest-of-user/pytest-35289/test_rt3_03_verify_restricted_0/v/verify-report.json
+_____ test_rt3_03_verify_rebuilds_every_twin_in_platforms_built_by_default _____
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-amd64-2266619aef09', '--network', ...], 'out_bef...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-ea0b242c5905', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_03_verify_rebuilds_ev0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10775ef20>
+
+    def test_rt3_03_verify_rebuilds_every_twin_in_platforms_built_by_default(sim, tmp_path, monkeypatch):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, "--toolchain", "hookc-llvm22", "--out", tmp_path / "o") == 0
+        m = str(tmp_path / "o" / "0.hook.metadata.json")
+        h = stub_chain(monkeypatch, (tmp_path / "o" / "0.hook.wasm").read_bytes())
+        n = len(sim)
+        assert verify(h, m, "--git", r, "--out", tmp_path / "v") == 0
+>       assert verify_runs(sim, n) == ["linux/amd64"] * 2 + ["linux/arm64"] * 2  # both twins, twice each
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert ['linux/arm64', 'linux/arm64'] == ['linux/amd64...'linux/arm64']
+E         
+E         At index 0 diff: 'linux/arm64' != 'linux/amd64'
+E         Right contains 2 more items, first extra item: 'linux/arm64'
+E         Use -v to get more diff
+
+tests/test_rt_round3.py:493: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "EB2400BF400000250813B67934B4E4535B24F20048A3FA8822DC7A77DE39CA43",
+  "size": 105,
+  "sha256": "008ab05d44aa1a583115b44289f01ef9c113e694561bb9da0933140d0211fcea",
+  "platforms": {
+    "linux/amd64": {
+      "recipe": "hookc-llvm22-amd64",
+      "recipe_digest": "ad08bd47ec5d52cdbbf74cca95d87570c1e2749d9e27dabfb1fb8c90dee6ff73",
+      "image_id": "sha256:sim-linux/amd64",
+      "builds_identical": true
+    },
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "13690d4f8f10a788e9824f020ef4fe0547f928dd",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+VERDICT: REPRODUCED
+reason:  rebuild is byte-identical to on-ledger CreateCode (SHA512Half EB2400BF400000250813B67934B4E4535B24F20048A3FA8822DC7A77DE39CA43); sidecar regenerated byte-identical; HookDefinition Fee equal to the sidecar (enforced); HookCallbackFee not compared (absent on one side); informational: HookOn not compared, HookCanEmit not compared
+hookhash EB2400BF400000250813B67934B4E4535B24F20048A3FA8822DC7A77DE39CA43  network xahau-mainnet  recipe hookc-llvm22 preset deploy params {'ENTRY': ''}
+  read https://xahau.network              node n9STUB.netwo.. ledger 100 ABABABABABABABAB.. size 105 sha512half EB2400BF40000025
+  read https://cluster.cbotlabs.xyz       node n9STUBlabs.x.. ledger 100 ABABABABABABABAB.. size 105 sha512half EB2400BF40000025
+  build1 size 105 sha512half EB2400BF40000025 recipe 69dee2a756c3baf9 src eb1e3db374654a74
+  build2 size 105 sha512half EB2400BF40000025 recipe 69dee2a756c3baf9 src eb1e3db374654a74
+  definition Fee             metadata WCE.hook    match (enforced)    20 vs 20
+  definition HookCallbackFee metadata WCE.cbak    n/a   (enforced)    None vs 0
+  definition HookOn          metadata HookOn      n/a   (informative) None vs None
+  definition HookCanEmit     metadata HookCanEmit n/a   (informative) None vs None
+report: <tmp>/pytest-of-user/pytest-35289/test_rt3_03_verify_rebuilds_ev0/v/verify-report.json
+_ test_rt3_05_single_twin_build_whose_other_twin_diverges_is_reported[linux/arm64-linux/amd64] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-amd64-e81c19368dc7', '--network', ...], 'out_bef... ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-3d46d6be4a8d', '--network', ...], 'out_before': []}, ...]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_single_twin_build_0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x10775d010>
+built = 'linux/arm64', other = 'linux/amd64'
+
+    @pytest.mark.parametrize("built,other", [("linux/arm64", "linux/amd64"), ("linux/amd64", "linux/arm64")])
+    def test_rt3_05_single_twin_build_whose_other_twin_diverges_is_reported(sim, tmp_path, monkeypatch, built, other):
+        # r3_05_twin_divergence.sh: the twins build different bytes (per-arch jail root); an arm64-only
+        # build + forged platforms_built passed `verify` (one twin, no re-check, no caveat)
+        r = mkrepo(tmp_path / "repo", {"hook.c": PROBE_ARCH})
+        assert hookc("build", "--git", r, "--toolchain", "hookc-llvm22", "--out", tmp_path / "all") == 3
+        assert hookc("build", "--git", r, "--toolchain", "hookc-llvm22", "--platform", built, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        d["builder"]["platforms_built"] = ["linux/amd64", "linux/arm64"]
+        forged = save(tmp_path / "forged.json", d)
+        assert repro(forged, r) == 2                                              # reproduce: every claimed twin
+        h = stub_chain(monkeypatch, (tmp_path / "o" / "0.hook.wasm").read_bytes())
+>       assert verify(h, forged, "--git", r, "--out", tmp_path / "v") == 2         # verify: every claimed twin
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: assert 0 == 2
+E        +  where 0 = verify('9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190', '<tmp>/pytest-of-user/pytest-35289/test_rt3_05_single_twin_build_0/forged.json', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_single_twin_build_0/repo'), '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_single_twin_build_0') / 'v'))
+
+tests/test_rt_round3.py:518: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190",
+  "size": 105,
+  "sha256": "97f980aec07e3d9ab07fe6979a9aa9e2746cf077668e0987bd8ee2a2fbeda366",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "9affe3d07f9210be68ebb29014d4d1a7d96b5a5a",
+      "path": "",
+      "tree": "8e891ae017a2e762c2f48b8a05489e835e5d8397",
+      "dirty": false
+    },
+    "tree_sha256": "6b4ddc563e9bca24a6aca70a0020e13dcf2cc95ec229cec379a9618a0689086a",
+    "file_count": 1,
+    "entry": null
+  }
+}
+VERDICT: MISMATCH
+reason:  rebuilt HookHash 3D928C2DE16ADB3FD4555D1CFB3AA1622887CFBC8188CA72B822FED9027D0CBD (linux/amd64) != metadata HookHash 9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190
+VERDICT: REPRODUCED
+reason:  rebuild is byte-identical to on-ledger CreateCode (SHA512Half 9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190); sidecar regenerated byte-identical; HookDefinition Fee equal to the sidecar (enforced); HookCallbackFee not compared (absent on one side); informational: HookOn not compared, HookCanEmit not compared
+hookhash 9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190  network xahau-mainnet  recipe hookc-llvm22 preset deploy params {'ENTRY': ''}
+  read https://xahau.network              node n9STUB.netwo.. ledger 100 ABABABABABABABAB.. size 105 sha512half 9B649D613C5DB39B
+  read https://cluster.cbotlabs.xyz       node n9STUBlabs.x.. ledger 100 ABABABABABABABAB.. size 105 sha512half 9B649D613C5DB39B
+  build1 size 105 sha512half 9B649D613C5DB39B recipe 69dee2a756c3baf9 src 6b4ddc563e9bca24
+  build2 size 105 sha512half 9B649D613C5DB39B recipe 69dee2a756c3baf9 src 6b4ddc563e9bca24
+  definition Fee             metadata WCE.hook    match (enforced)    20 vs 20
+  definition HookCallbackFee metadata WCE.cbak    n/a   (enforced)    None vs 0
+  definition HookOn          metadata HookOn      n/a   (informative) None vs None
+  definition HookCanEmit     metadata HookCanEmit n/a   (informative) None vs None
+report: <tmp>/pytest-of-user/pytest-35289/test_rt3_05_single_twin_build_0/v/verify-report.json
+----------------------------- Captured stderr call -----------------------------
+UNVERIFIED: build error: CROSS-PLATFORM MISMATCH: linux/amd64 3D928C2DE16ADB3FD4555D1CFB3AA1622887CFBC8188CA72B822FED9027D0CBD != linux/arm64 9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190
+{"identical": false, "size": {"linux/amd64": 105, "linux/arm64": 105}, "size_delta": 0, "first_diff_offset": 73, "bytes_differing": 31, "sections": [{"section": "type", "status": "same", "linux/amd64": 13, "linux/arm64": 13}, {"section": "import", "status": "same", "linux/amd64": 14, "linux/arm64": 14}, {"section": "function", "status": "same", "linux/amd64": 2, "linux/arm64": 2}, {"section": "export", "status": "same", "linux/amd64": 8, "linux/arm64": 8}, {"section": "code", "status": "same", "linux/amd64": 12, "linux/arm64": 12}, {"section": "custom:src", "status": "differs", "linux/amd64": 36, "linux/arm64": 36}], "functions": [{"index": 1, "name": "hook", "status": "same", "linux/amd64": 10, "linux/arm64": 10}], "imports_equal": true, "exports_equal": true}
+_ test_rt3_05_single_twin_build_whose_other_twin_diverges_is_reported[linux/amd64-linux/arm64] _
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-amd64-bac76b6ec396', '--network', ...], 'out_bef...ker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-amd64-c90b62369dd4', '--network', ...], 'out_before': []}, ...]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_05_single_twin_build_1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1075e3b60>
+built = 'linux/amd64', other = 'linux/arm64'
+
+    @pytest.mark.parametrize("built,other", [("linux/arm64", "linux/amd64"), ("linux/amd64", "linux/arm64")])
+    def test_rt3_05_single_twin_build_whose_other_twin_diverges_is_reported(sim, tmp_path, monkeypatch, built, other):
+        # r3_05_twin_divergence.sh: the twins build different bytes (per-arch jail root); an arm64-only
+        # build + forged platforms_built passed `verify` (one twin, no re-check, no caveat)
+        r = mkrepo(tmp_path / "repo", {"hook.c": PROBE_ARCH})
+        assert hookc("build", "--git", r, "--toolchain", "hookc-llvm22", "--out", tmp_path / "all") == 3
+        assert hookc("build", "--git", r, "--toolchain", "hookc-llvm22", "--platform", built, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        d["builder"]["platforms_built"] = ["linux/amd64", "linux/arm64"]
+        forged = save(tmp_path / "forged.json", d)
+        assert repro(forged, r) == 2                                              # reproduce: every claimed twin
+        h = stub_chain(monkeypatch, (tmp_path / "o" / "0.hook.wasm").read_bytes())
+        assert verify(h, forged, "--git", r, "--out", tmp_path / "v") == 2         # verify: every claimed twin
+        rep = load(tmp_path / "v" / "verify-report.json")
+>       assert rep["verdict"] == "MISMATCH" and "(%s twin)" % other in rep["reason"]
+E       AssertionError: assert ('MISMATCH' == 'MISMATCH'
+E         
+E           MISMATCH and ('(%s twin)' % 'linux/arm64') in 'deterministic rebuild 9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190 differs from on-ledger 3D928C2DE16ADB3FD4555D1CFB3AA1622887CFBC8188CA72B822FED9027D0CBD')
+
+tests/test_rt_round3.py:520: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "3D928C2DE16ADB3FD4555D1CFB3AA1622887CFBC8188CA72B822FED9027D0CBD",
+  "size": 105,
+  "sha256": "e758de14edf95fe5a4d61149d061aba20fa7ebe98375da1919af58e14874a1e0",
+  "platforms": {
+    "linux/amd64": {
+      "recipe": "hookc-llvm22-amd64",
+      "recipe_digest": "ad08bd47ec5d52cdbbf74cca95d87570c1e2749d9e27dabfb1fb8c90dee6ff73",
+      "image_id": "sha256:sim-linux/amd64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "9affe3d07f9210be68ebb29014d4d1a7d96b5a5a",
+      "path": "",
+      "tree": "8e891ae017a2e762c2f48b8a05489e835e5d8397",
+      "dirty": false
+    },
+    "tree_sha256": "6b4ddc563e9bca24a6aca70a0020e13dcf2cc95ec229cec379a9618a0689086a",
+    "file_count": 1,
+    "entry": null
+  }
+}
+VERDICT: MISMATCH
+reason:  rebuilt HookHash 9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190 (linux/arm64) != metadata HookHash 3D928C2DE16ADB3FD4555D1CFB3AA1622887CFBC8188CA72B822FED9027D0CBD
+VERDICT: MISMATCH
+reason:  deterministic rebuild 9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190 differs from on-ledger 3D928C2DE16ADB3FD4555D1CFB3AA1622887CFBC8188CA72B822FED9027D0CBD
+hookhash 3D928C2DE16ADB3FD4555D1CFB3AA1622887CFBC8188CA72B822FED9027D0CBD  network xahau-mainnet  recipe hookc-llvm22 preset deploy params {'ENTRY': ''}
+  read https://xahau.network              node n9STUB.netwo.. ledger 100 ABABABABABABABAB.. size 105 sha512half 3D928C2DE16ADB3F
+  read https://cluster.cbotlabs.xyz       node n9STUBlabs.x.. ledger 100 ABABABABABABABAB.. size 105 sha512half 3D928C2DE16ADB3F
+  build1 size 105 sha512half 9B649D613C5DB39B recipe 69dee2a756c3baf9 src 6b4ddc563e9bca24
+  build2 size 105 sha512half 9B649D613C5DB39B recipe 69dee2a756c3baf9 src 6b4ddc563e9bca24
+size: on_ledger=105 B, rebuilt=105 B (delta +0)
+first differing byte offset: 73
+bytes differing (same length): 31
+  section custom:src     differs            on_ledger=36 rebuilt=36
+report: <tmp>/pytest-of-user/pytest-35289/test_rt3_05_single_twin_build_1/v/verify-report.json
+----------------------------- Captured stderr call -----------------------------
+UNVERIFIED: build error: CROSS-PLATFORM MISMATCH: linux/amd64 3D928C2DE16ADB3FD4555D1CFB3AA1622887CFBC8188CA72B822FED9027D0CBD != linux/arm64 9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190
+{"identical": false, "size": {"linux/amd64": 105, "linux/arm64": 105}, "size_delta": 0, "first_diff_offset": 73, "bytes_differing": 31, "sections": [{"section": "type", "status": "same", "linux/amd64": 13, "linux/arm64": 13}, {"section": "import", "status": "same", "linux/amd64": 14, "linux/arm64": 14}, {"section": "function", "status": "same", "linux/amd64": 2, "linux/arm64": 2}, {"section": "export", "status": "same", "linux/amd64": 8, "linux/arm64": 8}, {"section": "code", "status": "same", "linux/amd64": 12, "linux/arm64": 12}, {"section": "custom:src", "status": "differs", "linux/amd64": 36, "linux/arm64": 36}], "functions": [{"index": 1, "name": "hook", "status": "same", "linux/amd64": 10, "linux/arm64": 10}], "imports_equal": true, "exports_equal": true}
+_________ test_guard_05_honest_single_twin_sidecar_verifies_rechecked __________
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-4cdbdc7a3127', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-ae8091f06ded', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_guard_05_honest_single_tw0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1075e2270>
+
+    def test_guard_05_honest_single_twin_sidecar_verifies_rechecked(sim, tmp_path, monkeypatch):
+        r = mkrepo(tmp_path / "repo", {"hook.c": PROBE_ARCH})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        h = stub_chain(monkeypatch, (tmp_path / "o" / "0.hook.wasm").read_bytes())
+        n = len(sim)
+        assert verify(h, str(tmp_path / "o" / "0.hook.metadata.json"), "--git", r, "--out", tmp_path / "v") == 0
+        assert verify_runs(sim, n) == ["linux/arm64"] * 2
+>       assert load(tmp_path / "v" / "verify-report.json")["platforms_built_rechecked"] is True
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'platforms_built_rechecked'
+
+tests/test_rt_round3.py:534: KeyError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190",
+  "size": 105,
+  "sha256": "97f980aec07e3d9ab07fe6979a9aa9e2746cf077668e0987bd8ee2a2fbeda366",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "fee71e9dd6f4a56625689c9d68961f00f3f75e56",
+      "path": "",
+      "tree": "8e891ae017a2e762c2f48b8a05489e835e5d8397",
+      "dirty": false
+    },
+    "tree_sha256": "6b4ddc563e9bca24a6aca70a0020e13dcf2cc95ec229cec379a9618a0689086a",
+    "file_count": 1,
+    "entry": null
+  }
+}
+VERDICT: REPRODUCED
+reason:  rebuild is byte-identical to on-ledger CreateCode (SHA512Half 9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190); sidecar regenerated byte-identical; HookDefinition Fee equal to the sidecar (enforced); HookCallbackFee not compared (absent on one side); informational: HookOn not compared, HookCanEmit not compared
+hookhash 9B649D613C5DB39BC0FC438810FF215B9389B80403D82B382F68B763F9EC8190  network xahau-mainnet  recipe hookc-llvm22 preset deploy params {'ENTRY': ''}
+  read https://xahau.network              node n9STUB.netwo.. ledger 100 ABABABABABABABAB.. size 105 sha512half 9B649D613C5DB39B
+  read https://cluster.cbotlabs.xyz       node n9STUBlabs.x.. ledger 100 ABABABABABABABAB.. size 105 sha512half 9B649D613C5DB39B
+  build1 size 105 sha512half 9B649D613C5DB39B recipe 69dee2a756c3baf9 src 6b4ddc563e9bca24
+  build2 size 105 sha512half 9B649D613C5DB39B recipe 69dee2a756c3baf9 src 6b4ddc563e9bca24
+  definition Fee             metadata WCE.hook    match (enforced)    20 vs 20
+  definition HookCallbackFee metadata WCE.cbak    n/a   (enforced)    None vs 0
+  definition HookOn          metadata HookOn      n/a   (informative) None vs None
+  definition HookCanEmit     metadata HookCanEmit n/a   (informative) None vs None
+report: <tmp>/pytest-of-user/pytest-35289/test_guard_05_honest_single_tw0/v/verify-report.json
+___ test_guard_03_verify_twin_nondeterminism_and_build_failure_name_the_twin ___
+
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_guard_03_verify_twin_nond0')
+
+    def test_guard_03_verify_twin_nondeterminism_and_build_failure_name_the_twin(tmp_path):
+        from test_core import transport_from
+        from test_rt_round1 import MAIN, recorded
+        good = rd("claimreward_onledger.wasm")
+        H = sha512half(good)
+        seq = iter([good, good, good, good + b"x"])
+    
+        def builder(src, rname, params, preset, out):
+            return ({"recipe": {"digest": rname}, "image": {"image_id": "i"}, "source": {"tree_sha256": "t"},
+                     "params": {}}, next(seq))
+        twins = [("linux/amd64", "xhc-bin127"), ("linux/arm64", "other")]
+>       rep = V.verify(H, str(tmp_path), "xhc-bin127", "mainnet", transport=transport_from(recorded()), builder=builder,
+                       endpoints=MAIN, twins=twins)
+E       TypeError: verify() got an unexpected keyword argument 'twins'
+
+tests/test_rt_round3.py:548: TypeError
+______________________ test_rt3_07_unsorted_tree_refused _______________________
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_unsorted_tree_refu0/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_unsorted_tree_refu0')
+
+    def test_rt3_07_unsorted_tree_refused(objrepo, tmp_path):
+        # r3_07_git_reader_edges.py: tree [b.c, a.c] was ACCEPTED (git fsck: treeNotSorted)
+        r, a, b = objrepo
+        c = raw_commit(r, raw_tree(r, [(b"100644", b"b.c", b), (b"100644", b"a.c", a)]))
+        assert "treeNotSorted" in fsck_tree_errors(r)
+>       with pytest.raises(HC.HookcError, match="not sorted"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:604: Failed
+_____________________ test_rt3_07_tree_sorts_as_name_slash _____________________
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_tree_sorts_as_name0/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_tree_sorts_as_name0')
+
+    def test_rt3_07_tree_sorts_as_name_slash(objrepo, tmp_path):
+        # a tree `a` sorts as "a/", i.e. AFTER a blob "a.c" ('.' 0x2e < '/' 0x2f); plain byte order says before
+        r, a, b = objrepo
+        sub = raw_tree(r, [(b"100644", b"x.h", b)])
+        bad = raw_commit(r, raw_tree(r, [(b"40000", b"a", sub), (b"100644", b"a.c", a)]))
+        assert "treeNotSorted" in fsck_tree_errors(r)
+>       with pytest.raises(HC.HookcError, match="not sorted"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:615: Failed
+____________ test_guard_07_git_ordered_trees_accepted_as_fsck_does _____________
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_guard_07_git_ordered_tree0/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_guard_07_git_ordered_tree0')
+
+    def test_guard_07_git_ordered_trees_accepted_as_fsck_does(objrepo, tmp_path):
+        r, a, b = objrepo
+        sub = raw_tree(r, [(b"100644", b"x.h", b)])
+        good = raw_commit(r, raw_tree(r, [(b"100644", b"a", b), (b"100644", b"a.c", a), (b"100644", b"a0.c", b),
+                                          (b"40000", b"a0", sub), (b"40000", b"b", sub)]))
+        assert "error" not in fsck_tree_errors(r)
+        names = [n for n, _ in export(r, good, "", tmp_path)["listing"]]
+        assert names == ["a", "a.c", "a0.c", "a0/x.h", "b/x.h"]
+        wrong = raw_commit(r, raw_tree(r, [(b"100644", b"a0.c", b), (b"40000", b"a0", sub), (b"100644", b"a.c", a)]))
+>       with pytest.raises(HC.HookcError, match="not sorted"):  # and hookc refuses what fsck refuses
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:628: Failed
+_____ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}-.git] _____
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component0/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component0')
+comp = '.git', where = '{}'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+_____ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}-.GIT] _____
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component1/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component1')
+comp = '.GIT', where = '{}'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+_____ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}-.Git] _____
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component2/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component2')
+comp = '.Git', where = '{}'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+_ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}-__pycache__] __
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component3/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component3')
+comp = '__pycache__', where = '{}'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+_ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}-.hook-repro] __
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component4/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component4')
+comp = '.hook-repro', where = '{}'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+___ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[sub/{}-.git] ___
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component5/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component5')
+comp = '.git', where = 'sub/{}'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+___ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[sub/{}-.GIT] ___
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component6/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component6')
+comp = '.GIT', where = 'sub/{}'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+___ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[sub/{}-.Git] ___
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component7/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component7')
+comp = '.Git', where = 'sub/{}'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+_ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[sub/{}-__pycache__] _
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component8/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component8')
+comp = '__pycache__', where = 'sub/{}'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+_ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[sub/{}-.hook-repro] _
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component9/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component9')
+comp = '.hook-repro', where = 'sub/{}'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+_ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}/deeper-.git] __
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component10/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component10')
+comp = '.git', where = '{}/deeper'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+_ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}/deeper-.GIT] __
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component11/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component11')
+comp = '.GIT', where = '{}/deeper'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+_ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}/deeper-.Git] __
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component12/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component12')
+comp = '.Git', where = '{}/deeper'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+_ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}/deeper-__pycache__] _
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component13/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component13')
+comp = '__pycache__', where = '{}/deeper'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+_ test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}/deeper-.hook-repro] _
+
+objrepo = (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component14/objs'), '5b982d71af273b7f4c6aed5ef4842b4de22facdc', '82ab20cc2126a31a7507ca63c8e3402e118f82fa')
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_reserved_component14')
+comp = '.hook-repro', where = '{}/deeper'
+
+    @pytest.mark.parametrize("comp", [".git", ".GIT", ".Git", "__pycache__", ".hook-repro"])
+    @pytest.mark.parametrize("where", ["{}", "sub/{}", "{}/deeper"])
+    def test_rt3_07_reserved_component_anywhere_in_vcs_path_refused(objrepo, tmp_path, comp, where):
+        # r3_07: vcs.path '.git' / '.GIT' (a tree entry named .git) was ACCEPTED
+        r, a, b = objrepo
+        path = where.format(comp)
+        t = raw_tree(r, [(b"100644", b"a.c", a)])
+        for part in reversed(path.split("/")):
+            t = raw_tree(r, [(b"40000", part.encode(), t)])
+        c = raw_commit(r, t)
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:644: Failed
+___________ test_rt3_07_sidecar_with_reserved_vcs_path_refused[.git] ___________
+
+fake = {'wasm': None, 'seen': [[('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_sidecar_with_reser0')
+path = '.git'
+
+    @pytest.mark.parametrize("path", [".git", "a/.GIT", "__pycache__/x", "x/.hook-repro"])
+    def test_rt3_07_sidecar_with_reserved_vcs_path_refused(fake, tmp_path, path):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        d["source"]["vcs"]["path"] = path
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:655: Failed
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC",
+  "size": 105,
+  "sha256": "7f0a752a5d498a44823b755afb0773ce6e1c2fa6636eee906687ae0bb562622b",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "d7f338dcede37562e42364e10fc2b87b21c23ab9",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+__________ test_rt3_07_sidecar_with_reserved_vcs_path_refused[a/.GIT] __________
+
+fake = {'wasm': None, 'seen': [[('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_sidecar_with_reser1')
+path = 'a/.GIT'
+
+    @pytest.mark.parametrize("path", [".git", "a/.GIT", "__pycache__/x", "x/.hook-repro"])
+    def test_rt3_07_sidecar_with_reserved_vcs_path_refused(fake, tmp_path, path):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        d["source"]["vcs"]["path"] = path
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:655: Failed
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC",
+  "size": 105,
+  "sha256": "7f0a752a5d498a44823b755afb0773ce6e1c2fa6636eee906687ae0bb562622b",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "cc82d21a69e94ed0a7c7ab225e52c703c936fd5f",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+______ test_rt3_07_sidecar_with_reserved_vcs_path_refused[__pycache__/x] _______
+
+fake = {'wasm': None, 'seen': [[('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_sidecar_with_reser2')
+path = '__pycache__/x'
+
+    @pytest.mark.parametrize("path", [".git", "a/.GIT", "__pycache__/x", "x/.hook-repro"])
+    def test_rt3_07_sidecar_with_reserved_vcs_path_refused(fake, tmp_path, path):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        d["source"]["vcs"]["path"] = path
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:655: Failed
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC",
+  "size": 105,
+  "sha256": "7f0a752a5d498a44823b755afb0773ce6e1c2fa6636eee906687ae0bb562622b",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "cc82d21a69e94ed0a7c7ab225e52c703c936fd5f",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+______ test_rt3_07_sidecar_with_reserved_vcs_path_refused[x/.hook-repro] _______
+
+fake = {'wasm': None, 'seen': [[('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_07_sidecar_with_reser3')
+path = 'x/.hook-repro'
+
+    @pytest.mark.parametrize("path", [".git", "a/.GIT", "__pycache__/x", "x/.hook-repro"])
+    def test_rt3_07_sidecar_with_reserved_vcs_path_refused(fake, tmp_path, path):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        d["source"]["vcs"]["path"] = path
+>       with pytest.raises(HC.HookcError, match="reserved component"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:655: Failed
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC",
+  "size": 105,
+  "sha256": "7f0a752a5d498a44823b755afb0773ce6e1c2fa6636eee906687ae0bb562622b",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "cc82d21a69e94ed0a7c7ab225e52c703c936fd5f",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+_______________ test_rt3_08_missing_reference_wasm_is_unverified _______________
+
+fake = {'wasm': None, 'seen': [[('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_08_missing_reference_0')
+capsys = <_pytest.capture.CaptureFixture object at 0x107aa86e0>
+
+    def test_rt3_08_missing_reference_wasm_is_unverified(fake, tmp_path, capsys):
+        # r3_08_crash_paths.sh (a): --wasm /nonexistent.wasm -> FileNotFoundError traceback, exit 1
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        m = str(tmp_path / "o" / "0.hook.metadata.json")
+>       assert repro(m, r, "--wasm", tmp_path / "nonexistent.wasm") == 3
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/test_rt_round3.py:667: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_rt_round3.py:121: in repro
+    return hookc("reproduce", "--metadata", m, "--git", repo, *extra)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_rt_round1.py:119: in hookc
+    return cli.main(["hookc"] + [str(a) for a in args])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hook_repro/cli.py:322: in main
+    return a.fn(a)
+           ^^^^^^^
+hook_repro/cli.py:216: in cmd_hookc_reproduce
+    rep = hookc.reproduce(a.metadata, src=a.src, git=a.git, platform=a.platform, ref_wasm=a.wasm,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+metadata_path = '<tmp>/pytest-of-user/pytest-35289/test_rt3_08_missing_reference_0/o/0.hook.metadata.json'
+src = None
+git = '<tmp>/pytest-of-user/pytest-35289/test_rt3_08_missing_reference_0/repo'
+platform = None
+ref_wasm = '<tmp>/pytest-of-user/pytest-35289/test_rt3_08_missing_reference_0/nonexistent.wasm'
+out_dir = None, with_wce = True
+log = <function cmd_hookc_reproduce.<locals>.<lambda> at 0x107a00a90>
+
+    def reproduce(metadata_path, src=None, git=None, platform=None, ref_wasm=None, out_dir=None,
+                  with_wce=True, log=print):
+        """Rebuild from metadata. Without `platform`, every twin the sidecar says was built
+        (builder.platforms_built) is rebuilt twice and they must all agree, so that claim is
+        re-checked; with `platform`, only that twin is rebuilt and platforms_built is reported as
+        the original build's record, not re-checked. Verdict REPRODUCED iff the rebuilds of the
+        git export of the sidecar's commit/path are identical, their SHA512Half is the metadata
+        HookHash, the sidecar regenerated from them is byte-identical to the given one, and (if
+        given) the reference wasm is those same bytes."""
+        meta = load_metadata_file(metadata_path)
+        rep = {"schema": "hookc/reproduce-report/v1", "metadata": os.path.basename(metadata_path),
+               "HookHash": meta["hookhash"], "verdict": "UNVERIFIED", "reason": None,
+               "platform": None, "platforms_rebuilt": [], "platforms_built_claim": meta["platforms_built"],
+               "platforms_built_rechecked": False, "rebuilt": None, "metadata_diff": [], "diff": None}
+        ref = None
+        if ref_wasm:
+>           with open(ref_wasm, "rb") as f:
+                 ^^^^^^^^^^^^^^^^^^^^
+E           FileNotFoundError: [Errno 2] No such file or directory: '<tmp>/pytest-of-user/pytest-35289/test_rt3_08_missing_reference_0/nonexistent.wasm'
+
+hook_repro/hookc.py:1116: FileNotFoundError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC",
+  "size": 105,
+  "sha256": "7f0a752a5d498a44823b755afb0773ce6e1c2fa6636eee906687ae0bb562622b",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "cc82d21a69e94ed0a7c7ab225e52c703c936fd5f",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+_____ test_rt3_08_non_object_platforms_entry_is_unverified[not-an-object] ______
+
+fake = {'wasm': None, 'seen': [[('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_08_non_object_platfor0')
+value = 'not-an-object'
+
+    @pytest.mark.parametrize("value", ["not-an-object", None, 7, ["x"]])
+    def test_rt3_08_non_object_platforms_entry_is_unverified(fake, tmp_path, value):
+        # r3_08 (b): builder.platforms["linux/arm64"] = "not-an-object" -> AttributeError traceback, exit 1
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        d["builder"]["platforms"]["linux/arm64"] = value
+        bad = save(tmp_path / "b.json", d)
+>       assert repro(bad, r) == 3
+               ^^^^^^^^^^^^^
+
+tests/test_rt_round3.py:680: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_rt_round3.py:121: in repro
+    return hookc("reproduce", "--metadata", m, "--git", repo, *extra)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_rt_round1.py:119: in hookc
+    return cli.main(["hookc"] + [str(a) for a in args])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hook_repro/cli.py:322: in main
+    return a.fn(a)
+           ^^^^^^^
+hook_repro/cli.py:216: in cmd_hookc_reproduce
+    rep = hookc.reproduce(a.metadata, src=a.src, git=a.git, platform=a.platform, ref_wasm=a.wasm,
+hook_repro/hookc.py:1122: in reproduce
+    twins = [select_platform(meta, p) for p in ([platform] if platform else meta["platforms_built"])]
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+meta = {'hookhash': '18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC', 'index': 0, 'toolchain': 'hookc-llvm22', 'preset': 'deploy', ...}
+platform = 'linux/arm64'
+
+    def select_platform(meta, platform=None):
+        """Pick the recipe for `platform` (default: first listed); the local recipe must still
+        have the digest the metadata recorded (no silent toolchain drift)."""
+        plats = meta["platforms"]
+        plat = platform or (native_platform() if native_platform() in plats else sorted(plats)[0])
+        if plat not in plats:
+            raise HookcError("metadata lists no %s twin (has: %s)" % (plat, ", ".join(sorted(plats))))
+        pin = plats[plat]
+        want = toolchain(meta["toolchain"])["platforms"].get(plat)
+>       if pin.get("recipe") != want:
+           ^^^^^^^
+E       AttributeError: 'str' object has no attribute 'get'
+
+hook_repro/hookc.py:898: AttributeError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC",
+  "size": 105,
+  "sha256": "7f0a752a5d498a44823b755afb0773ce6e1c2fa6636eee906687ae0bb562622b",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "0fd1e0d2dfadf4cdfec3145052f49de438a31f08",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+__________ test_rt3_08_non_object_platforms_entry_is_unverified[None] __________
+
+fake = {'wasm': None, 'seen': [[('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_08_non_object_platfor1')
+value = None
+
+    @pytest.mark.parametrize("value", ["not-an-object", None, 7, ["x"]])
+    def test_rt3_08_non_object_platforms_entry_is_unverified(fake, tmp_path, value):
+        # r3_08 (b): builder.platforms["linux/arm64"] = "not-an-object" -> AttributeError traceback, exit 1
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        d["builder"]["platforms"]["linux/arm64"] = value
+        bad = save(tmp_path / "b.json", d)
+>       assert repro(bad, r) == 3
+               ^^^^^^^^^^^^^
+
+tests/test_rt_round3.py:680: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_rt_round3.py:121: in repro
+    return hookc("reproduce", "--metadata", m, "--git", repo, *extra)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_rt_round1.py:119: in hookc
+    return cli.main(["hookc"] + [str(a) for a in args])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hook_repro/cli.py:322: in main
+    return a.fn(a)
+           ^^^^^^^
+hook_repro/cli.py:216: in cmd_hookc_reproduce
+    rep = hookc.reproduce(a.metadata, src=a.src, git=a.git, platform=a.platform, ref_wasm=a.wasm,
+hook_repro/hookc.py:1122: in reproduce
+    twins = [select_platform(meta, p) for p in ([platform] if platform else meta["platforms_built"])]
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+meta = {'hookhash': '18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC', 'index': 0, 'toolchain': 'hookc-llvm22', 'preset': 'deploy', ...}
+platform = 'linux/arm64'
+
+    def select_platform(meta, platform=None):
+        """Pick the recipe for `platform` (default: first listed); the local recipe must still
+        have the digest the metadata recorded (no silent toolchain drift)."""
+        plats = meta["platforms"]
+        plat = platform or (native_platform() if native_platform() in plats else sorted(plats)[0])
+        if plat not in plats:
+            raise HookcError("metadata lists no %s twin (has: %s)" % (plat, ", ".join(sorted(plats))))
+        pin = plats[plat]
+        want = toolchain(meta["toolchain"])["platforms"].get(plat)
+>       if pin.get("recipe") != want:
+           ^^^^^^^
+E       AttributeError: 'NoneType' object has no attribute 'get'
+
+hook_repro/hookc.py:898: AttributeError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC",
+  "size": 105,
+  "sha256": "7f0a752a5d498a44823b755afb0773ce6e1c2fa6636eee906687ae0bb562622b",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "0fd1e0d2dfadf4cdfec3145052f49de438a31f08",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+___________ test_rt3_08_non_object_platforms_entry_is_unverified[7] ____________
+
+fake = {'wasm': None, 'seen': [[('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_08_non_object_platfor2')
+value = 7
+
+    @pytest.mark.parametrize("value", ["not-an-object", None, 7, ["x"]])
+    def test_rt3_08_non_object_platforms_entry_is_unverified(fake, tmp_path, value):
+        # r3_08 (b): builder.platforms["linux/arm64"] = "not-an-object" -> AttributeError traceback, exit 1
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        d["builder"]["platforms"]["linux/arm64"] = value
+        bad = save(tmp_path / "b.json", d)
+>       assert repro(bad, r) == 3
+               ^^^^^^^^^^^^^
+
+tests/test_rt_round3.py:680: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_rt_round3.py:121: in repro
+    return hookc("reproduce", "--metadata", m, "--git", repo, *extra)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_rt_round1.py:119: in hookc
+    return cli.main(["hookc"] + [str(a) for a in args])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hook_repro/cli.py:322: in main
+    return a.fn(a)
+           ^^^^^^^
+hook_repro/cli.py:216: in cmd_hookc_reproduce
+    rep = hookc.reproduce(a.metadata, src=a.src, git=a.git, platform=a.platform, ref_wasm=a.wasm,
+hook_repro/hookc.py:1122: in reproduce
+    twins = [select_platform(meta, p) for p in ([platform] if platform else meta["platforms_built"])]
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+meta = {'hookhash': '18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC', 'index': 0, 'toolchain': 'hookc-llvm22', 'preset': 'deploy', ...}
+platform = 'linux/arm64'
+
+    def select_platform(meta, platform=None):
+        """Pick the recipe for `platform` (default: first listed); the local recipe must still
+        have the digest the metadata recorded (no silent toolchain drift)."""
+        plats = meta["platforms"]
+        plat = platform or (native_platform() if native_platform() in plats else sorted(plats)[0])
+        if plat not in plats:
+            raise HookcError("metadata lists no %s twin (has: %s)" % (plat, ", ".join(sorted(plats))))
+        pin = plats[plat]
+        want = toolchain(meta["toolchain"])["platforms"].get(plat)
+>       if pin.get("recipe") != want:
+           ^^^^^^^
+E       AttributeError: 'int' object has no attribute 'get'
+
+hook_repro/hookc.py:898: AttributeError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC",
+  "size": 105,
+  "sha256": "7f0a752a5d498a44823b755afb0773ce6e1c2fa6636eee906687ae0bb562622b",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "0fd1e0d2dfadf4cdfec3145052f49de438a31f08",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+_________ test_rt3_08_non_object_platforms_entry_is_unverified[value3] _________
+
+fake = {'wasm': None, 'seen': [[('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_08_non_object_platfor3')
+value = ['x']
+
+    @pytest.mark.parametrize("value", ["not-an-object", None, 7, ["x"]])
+    def test_rt3_08_non_object_platforms_entry_is_unverified(fake, tmp_path, value):
+        # r3_08 (b): builder.platforms["linux/arm64"] = "not-an-object" -> AttributeError traceback, exit 1
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        d["builder"]["platforms"]["linux/arm64"] = value
+        bad = save(tmp_path / "b.json", d)
+>       assert repro(bad, r) == 3
+               ^^^^^^^^^^^^^
+
+tests/test_rt_round3.py:680: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/test_rt_round3.py:121: in repro
+    return hookc("reproduce", "--metadata", m, "--git", repo, *extra)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/test_rt_round1.py:119: in hookc
+    return cli.main(["hookc"] + [str(a) for a in args])
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+hook_repro/cli.py:322: in main
+    return a.fn(a)
+           ^^^^^^^
+hook_repro/cli.py:216: in cmd_hookc_reproduce
+    rep = hookc.reproduce(a.metadata, src=a.src, git=a.git, platform=a.platform, ref_wasm=a.wasm,
+hook_repro/hookc.py:1122: in reproduce
+    twins = [select_platform(meta, p) for p in ([platform] if platform else meta["platforms_built"])]
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+meta = {'hookhash': '18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC', 'index': 0, 'toolchain': 'hookc-llvm22', 'preset': 'deploy', ...}
+platform = 'linux/arm64'
+
+    def select_platform(meta, platform=None):
+        """Pick the recipe for `platform` (default: first listed); the local recipe must still
+        have the digest the metadata recorded (no silent toolchain drift)."""
+        plats = meta["platforms"]
+        plat = platform or (native_platform() if native_platform() in plats else sorted(plats)[0])
+        if plat not in plats:
+            raise HookcError("metadata lists no %s twin (has: %s)" % (plat, ", ".join(sorted(plats))))
+        pin = plats[plat]
+        want = toolchain(meta["toolchain"])["platforms"].get(plat)
+>       if pin.get("recipe") != want:
+           ^^^^^^^
+E       AttributeError: 'list' object has no attribute 'get'
+
+hook_repro/hookc.py:898: AttributeError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC",
+  "size": 105,
+  "sha256": "7f0a752a5d498a44823b755afb0773ce6e1c2fa6636eee906687ae0bb562622b",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "deb0e65e17258de0ef8380c5d547a2c8eafae228",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+______ test_guard_08_platforms_must_be_exactly_the_toolchain_twins[drop] _______
+
+fake = {'wasm': None, 'seen': [[('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_guard_08_platforms_must_b0')
+change = 'drop'
+
+    @pytest.mark.parametrize("change", ["drop", "extra"])
+    def test_guard_08_platforms_must_be_exactly_the_toolchain_twins(fake, tmp_path, change):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        if change == "drop":
+            del d["builder"]["platforms"]["linux/amd64"]
+        else:
+            d["builder"]["platforms"]["linux/riscv64"] = dict(d["builder"]["platforms"]["linux/arm64"])
+>       with pytest.raises(HC.HookcError, match="exactly the toolchain's twins"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:693: Failed
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC",
+  "size": 105,
+  "sha256": "7f0a752a5d498a44823b755afb0773ce6e1c2fa6636eee906687ae0bb562622b",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "deb0e65e17258de0ef8380c5d547a2c8eafae228",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+______ test_guard_08_platforms_must_be_exactly_the_toolchain_twins[extra] ______
+
+fake = {'wasm': None, 'seen': [[('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')], [('hook.c', '55a55d23095d54ad4937f5002ab742e68eb8c36960b4321e4d380fe08c3a8b19')]]}
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_guard_08_platforms_must_b1')
+change = 'extra'
+
+    @pytest.mark.parametrize("change", ["drop", "extra"])
+    def test_guard_08_platforms_must_be_exactly_the_toolchain_twins(fake, tmp_path, change):
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        d = load(tmp_path / "o" / "0.hook.metadata.json")
+        if change == "drop":
+            del d["builder"]["platforms"]["linux/amd64"]
+        else:
+            d["builder"]["platforms"]["linux/riscv64"] = dict(d["builder"]["platforms"]["linux/arm64"])
+>       with pytest.raises(HC.HookcError, match="exactly the toolchain's twins"):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE HookcError
+
+tests/test_rt_round3.py:693: Failed
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "18C2009707AF50AC0C48E6B56E76BC1B192B3ED755A3DC69B602B4A33B6565EC",
+  "size": 105,
+  "sha256": "7f0a752a5d498a44823b755afb0773ce6e1c2fa6636eee906687ae0bb562622b",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "deb0e65e17258de0ef8380c5d547a2c8eafae228",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+___ test_rt3_09_hookcallbackfee_compared_including_absence[wce0-defn0-False] ___
+
+wce = {'hook': 20, 'cbak': 5}, defn = {'Fee': '20'}, match = False
+
+    @pytest.mark.parametrize("wce,defn,match", [
+        ({"hook": 20, "cbak": 5}, {"Fee": "20"}, False),                          # cbak > 0 but no field: MISMATCH
+        ({"hook": 20, "cbak": 0}, {"Fee": "20", "HookCallbackFee": "0"}, False),  # SetHook never writes 0
+        ({"hook": 20, "cbak": 0}, {"Fee": "20"}, True),                           # absent == WCE.cbak 0
+    ])
+    def test_rt3_09_hookcallbackfee_compared_including_absence(wce, defn, match):
+>       assert _cbak_row(wce, defn) is match
+E       AssertionError: assert None is False
+E        +  where None = _cbak_row({'hook': 20, 'cbak': 5}, {'Fee': '20'})
+
+tests/test_rt_round3.py:716: AssertionError
+___ test_rt3_09_hookcallbackfee_compared_including_absence[wce1-defn1-False] ___
+
+wce = {'hook': 20, 'cbak': 0}, defn = {'Fee': '20', 'HookCallbackFee': '0'}
+match = False
+
+    @pytest.mark.parametrize("wce,defn,match", [
+        ({"hook": 20, "cbak": 5}, {"Fee": "20"}, False),                          # cbak > 0 but no field: MISMATCH
+        ({"hook": 20, "cbak": 0}, {"Fee": "20", "HookCallbackFee": "0"}, False),  # SetHook never writes 0
+        ({"hook": 20, "cbak": 0}, {"Fee": "20"}, True),                           # absent == WCE.cbak 0
+    ])
+    def test_rt3_09_hookcallbackfee_compared_including_absence(wce, defn, match):
+>       assert _cbak_row(wce, defn) is match
+E       AssertionError: assert True is False
+E        +  where True = _cbak_row({'hook': 20, 'cbak': 0}, {'Fee': '20', 'HookCallbackFee': '0'})
+
+tests/test_rt_round3.py:716: AssertionError
+___ test_rt3_09_hookcallbackfee_compared_including_absence[wce2-defn2-True] ____
+
+wce = {'hook': 20, 'cbak': 0}, defn = {'Fee': '20'}, match = True
+
+    @pytest.mark.parametrize("wce,defn,match", [
+        ({"hook": 20, "cbak": 5}, {"Fee": "20"}, False),                          # cbak > 0 but no field: MISMATCH
+        ({"hook": 20, "cbak": 0}, {"Fee": "20", "HookCallbackFee": "0"}, False),  # SetHook never writes 0
+        ({"hook": 20, "cbak": 0}, {"Fee": "20"}, True),                           # absent == WCE.cbak 0
+    ])
+    def test_rt3_09_hookcallbackfee_compared_including_absence(wce, defn, match):
+>       assert _cbak_row(wce, defn) is match
+E       AssertionError: assert None is True
+E        +  where None = _cbak_row({'hook': 20, 'cbak': 0}, {'Fee': '20'})
+
+tests/test_rt_round3.py:716: AssertionError
+_______________ test_rt3_09_absent_fee_is_a_mismatch_not_skipped _______________
+
+    def test_rt3_09_absent_fee_is_a_mismatch_not_skipped():
+        rows = {r["definition"]: r for r in V.definition_check({"WCE": {"hook": 20, "cbak": 0}}, defn_reads())["fields"]}
+>       assert rows["Fee"]["match"] is False and rows["Fee"]["definition_value"] == "(absent)"
+E       assert (None is False)
+
+tests/test_rt_round3.py:730: AssertionError
+______________ test_guard_09_null_wce_is_not_compared_and_said_so ______________
+
+    def test_guard_09_null_wce_is_not_compared_and_said_so():
+        rows = V.definition_check({"WCE": {"hook": None, "cbak": None}}, defn_reads(Fee="20", HookCallbackFee="5"))["fields"]
+        assert [r["match"] for r in rows[:2]] == [None, None]
+>       assert "Fee/HookCallbackFee not compared (sidecar WCE is null)" in V.definition_summary(rows)
+E       AssertionError: assert 'Fee/HookCallbackFee not compared (sidecar WCE is null)' in 'no enforced HookDefinition field was compared; Fee/HookCallbackFee not compared (absent on one side); informational: HookOn not compared, HookCanEmit not compared'
+E        +  where 'no enforced HookDefinition field was compared; Fee/HookCallbackFee not compared (absent on one side); informational: HookOn not compared, HookCanEmit not compared' = <function definition_summary at 0x107641a60>([{'metadata': 'WCE.hook', 'definition': 'Fee', 'metadata_value': None, 'definition_value': '20', ...}, {'metadata': 'W... ...}, {'metadata': 'HookCanEmit', 'definition': 'HookCanEmit', 'metadata_value': None, 'definition_value': None, ...}])
+E        +    where <function definition_summary at 0x107641a60> = V.definition_summary
+
+tests/test_rt_round3.py:736: AssertionError
+_________ test_rt3_09_verify_cbak_wce_without_chain_field_is_mismatch __________
+
+sim = [{'cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-1fada7d5d5d1', '--network', ...], 'out_before': ...cmd': ['docker', 'run', '--rm', '--name', 'hook-repro-hookc-llvm22-d100b8b0904b', '--network', ...], 'out_before': []}]
+tmp_path = PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_09_verify_cbak_wce_wi0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x1079d7a10>
+
+    def test_rt3_09_verify_cbak_wce_without_chain_field_is_mismatch(sim, tmp_path, monkeypatch):
+        # end to end: the sidecar says the module has a callback costing 7; the chain's definition has none
+        monkeypatch.setattr(HC, "run_wce", lambda w, log=None: ({"hook": 20, "cbak": 7}, None))
+        r = mkrepo(tmp_path / "repo", {"hook.c": HOOK_C})
+        assert hookc("build", "--git", r, *TC_ARM, "--out", tmp_path / "o") == 0
+        m = str(tmp_path / "o" / "0.hook.metadata.json")
+        h = stub_chain(monkeypatch, (tmp_path / "o" / "0.hook.wasm").read_bytes())  # Fee 20, no HookCallbackFee
+>       assert verify(h, m, "--git", r, "--out", tmp_path / "v") == 2
+E       AssertionError: assert 0 == 2
+E        +  where 0 = verify('EB2400BF400000250813B67934B4E4535B24F20048A3FA8822DC7A77DE39CA43', '<tmp>/pytest-of-user/pytest-35289/test_rt3_09_verify_cbak_wce_wi0/o/0.hook.metadata.json', '--git', PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_09_verify_cbak_wce_wi0/repo'), '--out', (PosixPath('<tmp>/pytest-of-user/pytest-35289/test_rt3_09_verify_cbak_wce_wi0') / 'v'))
+
+tests/test_rt_round3.py:746: AssertionError
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "EB2400BF400000250813B67934B4E4535B24F20048A3FA8822DC7A77DE39CA43",
+  "size": 105,
+  "sha256": "008ab05d44aa1a583115b44289f01ef9c113e694561bb9da0933140d0211fcea",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "deb0e65e17258de0ef8380c5d547a2c8eafae228",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+VERDICT: REPRODUCED
+reason:  rebuild is byte-identical to on-ledger CreateCode (SHA512Half EB2400BF400000250813B67934B4E4535B24F20048A3FA8822DC7A77DE39CA43); sidecar regenerated byte-identical; HookDefinition Fee equal to the sidecar (enforced); HookCallbackFee not compared (absent on one side); informational: HookOn not compared, HookCanEmit not compared
+hookhash EB2400BF400000250813B67934B4E4535B24F20048A3FA8822DC7A77DE39CA43  network xahau-mainnet  recipe hookc-llvm22 preset deploy params {'ENTRY': ''}
+  read https://xahau.network              node n9STUB.netwo.. ledger 100 ABABABABABABABAB.. size 105 sha512half EB2400BF40000025
+  read https://cluster.cbotlabs.xyz       node n9STUBlabs.x.. ledger 100 ABABABABABABABAB.. size 105 sha512half EB2400BF40000025
+  build1 size 105 sha512half EB2400BF40000025 recipe 69dee2a756c3baf9 src eb1e3db374654a74
+  build2 size 105 sha512half EB2400BF40000025 recipe 69dee2a756c3baf9 src eb1e3db374654a74
+  definition Fee             metadata WCE.hook    match (enforced)    20 vs 20
+  definition HookCallbackFee metadata WCE.cbak    n/a   (enforced)    None vs 7
+  definition HookOn          metadata HookOn      n/a   (informative) None vs None
+  definition HookCanEmit     metadata HookCanEmit n/a   (informative) None vs None
+report: <tmp>/pytest-of-user/pytest-35289/test_rt3_09_verify_cbak_wce_wi0/v/verify-report.json
+==================================== PASSES ====================================
+_ test_guard_05_dotted_names_that_are_not_parent_components_accepted[#include "a..b.h"\n] _
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "CF2E7E500D7A353832DC6CDD5EF00FA3B037F397F51DD5C6D107328754ADE15E",
+  "size": 105,
+  "sha256": "797eee98a29222446368f0fd3a1c6f5012f3cf4390010462443d4a6329128970",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "16d1fab4566c3b3e37fd062d13baa3f77dfec7ad",
+      "path": "",
+      "tree": "263aec7228f9972337ad97b85a5922def28ef03f",
+      "dirty": false
+    },
+    "tree_sha256": "1350732e9fdff6e01feba17952f6186639973a54b3fceec89147aad525b77793",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_guard_05_dotted_names_that_are_not_parent_components_accepted[#include "x/..h"\n] _
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "24CF1503BF08AD8C514EA529B85384D9D64950A9E2DAFF75909D8E97A34BDDE6",
+  "size": 105,
+  "sha256": "eb24dc4010da04e7cde4a5f4d2149b12841362f9fabb614ade698281993c4f44",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "7df1d19267623ade0ecc5ad359ddfb5729db6c58",
+      "path": "",
+      "tree": "2107ddf8529dd26c80446dab8cd888171d868ce4",
+      "dirty": false
+    },
+    "tree_sha256": "21000c0ae717b20b4736f22e7c0e2acaa3cc3b3a0d2199d7971d5ae1c1ee6741",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_guard_05_dotted_names_that_are_not_parent_components_accepted[const char *p = "../x";\n] _
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "D4FB5C42BD687C43FDFC22BBBB55E6BE63E4047862CA61628A0F87DD6E44AA82",
+  "size": 105,
+  "sha256": "ac5bdc2c60bed566b66055949eec76a7602532171857cf703de4b68e27a7364a",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "b2466de987ca3d77a5f9a7333622768b74f13c8b",
+      "path": "",
+      "tree": "47f9a5b02a2b55e2beb2bdda5d0e8fbc275e218c",
+      "dirty": false
+    },
+    "tree_sha256": "8b04a32b76b0f614c7fb96b5e20762cdc75474437e75d2702afb616e86efd389",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_guard_05_dotted_names_that_are_not_parent_components_accepted[// #include "../x"\n] _
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "124DAE9D98FCD53344AEEE9D27690F52B9DB5759C14A25A9B438AD3E306E3861",
+  "size": 105,
+  "sha256": "7b028ff6d24d34e7a6cbc9263474ca9b70a65d0012c4483cfa81f8f7a668500f",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "cae02484890af50c517f433b1b713a3f80931b43",
+      "path": "",
+      "tree": "3cba71862cfc8eec2b6fabe3268ee2db660c5728",
+      "dirty": false
+    },
+    "tree_sha256": "07c77dc3c770a96eec9d6a1208adc4b3a4da253361680129eaaa0b27c9b009ec",
+    "file_count": 2,
+    "entry": null
+  }
+}
+_ test_guard_05_dotted_names_that_are_not_parent_components_accepted[#include "x.h"\n] _
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "0B6DBE3B8ECEC7F65CB31317A943F4E65011DE6F9E198913FEBFCFB3EA35E525",
+  "size": 105,
+  "sha256": "e49cfd996c63b2a0afa713e0e41d49337edd03c5a74cfbd48f1f33ee92f15992",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:sim-linux/arm64",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 20,
+    "cbak": 0
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "11cb7c367431eade3ad8ecf1621e6e13eb56fae5",
+      "path": "",
+      "tree": "1d6efc948968f615688eb02ec4a66492d162bf18",
+      "dirty": false
+    },
+    "tree_sha256": "7c289012b8a700a02b7ad3e99ec2778e719e31e8274518863596d1ec81096249",
+    "file_count": 2,
+    "entry": null
+  }
+}
+__________ test_guard_01_cbak_fn_only_for_a_real_cbak_function_export __________
+----------------------------- Captured stdout call -----------------------------
+{
+  "stem": "0.hook",
+  "HookHash": "A881647F3BAA75EB19FC741A393BCB037382748D866DAC17E10F4890363AE039",
+  "size": 53,
+  "sha256": "7241d75b5b6ebb6af970dffe73519e9ae731ee798f57f9ffccca4da6949a8ba3",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "1ab614f234ca10d9314e985f23ff47040c43b9e7",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+{
+  "stem": "0.hook",
+  "HookHash": "0545F590E84A5D327085E5186D3B00C1D723CA117D01D56673A178C35A8D9266",
+  "size": 51,
+  "sha256": "156a5c70aa642c3e043eb49b79be56236e2807219e4a6096878d37b6dbc23367",
+  "platforms": {
+    "linux/arm64": {
+      "recipe": "hookc-llvm22",
+      "recipe_digest": "69dee2a756c3baf9a57ca5b27fc86ad7d357030d43139323326352018e9d2649",
+      "image_id": "sha256:fake",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [
+    "module exports cbak but never imports emit"
+  ],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "1ab614f234ca10d9314e985f23ff47040c43b9e7",
+      "path": "",
+      "tree": "30969db243b6e623ea9102d6844ad5ce1e30d47b",
+      "dirty": false
+    },
+    "tree_sha256": "eb1e3db374654a74519ebc0786d379914d93b2d96af05dcea618cee3643db842",
+    "file_count": 1,
+    "entry": null
+  }
+}
+----------------------------- Captured stderr call -----------------------------
+warning: module exports cbak but never imports emit
+=========================== short test summary info ============================
+PASSED tests/test_rt_round3.py::test_guard_05_dotted_names_that_are_not_parent_components_accepted[#include "a..b.h"\n]
+PASSED tests/test_rt_round3.py::test_guard_05_dotted_names_that_are_not_parent_components_accepted[#include "x/..h"\n]
+PASSED tests/test_rt_round3.py::test_guard_05_dotted_names_that_are_not_parent_components_accepted[const char *p = "../x";\n]
+PASSED tests/test_rt_round3.py::test_guard_05_dotted_names_that_are_not_parent_components_accepted[// #include "../x"\n]
+PASSED tests/test_rt_round3.py::test_guard_05_dotted_names_that_are_not_parent_components_accepted[#include "x.h"\n]
+PASSED tests/test_rt_round3.py::test_guard_01_cbak_fn_only_for_a_real_cbak_function_export
+PASSED tests/test_rt_round3.py::test_guard_02_failed_wasm_opt_leaves_no_build[hookc-llvm22]
+PASSED tests/test_rt_round3.py::test_guard_02_failed_wasm_opt_leaves_no_build[hookc-llvm22-amd64]
+PASSED tests/test_rt_round3.py::test_guard_02_failed_wasm_opt_leaves_no_build[kvt-llvm22]
+PASSED tests/test_rt_round3.py::test_guard_02_failed_wasm_opt_leaves_no_build[kvt-llvm22-amd64]
+PASSED tests/test_rt_round3.py::test_guard_02_failed_wasm_opt_leaves_no_build[xhc-bin127]
+PASSED tests/test_rt_round3.py::test_guard_09_present_hookcallbackfee_compared[wce0-defn0-False]
+PASSED tests/test_rt_round3.py::test_guard_09_present_hookcallbackfee_compared[wce1-defn1-False]
+PASSED tests/test_rt_round3.py::test_guard_09_present_hookcallbackfee_compared[wce2-defn2-True]
+FAILED tests/test_rt_round3.py::test_rt3_04a_rebuild_into_the_same_out_never_flips
+FAILED tests/test_rt_round3.py::test_rt3_04_planted_out_files_do_not_reach_the_bytes
+FAILED tests/test_rt_round3.py::test_rt3_04_out_inside_the_reviewed_checkout_refused
+FAILED tests/test_rt_round3.py::test_rt3_04b_verify_out_dir_is_never_read_by_the_rebuild
+FAILED tests/test_rt_round3.py::test_rt3_04_container_out_mount_is_fresh_private_and_empty
+FAILED tests/test_rt_round3.py::test_rt3_04_run_container_refuses_a_non_empty_out
+FAILED tests/test_rt_round3.py::test_rt3_04_hook_repro_build_out_inside_src_refused
+FAILED tests/test_rt_round3.py::test_guard_04_publish_replaces_planted_symlink_without_following_it
+FAILED tests/test_rt_round3.py::test_guard_04_non_regular_pipeline_output_refused
+FAILED tests/test_rt_round3.py::test_guard_04_out_inside_matches_only_real_containment
+FAILED tests/test_rt_round3.py::test_rt3_05_parent_relative_include_like_operands_refused[#if __has_include("../../out/hook.wasm")\n#endif\n]
+FAILED tests/test_rt_round3.py::test_rt3_05_parent_relative_include_like_operands_refused[#if __has_include("../../out/payload.h")\n#include "../../out/payload.h"\n#endif\n]
+FAILED tests/test_rt_round3.py::test_rt3_05_parent_relative_include_like_operands_refused[#if __has_include("../../usr/lib/aarch64-linux-gnu/libc.so.6")\n#endif\n]
+FAILED tests/test_rt_round3.py::test_rt3_05_parent_relative_include_like_operands_refused[#include "sub/../../x.h"\n]
+FAILED tests/test_rt_round3.py::test_rt3_05_parent_relative_include_like_operands_refused[#include <../x.h>\n]
+FAILED tests/test_rt_round3.py::test_rt3_05_parent_relative_include_like_operands_refused[  #  include_next "../x"\n]
+FAILED tests/test_rt_round3.py::test_rt3_05_parent_relative_include_like_operands_refused[#embed "../../out/x" limit(1)\n]
+FAILED tests/test_rt_round3.py::test_rt3_05_parent_relative_include_like_operands_refused[#if __has_embed("..\\x")\n#endif\n]
+FAILED tests/test_rt_round3.py::test_rt3_05_parent_relative_include_like_operands_refused[__asm__(".incbin \"../../out/x\"");\n]
+FAILED tests/test_rt_round3.py::test_rt3_05_parent_relative_include_like_operands_refused[#include ".\\n./x.h"\n]
+FAILED tests/test_rt_round3.py::test_rt3_05_parent_relative_include_like_operands_refused[#include " ../x.h"\n]
+FAILED tests/test_rt_round3.py::test_rt3_05_parent_relative_include_like_operands_refused[#include "ok.h"\n#include "../x.h"\n]
+FAILED tests/test_rt_round3.py::test_guard_01_crafted_module_parses_as_intended
+FAILED tests/test_rt_round3.py::test_rt3_01_colon_named_function_exports_refused[names0]
+FAILED tests/test_rt_round3.py::test_rt3_01_colon_named_function_exports_refused[names1]
+FAILED tests/test_rt_round3.py::test_rt3_01_colon_named_function_exports_refused[names2]
+FAILED tests/test_rt_round3.py::test_rt3_01_colon_named_function_exports_refused[names3]
+FAILED tests/test_rt_round3.py::test_rt3_01_colon_named_function_exports_refused[names4]
+FAILED tests/test_rt_round3.py::test_guard_01_duplicate_function_export_name_refused
+FAILED tests/test_rt_round3.py::test_rt3_02_xhc_clean_only_build_of_wasm_opt_c_says_wasm_opt_did_not_run
+FAILED tests/test_rt_round3.py::test_rt3_02_xhc_flag_follows_the_stage_that_executed[opt,clean--O2-True]
+FAILED tests/test_rt_round3.py::test_rt3_02_xhc_flag_follows_the_stage_that_executed[clean,opt-builder2025-True]
+FAILED tests/test_rt_round3.py::test_rt3_02_xhc_flag_follows_the_stage_that_executed[opt,clean-none-False]
+FAILED tests/test_rt_round3.py::test_rt3_02_xhc_flag_follows_the_stage_that_executed[clean--O2-False]
+FAILED tests/test_rt_round3.py::test_rt3_02_xhc_flag_follows_the_stage_that_executed[opt,clean,opt--O2-True]
+FAILED tests/test_rt_round3.py::test_rt3_02_llvm_pipelines_state_wasm_opt_ran[hookc-llvm22]
+FAILED tests/test_rt_round3.py::test_rt3_02_llvm_pipelines_state_wasm_opt_ran[hookc-llvm22-amd64]
+FAILED tests/test_rt_round3.py::test_rt3_02_llvm_pipelines_state_wasm_opt_ran[kvt-llvm22]
+FAILED tests/test_rt_round3.py::test_rt3_02_llvm_pipelines_state_wasm_opt_ran[kvt-llvm22-amd64]
+FAILED tests/test_rt_round3.py::test_rt3_02_missing_repeated_or_malformed_flag_refused[]
+FAILED tests/test_rt_round3.py::test_rt3_02_missing_repeated_or_malformed_flag_refused[--- commands\nHOOKC_WASM_OPT_RAN=1\n]
+FAILED tests/test_rt_round3.py::test_rt3_02_missing_repeated_or_malformed_flag_refused[HOOKC_WASM_OPT_RAN=1\nHOOKC_WASM_OPT_RAN=1\n]
+FAILED tests/test_rt_round3.py::test_rt3_02_missing_repeated_or_malformed_flag_refused[HOOKC_WASM_OPT_RAN=2\n]
+FAILED tests/test_rt_round3.py::test_rt3_02_missing_repeated_or_malformed_flag_refused[HOOKC_WASM_OPT_RAN=1 \n]
+FAILED tests/test_rt_round3.py::test_rt3_02_missing_repeated_or_malformed_flag_refused[HOOKC_WASM_OPT_RAN=yes\n]
+FAILED tests/test_rt_round3.py::test_rt3_02_missing_repeated_or_malformed_flag_refused[HOOKC_WASM_OPT_RAN=0\nHOOKC_WASM_OPT_RAN=1\n]
+FAILED tests/test_rt_round3.py::test_guard_02_flag_values - AttributeError: m...
+FAILED tests/test_rt_round3.py::test_rt3_03_verify_restricted_to_one_twin_says_platforms_built_not_rechecked
+FAILED tests/test_rt_round3.py::test_rt3_03_verify_rebuilds_every_twin_in_platforms_built_by_default
+FAILED tests/test_rt_round3.py::test_rt3_05_single_twin_build_whose_other_twin_diverges_is_reported[linux/arm64-linux/amd64]
+FAILED tests/test_rt_round3.py::test_rt3_05_single_twin_build_whose_other_twin_diverges_is_reported[linux/amd64-linux/arm64]
+FAILED tests/test_rt_round3.py::test_guard_05_honest_single_twin_sidecar_verifies_rechecked
+FAILED tests/test_rt_round3.py::test_guard_03_verify_twin_nondeterminism_and_build_failure_name_the_twin
+FAILED tests/test_rt_round3.py::test_rt3_07_unsorted_tree_refused - Failed: D...
+FAILED tests/test_rt_round3.py::test_rt3_07_tree_sorts_as_name_slash - Failed...
+FAILED tests/test_rt_round3.py::test_guard_07_git_ordered_trees_accepted_as_fsck_does
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}-.git]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}-.GIT]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}-.Git]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}-__pycache__]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}-.hook-repro]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[sub/{}-.git]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[sub/{}-.GIT]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[sub/{}-.Git]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[sub/{}-__pycache__]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[sub/{}-.hook-repro]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}/deeper-.git]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}/deeper-.GIT]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}/deeper-.Git]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}/deeper-__pycache__]
+FAILED tests/test_rt_round3.py::test_rt3_07_reserved_component_anywhere_in_vcs_path_refused[{}/deeper-.hook-repro]
+FAILED tests/test_rt_round3.py::test_rt3_07_sidecar_with_reserved_vcs_path_refused[.git]
+FAILED tests/test_rt_round3.py::test_rt3_07_sidecar_with_reserved_vcs_path_refused[a/.GIT]
+FAILED tests/test_rt_round3.py::test_rt3_07_sidecar_with_reserved_vcs_path_refused[__pycache__/x]
+FAILED tests/test_rt_round3.py::test_rt3_07_sidecar_with_reserved_vcs_path_refused[x/.hook-repro]
+FAILED tests/test_rt_round3.py::test_rt3_08_missing_reference_wasm_is_unverified
+FAILED tests/test_rt_round3.py::test_rt3_08_non_object_platforms_entry_is_unverified[not-an-object]
+FAILED tests/test_rt_round3.py::test_rt3_08_non_object_platforms_entry_is_unverified[None]
+FAILED tests/test_rt_round3.py::test_rt3_08_non_object_platforms_entry_is_unverified[7]
+FAILED tests/test_rt_round3.py::test_rt3_08_non_object_platforms_entry_is_unverified[value3]
+FAILED tests/test_rt_round3.py::test_guard_08_platforms_must_be_exactly_the_toolchain_twins[drop]
+FAILED tests/test_rt_round3.py::test_guard_08_platforms_must_be_exactly_the_toolchain_twins[extra]
+FAILED tests/test_rt_round3.py::test_rt3_09_hookcallbackfee_compared_including_absence[wce0-defn0-False]
+FAILED tests/test_rt_round3.py::test_rt3_09_hookcallbackfee_compared_including_absence[wce1-defn1-False]
+FAILED tests/test_rt_round3.py::test_rt3_09_hookcallbackfee_compared_including_absence[wce2-defn2-True]
+FAILED tests/test_rt_round3.py::test_rt3_09_absent_fee_is_a_mismatch_not_skipped
+FAILED tests/test_rt_round3.py::test_guard_09_null_wce_is_not_compared_and_said_so
+FAILED tests/test_rt_round3.py::test_rt3_09_verify_cbak_wce_without_chain_field_is_mismatch
+88 failed, 14 passed in 72.95s (0:01:12)

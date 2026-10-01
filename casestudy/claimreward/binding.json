@@ -1,0 +1,32 @@
+{
+  "canonical_sha256": "350a86fa7ac9ba1f563dafc275317437dce21af18a7e17051c14c8b547f08833",
+  "caveats": [],
+  "coverage": "MENTIONS_HOOKHASH",
+  "created_utc": "2026-10-01T01:53:18Z",
+  "hookhash": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+  "network": "xahau-mainnet",
+  "other_hashes_mentioned": [],
+  "problems": [],
+  "review": {
+    "file": "bind-demo.md",
+    "sha256": "0e9dac47105d1872829a254c51724f9c5c2bd4f3774f18305aa0029633b01e2f",
+    "size": 420
+  },
+  "schema": "hook-repro/review-binding/v1",
+  "signature": null,
+  "signing_note": "sign sha256 of the canonical JSON (sorted keys, compact, UTF-8) of this object with 'signature' and 'canonical_sha256' removed",
+  "verify_report": {
+    "caveat": null,
+    "distinct_operators": 2,
+    "file": "verify-report.json",
+    "hookhash": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+    "network": "xahau-mainnet",
+    "platforms_built_rechecked": null,
+    "platforms_rebuilt": null,
+    "recipe": "xhc-bin127",
+    "recipe_digest": "13455c906e3c01aca7a51973acac2600cc34393582e7a3dddeb8fa33f2256b81",
+    "sha256": "d408f1fd28b8ad07495051dd097abc6d957430c50296fbac6f7a66dd35bd746d",
+    "source_tree_sha256": "d390030d5da2425d3e208ee78672221f56803bf6ed0d879c9c118be57ec115fc",
+    "verdict": "REPRODUCED"
+  }
+}

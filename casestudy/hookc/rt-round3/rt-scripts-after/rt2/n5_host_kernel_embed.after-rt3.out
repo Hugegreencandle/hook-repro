@@ -1,0 +1,13 @@
+[90m11:02AM[0m [32mINF[0m [1m0 commits scanned.[0m
+[90m11:02AM[0m [32mINF[0m [1mscanned ~270 bytes (270 bytes) in 22.1ms[0m
+[90m11:02AM[0m [32mINF[0m [1mno leaks found[0m
+hookc build exit=3
+UNVERIFIED: build error: source names an absolute or '..' path in an include-like operand (the build could read outside its source): hook.c: __has_include("/sys/devices/system/cpu/cpu0/cpu_capacity
+amd64 twin (emulated) sees host file: x86_64 /sys/devices/system/cpu/cpu0/cpu_capacity 
+reference HookHashes: LIMIT 10 = FA5FA332..., LIMIT 1000000 = D3C4280E... (N2/N3)
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import json;d=json.load(open('<scratchpad>/rt3fix/rerun-after/rt2/work-n5/out/0.hook.metadata.json'));print('sidecar platforms',sorted(d['builder']['platforms']),'HookHash',d['HookHash'])
+                            ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<scratchpad>/rt3fix/rerun-after/rt2/work-n5/out/0.hook.metadata.json'
+reproduce (same host) exit=3

@@ -1,0 +1,6 @@
+build --platform all exit=3
+build --platform linux/arm64 exit=3
+Traceback (most recent call last):
+  File "<stdin>", line 2, in <module>
+FileNotFoundError: [Errno 2] No such file or directory: '<scratchpad>/rt3fix/rerun-after/rt3/work-r3-05/o/0.hook.metadata.json'
+reproduce (all claimed twins) exit=3

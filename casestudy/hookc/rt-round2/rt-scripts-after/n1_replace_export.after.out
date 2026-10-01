@@ -1,0 +1,5 @@
+commit 3ce189a02668de453193ed54da301217a731ed55 tree fc7b6b352ffeed718fa1e4352cad5a17eaaddcec (replacement c7d6937d2f237010199fbbef309a354ab2b94fc7)
+git verify: cat-file -p C:hook.h => int x = 666; /* EVIL */
+GIT_NO_REPLACE_OBJECTS=1        => int x = 1; /* GENUINE */
+export vcs: {'type': 'git', 'commit': '3ce189a02668de453193ed54da301217a731ed55', 'path': '', 'tree': 'fc7b6b352ffeed718fa1e4352cad5a17eaaddcec', 'dirty': False}
+exported hook.h: int x = 1; /* GENUINE */

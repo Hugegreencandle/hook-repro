@@ -1,0 +1,6 @@
+build-claimreward exit=0
+build-claimreward-llvm22 exit=0
+reproduce-claimreward exit=0
+reproduce-claimreward-llvm22-linux-arm64 exit=0
+reproduce-claimreward-llvm22-linux-amd64 exit=0
+verify-claimreward-mainnet exit=0

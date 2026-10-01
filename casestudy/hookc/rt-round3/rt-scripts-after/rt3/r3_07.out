@@ -1,0 +1,56 @@
+== unsorted tree [b.c, a.c]
+   hookc: REFUSED: git tree is not sorted (b'a.c' after b'b.c'; git fsck treeNotSorted); refusing
+   git archive: ['b.c', 'a.c']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== zero-padded 040000 dir
+   hookc: REFUSED: source . has b'd' (mode 040000): only regular files are allowed
+   git archive: ['d/', 'd/a.c']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== mode 100664 file
+   hookc: REFUSED: source . has b'a.c' (mode 100664): only regular files are allowed
+   git archive: ['a.c']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== mode 40000 -> blob
+   hookc: REFUSED: git object fcbefc38292a144c8081fbc9b0b4397d37a4f287 is a blob, not a tree
+   git archive: ['archive rc=128 fatal: unable to read tree (fcbefc38292a144c8081fbc9b0b4397d37a4f287)']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== mode 100644 -> tree
+   hookc: REFUSED: git object 4ab96708ec6ef59cf74d9fbb7c13e1ca18bdf874 is a tree, not a blob
+   git archive: ['a.c']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== gitlink 160000
+   hookc: REFUSED: source . has b'm' (mode 160000): only regular files are allowed
+   git archive: ['a.c', 'm/']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== symlink 120000
+   hookc: REFUSED: source . has b'l' (mode 120000): only regular files are allowed
+   git archive: ['a.c', 'l']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== duplicate a.c
+   hookc: REFUSED: git tree has an invalid or duplicate entry name b'a.c'
+   git archive: ['a.c', 'a.c']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== commit with gpgsig + mergetag headers
+   hookc: ACCEPTED files=['a.c']
+   git archive: ['a.c']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== vcs.path = '.git' (tree entry named .git)
+   hookc: REFUSED: source path '.git' has a reserved component '.git' (.git or an ignored dir)
+   git archive: ['a.c']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== vcs.path = '.GIT'
+   hookc: REFUSED: source path '.GIT' has a reserved component '.GIT' (.git or an ignored dir)
+   git archive: ['a.c']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== hidden top-level .x.c
+   hookc: ACCEPTED files=['.x.c', 'a.c']
+   git archive: ['.x.c', 'a.c']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== 300-byte name
+   hookc: REFUSED: export cannot create <tmp>/r3x-vs7jr_9v/src/xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
+   git archive: ['xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx.c']
+   git fsck: ['error in tree 0615d88bc67c3679772cc2303d4845ca57b4bc7a: zeroPaddedFilemode: contains zero-', "error in tree 1d2bb89bc12c2130e47eb724510a971098ef5344: hasDotgit: contains '.git'"]
+== sha256 repo
+   hookc: ACCEPTED files=['a.c']
+   git archive: ['a.c']
+   git fsck: []

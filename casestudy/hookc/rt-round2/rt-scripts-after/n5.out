@@ -1,0 +1,6 @@
+hookc build exit=0
+amd64 twin (emulated) sees host file: x86_64 /sys/devices/system/cpu/cpu0/cpu_capacity 
+reference HookHashes: LIMIT 10 = FA5FA332..., LIMIT 1000000 = D3C4280E... (N2/N3)
+sidecar platforms ['linux/amd64', 'linux/arm64'] HookHash D3C4280E1F4AE261BB38BC3130A47BCEFA8B18016A4714020EBF96D65520455E
+VERDICT: REPRODUCED
+reproduce (same host) exit=0

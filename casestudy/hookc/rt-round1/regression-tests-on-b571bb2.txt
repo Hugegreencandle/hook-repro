@@ -1,0 +1,83 @@
+PASSED tests/test_rt_round1.py::test_rt_fp3_honest_sidecar_verifies
+PASSED tests/test_rt_round1.py::test_rt_l3_hookname_follows_rshooks_2_to_8_chars[ab-True]
+PASSED tests/test_rt_round1.py::test_rt_l3_hookname_follows_rshooks_2_to_8_chars[claimrwd-True]
+PASSED tests/test_rt_round1.py::test_rt_l3_hookname_follows_rshooks_2_to_8_chars[\u65e5\u672c-True]
+PASSED tests/test_rt_round1.py::test_guard_fp1_tree_lie_with_real_commit_is_refused
+FAILED tests/test_rt_round1.py::test_rt_fp1_reproduce_rebuilds_only_the_sidecar_commit
+FAILED tests/test_rt_round1.py::test_rt_fp1_src_must_be_a_git_work_tree_at_the_sidecar_tree
+FAILED tests/test_rt_round1.py::test_rt_fp2_entry_must_be_the_compiled_entry
+FAILED tests/test_rt_round1.py::test_rt_fp2_entry_given_as_param_is_recorded
+FAILED tests/test_rt_round1.py::test_rt_fp3_sidecar_describing_another_hook_is_refused
+FAILED tests/test_rt_round1.py::test_rt_fp3_sidecar_field_lies_are_mismatch[path0-1]
+FAILED tests/test_rt_round1.py::test_rt_fp3_sidecar_field_lies_are_mismatch[path1-clang version 99.0.0 (totally different compiler)]
+FAILED tests/test_rt_round1.py::test_rt_fp3_sidecar_field_lies_are_mismatch[path2-value2]
+FAILED tests/test_rt_round1.py::test_rt_fp3_sidecar_field_lies_are_mismatch[path3-7]
+FAILED tests/test_rt_round1.py::test_rt_fp3_hookdefinition_disagreement_is_mismatch[Fee-150]
+FAILED tests/test_rt_round1.py::test_rt_fp3_hookdefinition_disagreement_is_mismatch[HookCallbackFee-8]
+FAILED tests/test_rt_round1.py::test_rt_fp3_hookdefinition_disagreement_is_mismatch[HookOn-0000000000000000000000000000000000000000000000000000000000000000]
+FAILED tests/test_rt_round1.py::test_rt_fp3_hookcanemit_difference_is_reported_not_enforced
+FAILED tests/test_rt_round1.py::test_rt_l4_operator_agreement_ignores_reference_count
+FAILED tests/test_rt_round1.py::test_rt_fp3_rshooks_sidecar_for_another_hash_is_unverified
+FAILED tests/test_rt_round1.py::test_rt_fp4_gitignored_file_is_not_compiled
+FAILED tests/test_rt_round1.py::test_rt_fp4_skip_worktree_edit_is_not_compiled
+FAILED tests/test_rt_round1.py::test_rt_fn1_autocrlf_clone_build_reproduces_from_git
+FAILED tests/test_rt_round1.py::test_rt_fp5_casefold_collision_refused
+FAILED tests/test_rt_round1.py::test_rt_fp5_unicode_normalization_collision_refused
+FAILED tests/test_rt_round1.py::test_rt_c1_export_path_escape_refused
+FAILED tests/test_rt_round1.py::test_rt_c1_reserved_or_unsafe_names_refused[.git/config]
+FAILED tests/test_rt_round1.py::test_rt_c1_reserved_or_unsafe_names_refused[.GIT/hooks.c]
+FAILED tests/test_rt_round1.py::test_rt_c1_reserved_or_unsafe_names_refused[a\b.c]
+FAILED tests/test_rt_round1.py::test_rt_c1_reserved_or_unsafe_names_refused[a/./b.c]
+FAILED tests/test_rt_round1.py::test_rt_c1_reserved_or_unsafe_names_refused[__pycache__/cfg.h]
+FAILED tests/test_rt_round1.py::test_rt_c1_reserved_or_unsafe_names_refused[x/.hook-repro/y.h]
+FAILED tests/test_rt_round1.py::test_rt_c1_reserved_or_unsafe_names_refused[tab\there.c]
+FAILED tests/test_rt_round1.py::test_rt_c2_non_utf8_name_fails_closed
+FAILED tests/test_rt_round1.py::test_rt_f7_tree_hash_covers_exactly_what_the_container_receives
+FAILED tests/test_rt_round1.py::test_rt_fp6_preset_label_must_resolve_to_params
+FAILED tests/test_rt_round1.py::test_rt_fp6_overridden_params_drop_the_label
+FAILED tests/test_rt_round1.py::test_rt_l1_reads_without_validated_ledger_hash_refused
+FAILED tests/test_rt_round1.py::test_rt_l1_operators_must_agree_on_the_validated_ledger_hash
+FAILED tests/test_rt_round1.py::test_rt_l1_newer_operator_is_reread_at_the_common_ledger
+FAILED tests/test_rt_round1.py::test_rt_l1_recorded_mainnet_reads_share_one_ledger
+FAILED tests/test_rt_round1.py::test_rt_l2_corrupted_cas_entry_is_not_used
+FAILED tests/test_rt_round1.py::test_rt_l2_rebound_docker_tag_refused
+FAILED tests/test_rt_round1.py::test_rt_l2_build_context_is_rebuilt_not_trusted
+FAILED tests/test_rt_round1.py::test_rt_l2_hook_repro_build_version_is_in_the_recipe_digest
+FAILED tests/test_rt_round1.py::test_rt_o5_builds_on_different_images_are_unverified
+FAILED tests/test_rt_round1.py::test_rt_l3_hookname_follows_rshooks_2_to_8_chars[a-False]
+FAILED tests/test_rt_round1.py::test_rt_l3_hookname_follows_rshooks_2_to_8_chars[abcdefghi-False]
+FAILED tests/test_rt_round1.py::test_rt_l3_hookname_follows_rshooks_2_to_8_chars[\u65e5\u65e5\u65e5\u65e5\u65e5\u65e5\u65e5\u65e5\u65e5-False]
+FAILED tests/test_rt_round1.py::test_rt_compat_machine_written_sidecars_round_trip_book_is_hand_formatted
+FAILED tests/test_rt_round1.py::test_rt_o1_o2_readme_states_compatibility_and_trust_model_precisely
+FAILED tests/test_rt_round1.py::test_guard_export_for_metadata_needs_exactly_one_source
+FAILED tests/test_rt_round1.py::test_guard_corrupt_git_object_refused
+FAILED tests/test_rt_round1.py::test_guard_dest_path_containment
+FAILED tests/test_rt_round1.py::test_guard_write_new_never_overwrites_or_follows
+FAILED tests/test_rt_round1.py::test_guard_export_relist_must_equal_git
+FAILED tests/test_rt_round1.py::test_guard_export_destination_must_be_empty
+FAILED tests/test_rt_round1.py::test_guard_export_tree_hash_is_computed_from_git_objects
+FAILED tests/test_rt_round1.py::test_guard_double_build_image_and_tree_checks
+FAILED tests/test_rt_round1.py::test_guard_regenerate_refuses_other_tree
+FAILED tests/test_rt_round1.py::test_guard_parse_metadata_params_and_preset[change0-fully resolved]
+FAILED tests/test_rt_round1.py::test_guard_parse_metadata_params_and_preset[change1-not valid]
+FAILED tests/test_rt_round1.py::test_guard_parse_metadata_params_and_preset[change2-does not resolve]
+FAILED tests/test_rt_round1.py::test_guard_verify_hookc_sidecar_requires_regeneration
+FAILED tests/test_rt_round1.py::test_guard_operators_disagreeing_on_definition_fields_is_unverified
+FAILED tests/test_rt_round1.py::test_guard_reread_must_return_the_requested_ledger
+FAILED tests/test_rt_round1.py::test_guard_reread_failure_is_a_read_failure
+FAILED tests/test_rt_round1.py::test_guard_image_record_must_name_the_tagged_image
+FAILED tests/test_rt_round1.py::test_guard_image_built_is_recorded_and_inspect_failure_refused
+FAILED tests/test_rt_round1.py::test_guard_vendor_tree_rehashed_on_use
+FAILED tests/test_rt_round1.py::test_guard_content_digest_sees_content_mode_and_links
+FAILED tests/test_rt_round1.py::test_guard_staging_refuses_symlinks[file]
+FAILED tests/test_rt_round1.py::test_guard_staging_refuses_symlinks[dir]
+FAILED tests/test_rt_round1.py::test_guard_staged_source_changed_during_build_refused
+FAILED tests/test_rt_round1.py::test_guard_missing_metadata_file_fails_closed
+FAILED tests/test_rt_round1.py::test_guard_safe_tree_name_reasons[/abs/x.c-unsafe path]
+FAILED tests/test_rt_round1.py::test_guard_safe_tree_name_reasons[a/./b.c-unsafe path]
+FAILED tests/test_rt_round1.py::test_guard_safe_tree_name_reasons[a//b.c-unsafe path]
+FAILED tests/test_rt_round1.py::test_guard_safe_tree_name_reasons[a/..-unsafe path]
+FAILED tests/test_rt_round1.py::test_guard_safe_tree_name_reasons[__pycache__/c.h-reserved]
+FAILED tests/test_rt_round1.py::test_guard_safe_tree_name_reasons[d/.hook-repro/x-reserved]
+FAILED tests/test_rt_round1.py::test_guard_safe_tree_name_reasons[.Git/x-reserved]
+FAILED tests/test_rt_round1.py::test_guard_dest_path_refuses_before_creating_anything

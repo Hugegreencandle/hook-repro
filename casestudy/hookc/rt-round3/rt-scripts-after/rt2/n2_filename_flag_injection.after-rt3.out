@@ -1,0 +1,23 @@
+[90m11:02AM[0m [32mINF[0m [1m0 commits scanned.[0m
+[90m11:02AM[0m [32mINF[0m [1mscanned ~148 bytes (148 bytes) in 21.7ms[0m
+[90m11:02AM[0m [32mINF[0m [1mno leaks found[0m
+[90m11:02AM[0m [32mINF[0m [1m0 commits scanned.[0m
+[90m11:02AM[0m [32mINF[0m [1mscanned ~168 bytes (168 bytes) in 19.9ms[0m
+[90m11:02AM[0m [32mINF[0m [1mno leaks found[0m
+[90m11:02AM[0m [32mINF[0m [1m0 commits scanned.[0m
+[90m11:02AM[0m [32mINF[0m [1mscanned ~153 bytes (153 bytes) in 19.7ms[0m
+[90m11:02AM[0m [32mINF[0m [1mno leaks found[0m
+honest build exit=0
+  honest HookHash FA5FA33200BEAAB217646AF0B8529C6025BFD410CC2FEFCF2F52957F70918B8C entry None file_count 1
+  cmd: Wl,--export=hook -Wl,--export-if-defined=cbak -I/hdr -o /work/out.wasm -- hook.c
+inject build exit=3
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import json;d=json.load(open('<scratchpad>/rt3fix/rerun-after/rt2/work-n2/out-inject/0.hook.metadata.json'));print('  inject HookHash',d['HookHash'],'entry',d['source']['entry'],'file_count',d['source']['file_count']);print('  cmd:',d['builder']['commands'][0][-80:])
+                            ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<scratchpad>/rt3fix/rerun-after/rt2/work-n2/out-inject/0.hook.metadata.json'
+explicit build exit=0
+  explicit HookHash D3C4280E1F4AE261BB38BC3130A47BCEFA8B18016A4714020EBF96D65520455E entry None file_count 1
+  cmd: Wl,--export=hook -Wl,--export-if-defined=cbak -I/hdr -o /work/out.wasm -- hook.c
+git ls-files (inject): -DLIMIT=1000000 -Wno-x.c|hook.c|
+reproduce inject exit=3

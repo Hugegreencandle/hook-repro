@@ -1,0 +1,14 @@
+hookc-llvm22 linux/arm64
+             digest a42076d8eec09f6843ff105fb16f012a4844c4fac7960325882c92c06d79c2bf  presets: deploy
+hookc-llvm22-amd64 linux/amd64
+             digest f96756675eb248f22a7be8a6ea71db0ffc75646bc6d0e1c892705a09838be5af  presets: deploy
+hookc-wce    linux/arm64
+             digest 7eb3bd03a78f710938dd001fdc4f9bc3b28a091ee38785fcf6fe29f392d05688  presets: default
+kvt-llvm22   linux/arm64
+             digest 0daccbce80f39f1d7051bb416e7362569389e97cd620dd6eb66d45a2642917ef  presets: deploy
+kvt-llvm22-amd64 linux/amd64
+             digest 133db4ed0cc58885f2476c9b84e14dfeb17e9b23e0d6376098ddbd885e12d6c9  presets: deploy
+rshooks-0.2.3 linux/arm64
+             digest e684067d109ac4c959073400607edc7b084f617b4b98dd0060918ee2cab6e693  presets: default
+xhc-bin127   linux/amd64
+             digest 13455c906e3c01aca7a51973acac2600cc34393582e7a3dddeb8fa33f2256b81  presets: classic, builder-2025, builder-2026-07

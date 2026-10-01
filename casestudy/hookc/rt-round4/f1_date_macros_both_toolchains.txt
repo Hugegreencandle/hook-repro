@@ -1,0 +1,28 @@
+# RT4 F1: date macros on both C toolchains with the fixed xhc-bin127 pipeline (real docker builds run 2026-09-29 ~07:43Z via hookc build --no-wce; outputs listed afterwards). The undef variant exits 3 (compile error).
+## source (hook.c)
+#include "hookapi.h"
+int64_t hook(uint32_t r) {
+    _g(1,1);
+    static const char d[] = "D[" __DATE__ "|" __TIME__ "|" __TIMESTAMP__ "]";
+    return accept(SBUF(d), 0);
+}
+## xhc-bin127 (clang 15) bytes:
+0D[Jan  1 1970|00:00:00|Thu Jan  1 00:00:00 1970]
+## hookc-llvm22 (clang 22, SOURCE_DATE_EPOCH=0) bytes:
+0D[Jan  1 1970|00:00:00|Thu Jan  1 00:00:00 1970]
+## variant undef (xhc-bin127):
+#undef __DATE__
+int64_t hook(uint32_t r) {
+    _g(1,1);
+exit: 1 UNVERIFIED lines; bytes: none
+UNVERIFIED: build error: pipeline exit 1: hook.c:5:33: error: expected ';' at end of declaration
+## variant paste (xhc-bin127):
+#define P(a,b) a##b
+#define X(m) P(__DA,TE__)
+int64_t hook(uint32_t r) {
+exit: 0 UNVERIFIED lines; bytes: V[Jan  1 1970]
+## variant pushpop (xhc-bin127):
+#pragma push_macro("__DATE__")
+#undef __DATE__
+#pragma pop_macro("__DATE__")
+exit: 0 UNVERIFIED lines; bytes: V[Jan  1 1970]

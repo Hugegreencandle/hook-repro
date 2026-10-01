@@ -1,0 +1,2 @@
+VERDICT: REPRODUCED
+reason:  two clean linux/amd64 rebuilds are byte-identical, HookHash 805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA, metadata identical

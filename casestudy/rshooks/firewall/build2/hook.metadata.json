@@ -1,0 +1,69 @@
+{
+  "index": 0,
+  "hook_fn": "main",
+  "cbak_fn": null,
+  "name": "main",
+  "description": null,
+  "HookOn": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFE",
+  "HookCanEmit": null,
+  "HookName": null,
+  "HookHash": "91F4BD5185032EF9C1289107A075B8055580E4203F0558DFFD895C585A87EC58",
+  "WCE": {
+    "hook": 125,
+    "cbak": 0
+  },
+  "builder": {
+    "name": "rshooks-build",
+    "version": "0.2.3",
+    "rustc": "rustc 1.89.0 (29483883e 2025-08-04)",
+    "cargo_args": [
+      "rustc",
+      "--release",
+      "--locked",
+      "--target",
+      "wasm32v1-none",
+      "--crate-type",
+      "cdylib"
+    ],
+    "rustc_args": [
+      "--cfg",
+      "rshooks_entry=\"0\"",
+      "--check-cfg",
+      "cfg(rshooks_entry,values(\"0\",\"1\",\"2\",\"3\",\"4\",\"5\",\"6\",\"7\",\"8\",\"9\"))",
+      "-C",
+      "link-arg=-zstack-size=131072"
+    ],
+    "wasm_opt": true
+  },
+  "human": {
+    "on": {
+      "form": "list",
+      "HookOn": [
+        "Payment"
+      ],
+      "HookOnIncoming": null,
+      "HookOnOutgoing": null
+    },
+    "HookCanEmit": null,
+    "HookName": null
+  },
+  "chain": {
+    "struct": "Firewall",
+    "description": null,
+    "decls": {
+      "state": [],
+      "hook_params": [
+        {
+          "field": "blocked",
+          "name": "b\"BL\"",
+          "name_by": null,
+          "value": "AccountId",
+          "required": false,
+          "default": null
+        }
+      ],
+      "otxn_params": [],
+      "state_interface": []
+    }
+  }
+}

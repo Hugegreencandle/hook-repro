@@ -1,0 +1,10 @@
+build-claimreward exit=0
+build-claimreward-llvm22 exit=0
+reproduce-claimreward exit=0
+reproduce-claimreward-llvm22-all exit=0
+verify-claimreward-mainnet exit=0
+verify-src-classic exit=0
+verify-src-builder2025 exit=2
+verify-src-builder202607 exit=2
+bind-claimreward exit=0
+bind-claimreward-wrong-network exit=3

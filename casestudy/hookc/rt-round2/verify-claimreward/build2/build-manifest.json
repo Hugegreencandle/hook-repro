@@ -1,0 +1,141 @@
+{
+  "container_log": "sources: claimReward.c\nguard_checker: pass\nclang_version: clang version 15.0.0\nwasm_opt_version: wasm-opt version 108 (version_108)\n--- commands\n/tc/wasi-sdk/bin/clang -O2 --sysroot=/tc/wasi-sdk/share/wasi-sysroot -xc -ffile-prefix-map=/work/src/= -fdiagnostics-print-source-range-info -Werror=implicit-function-declaration --no-standard-libraries -nostartfiles -Wl,--allow-undefined,--no-entry,--export-all -o /work/out.wasm -I/hdr -- claimReward.c\n/tc/wasm-opt -O2\n/tc/hook-cleaner\n--- stages\nclang 1423 e42a2280e17162956fdb839773d3b9a24dd800d8763923b2890f668c74846e2a\nopt1 978 2029d41954de5902f2b8d1dac7dfd68f82e74a05892676bd56c89e7efabb6e6a\nclean2 808 805351ce26fb79da00647cefed502f7e15c2accce254f11defeddce241f8e9ca\n",
+  "env": {
+    "LC_ALL": "C",
+    "SOURCE_DATE_EPOCH": "0",
+    "TZ": "UTC"
+  },
+  "hook_repro": {
+    "build_abi": "hook-repro-build/2"
+  },
+  "image": {
+    "image_id": "sha256:b83c5cb91ba4a47b310df69425c098d6c2f0b6f4a5f7bfa87952dfd93882b613",
+    "recipe_digest": "3478f2ab287852001e077e6d79d1a5118093b86ea3ae7329674eafcdfc88ec93",
+    "tag": "hook-repro/xhc-bin127:3478f2ab28785200"
+  },
+  "output": {
+    "file": "<repo>/casestudy/hookc/rt-round2/verify-claimreward/build2/hook.wasm",
+    "sha256": "5c572d41750440119473d729d2d146a3161ce09c699415cf0a138a2a3d16bb15",
+    "sha512half": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+    "size": 808
+  },
+  "params": {
+    "CLANG_OPT": "-O2",
+    "STAGES": "opt,clean",
+    "WASMOPT": "-O2"
+  },
+  "recipe": {
+    "artifacts": [
+      {
+        "name": "bin.zip",
+        "sha256": "d6a94b6a0d3c38b0431eff28d3a3b68c9c9d2e74ec2afc0f50b71d4faa413891",
+        "url": "https://github.com/XRPLF/xrpl-hooks-compiler/releases/download/v1.27/bin.zip"
+      },
+      {
+        "name": "wasm-opt",
+        "sha256": "36f78112c8d629e27f8c68be89bee47c245cbde8794e1ff56c03212c02dc8484",
+        "url": "https://raw.githubusercontent.com/XRPLF/xrpl-hooks-compiler/61f3a0798a0ca584c8d8954b59ea6c991f334e18/docker/wasm-opt"
+      },
+      {
+        "name": "error.h",
+        "sha256": "682ae265dfdda491572af1fcb6c156cfb937a6f13667defed3167ce3814049cd",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/error.h"
+      },
+      {
+        "name": "extern.h",
+        "sha256": "897cbeaf0f20526cb431653c040af6914b2d42e61023fb4864b66c4afb8b4cba",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/extern.h"
+      },
+      {
+        "name": "hookapi.h",
+        "sha256": "f8dabdc9950dfededc6d86973e4904e4c83d1dea08ce690a7665f5747c1d513e",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/hookapi.h"
+      },
+      {
+        "name": "macro.h",
+        "sha256": "4e7c6f4142476ef022f92b4428b5298f653a81147472e140764981fc5dcc9d25",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/macro.h"
+      },
+      {
+        "name": "sfcodes.h",
+        "sha256": "fa5d0a61bfb569a03594f9eb8e8b584e8ef08b2b3ab800f7f16e19bc7c844c8a",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/sfcodes.h"
+      },
+      {
+        "name": "tts.h",
+        "sha256": "5b55f9274c128c910ab3d754efda4a9fcf35da1fc1fafa037d63b5a568b46265",
+        "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/tts.h"
+      }
+    ],
+    "base_image": "node@sha256:c7bde48048debf58dba50f8d2ba674854bdf7dfc8c43bd468f19a5212facfdbe",
+    "digest": "3478f2ab287852001e077e6d79d1a5118093b86ea3ae7329674eafcdfc88ec93",
+    "name": "xhc-bin127",
+    "platform": "linux/amd64",
+    "tool_versions": {
+      "clang": "15.0.0, XRPLF/llvm-project fork via XRPLF/wasi-sdk (submodules 4ca7eaa / 628938f), prebuilt in xrpl-hooks-compiler release v1.27 bin.zip (bin.zip v1.26 carries a byte-identical clang-15)",
+      "guard_checker": "RichardAH/guard-checker de69e8a (prebuilt in bin.zip v1.27)",
+      "headers": "Xahau/xahaud hook/*.h at 8bcebdea (xrpl-hooks-compiler submodule from b932c7b, 2025-11-13)",
+      "hook-cleaner": "XRPLF/hook-cleaner-c b856a36 (prebuilt in bin.zip v1.27)",
+      "wasm-ld": "lld 15 from the same bin.zip",
+      "wasm-opt": "binaryen version 108, static x86-64 binary committed at xrpl-hooks-compiler docker/wasm-opt (7ed1c44, 2022-06-13)"
+    }
+  },
+  "schema": "hook-repro/build-manifest/v1",
+  "seconds": 3.6,
+  "sidecar": null,
+  "source": {
+    "dir": "~/.cache/hook-repro/tmp/hookc-src-of6hvhyg/src",
+    "files": [
+      [
+        ".gitignore",
+        "bfb16fc2dc3b7f24e20981aa586e31d66293c81eb7c2e5d0a9bbb252b13c6271"
+      ],
+      [
+        "README.md",
+        "a22ddd9fe3a79329389602f97a59777499983d66b89bef7b709677dd9fcc5c64"
+      ],
+      [
+        "accountSet.js",
+        "9c5f4ba537c10bac4a55b25cb5607ecca2fb5beaaa0b717ec7292f12051d9e9c"
+      ],
+      [
+        "checkAccount.js",
+        "4b451fd192c91ce2af708d312c2304a4044ffe6c398af1d81bad211a06f95980"
+      ],
+      [
+        "claimReward.c",
+        "87b09d8a8e86feda52f6f177f71f04ebfd08fdd3e7826de9c111c61baae0b524"
+      ],
+      [
+        "clearAccountFlag.js",
+        "a4810e2e1bcec56759a5adc6f5ca9b06ecb0e2378de9bb8ee772d94bbe285021"
+      ],
+      [
+        "cronSet.js",
+        "65b50b3ab0ed11bb52d73d6d84398f7ce0526ad12eefd097b4d3bb8e1c150dcb"
+      ],
+      [
+        "installHook.js",
+        "4cee09ef5132e959b60bdfe3ab3b2a68d46aad666e49798f973291045412488b"
+      ],
+      [
+        "package-lock.json",
+        "15e5ac9e5300837ea059fd6c1b9a42152782d30d556ecd94fca3b97c69c10b9c"
+      ],
+      [
+        "package.json",
+        "cf4c000b513bd227ebf93a63d38619d41a51d1478644b83d26e0e0f20359a477"
+      ],
+      [
+        "uninstallCronSet.js",
+        "1fb4ceaae9edc5b184b28164f8b43a32d0beb2915d9ebc7d1da6c19a5430b1f5"
+      ],
+      [
+        "uninstallHook.js",
+        "d421d67adc892d07103fcd06e9c3395bf60c1f7b67f6d0567530603142719490"
+      ]
+    ],
+    "tree_sha256": "be7d5a118f7141de298b0acb46ec4b6a35cd29cfdfd32efa0d987f48dd9a3bb8"
+  },
+  "vendor": null
+}

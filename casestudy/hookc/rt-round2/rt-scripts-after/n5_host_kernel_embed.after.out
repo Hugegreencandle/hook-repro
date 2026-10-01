@@ -1,0 +1,10 @@
+hookc build exit=3
+UNVERIFIED: build error: source names absolute host paths (the build would depend on the build machine): hook.c: __has_include("/
+amd64 twin (emulated) sees host file: x86_64 /sys/devices/system/cpu/cpu0/cpu_capacity 
+reference HookHashes: LIMIT 10 = FA5FA332..., LIMIT 1000000 = D3C4280E... (N2/N3)
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import json;d=json.load(open('<scratchpad>/rt2/work-n5/out/0.hook.metadata.json'));print('sidecar platforms',sorted(d['builder']['platforms']),'HookHash',d['HookHash'])
+                            ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<scratchpad>/rt2/work-n5/out/0.hook.metadata.json'
+reproduce (same host) exit=0

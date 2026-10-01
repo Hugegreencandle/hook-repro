@@ -1,0 +1,17 @@
+VERDICT: MISMATCH
+reason:  deterministic rebuild 3A0E30A9D15185B13BA6618D5D72AD638EEA286AA0C7D9D2257E5E98D451DE07 differs from on-ledger 805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA
+hookhash 805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA  network xahau-mainnet  recipe xhc-bin127 preset builder-2026-07 params {}
+  read https://xahau.network              node n9JYxms4BTRi.. ledger 26196833 272DD541E8CD93FA.. size 808 sha512half 805351CE26FB79DA
+  read https://cluster.cbotlabs.xyz       node n9JAe6yk1aEQ.. ledger 26196833 272DD541E8CD93FA.. size 808 sha512half 805351CE26FB79DA
+  build1 size 1069 sha512half 3A0E30A9D15185B1 recipe 13455c906e3c01ac src d390030d5da2425d
+  build2 size 1069 sha512half 3A0E30A9D15185B1 recipe 13455c906e3c01ac src d390030d5da2425d
+size: on_ledger=808 B, rebuilt=1069 B (delta +261)
+first differing byte offset: 12
+  section type           differs            on_ledger=37 rebuilt=37
+  section import         differs            on_ledger=143 rebuilt=143
+  section function       differs            on_ledger=3 rebuilt=3
+  section global         differs            on_ledger=49 rebuilt=8
+  section code           differs            on_ledger=341 rebuilt=644
+  func[9] cbak                 differs            on_ledger=14 rebuilt=39
+  func[10] hook                 differs            on_ledger=320 rebuilt=601
+report: casestudy/claimreward/verify-builder202607/verify-report.json

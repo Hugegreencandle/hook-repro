@@ -1,0 +1,9 @@
+evil-content build exit=0
+reconstructed ec8eaeb sidecar: HookHash D3C4280E1F4AE261BB38BC3130A47BCEFA8B18016A4714020EBF96D65520455E vcs e6d2eaa7a02e ea33d2692025
+reproduce --src <replacing repo>: VERDICT: MISMATCH
+  exit=2
+reproduce --git <replacing repo> exit=2
+mirror has: refs/replace/ea33d2692025fb19debd6f400969433d54fee415
+reproduce --git <mirror clone> exit=2
+GIT_DIR=<replacing repo> reproduce --git <clean clone> exit=2
+GIT_REPLACE_REF_BASE=refs/evil/ reproduce exit=2

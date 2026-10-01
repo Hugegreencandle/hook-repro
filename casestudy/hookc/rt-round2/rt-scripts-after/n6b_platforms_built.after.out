@@ -1,0 +1,1 @@
+n6 check: sidecar builder.platforms_built = ['linux/arm64'] ; builder.platforms (pins) = ['linux/amd64', 'linux/arm64']

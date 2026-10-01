@@ -1,0 +1,6 @@
+hook-repro-rt4fix: 1 mutants from tools/mutants.py; baseline green 218.9s; mutant timeout 900s; gate: -B -m pytest -q -x -p no:cacheprovider
+  [1/1] KILLED      244.8s t+464s  rt5 H-a: --src outside the sidecar's source dir accepted
+  1  killed    rt5 H-a: --src outside the sidecar's source dir acce hook_repro/hookc.py
+
+1 mutants, 1 killed, 0 survived/stale
+exit=0

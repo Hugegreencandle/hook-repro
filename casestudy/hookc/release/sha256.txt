@@ -1,0 +1,4 @@
+5c572d41750440119473d729d2d146a3161ce09c699415cf0a138a2a3d16bb15  casestudy/hookc/claimreward/0.hook.wasm
+93be54342c41e6dd762ebc49c06bb1f275705e2aba44c01ddd3182da09c5fb0c  casestudy/hookc/claimreward/0.hook.metadata.json
+b1725cc581523f6d643a6a6b7702de3f74901ca7be97932bf8801eb44d55eb2f  casestudy/hookc/claimreward-llvm22/0.hook.wasm
+3b083c3a5d9583becd511644cfdd7fd48d635eb6bc00764c8b1bce02e5f1a777  casestudy/hookc/claimreward-llvm22/0.hook.metadata.json

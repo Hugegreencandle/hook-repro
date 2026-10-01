@@ -1,0 +1,16 @@
+sources: claimReward.c
+clang_version: clang version 22.1.7 (https://github.com/llvm/llvm-project a255c1ed36a1d06f79bd2633ba9f8d900153007c)
+wasm_opt_version: wasm-opt version 130 (version_130)
+wabt_version: 1.0.41
+HOOKC_WASM_OPT_RAN=1
+--- commands
+clang --target=wasm32-unknown-unknown-wasm -Oz -nostdlib -ffreestanding -Wno-int-conversion -ffile-prefix-map=/work/src/= -mno-bulk-memory -Wl,--no-entry -Wl,--allow-undefined -Wl,--export=hook -Wl,--export-if-defined=cbak -I/hdr -o /work/out.wasm -- claimReward.c
+wasm-opt --inlining-optimizing --always-inline-max-function-size 1000000 --shrink-level=100000000 --coalesce-locals-learning --vacuum --merge-blocks --merge-locals --flatten --ignore-implicit-traps -ffm --const-hoisting --code-folding --code-pushing --dae-optimizing --dce --simplify-globals-optimizing --simplify-locals-nonesting --reorder-locals --rereloop --precompute-propagate --local-cse --remove-unused-brs --memory-packing -c --avoid-reinterprets -Oz
+wasm-strip
+python3 guard_hoist.py
+wasm-validate
+--- stages
+clang 1012 e0bd7124d3d6f0b6c4756458065d776957e63e4f102eca5a92b10282a57d4d1d
+opt 1012 e0bd7124d3d6f0b6c4756458065d776957e63e4f102eca5a92b10282a57d4d1d
+strip 754 78be208ac93c9af660231403b9a1ad7ab4632b7564f98b588a070e39486aaacc
+hoist 754 78be208ac93c9af660231403b9a1ad7ab4632b7564f98b588a070e39486aaacc

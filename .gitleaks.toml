@@ -1,0 +1,11 @@
+# Public Xahau validator/node PUBLIC keys (server_info pubkey_node) recorded in verify reports.
+# They are public identities of xahau.network and cluster.cbotlabs.xyz, not secrets (xahau.network answered
+# from a second node key, ...3BBEocLcEkMD, in the RT round 4 re-run of 2026-09-30).
+# 868ccad7... is the sha256 of the public xahaud include/xrpl/hook/hook_api.macro @bb244ef (hookc WCE pin);
+# the key name "hook_api.macro" trips generic-api-key.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "public node keys"
+regexes = ['''n9JYxms4BTRi8v2YmsUH4fiV4Zco9CqWcmdY1ddY3hQzTqwawKTn''', '''n9JYxms4BTRi8v2YmsUH4fiV4Zco9CqWcmdY1ddY3BBEocLcEkMD''', '''n9JAe6yk1aEQAiFR9wFcbK6cZbomNXPaWs2Bt2dQ3Ki8rZrDXUQr''', '''n9KQqEyxgVbR[1-9A-HJ-NP-Za-km-z]{40}''', '''868ccad771110eb78ff23e7679076c6b2d9e2f8811a6dcfedea67c5e54c45b4c''']

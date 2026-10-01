@@ -1,0 +1,48 @@
+# tests/test_rt_round4.py (fix/rt-round4 @e3cce62) on a detached worktree at cd2c3b7; pytest exit=1
+PASSED tests/test_rt_round4.py::test_guard_f2_clean_worktree_reproduces
+PASSED tests/test_rt_round4.py::test_guard_f3_wrong_wce_is_still_mismatch
+PASSED tests/test_rt_round4.py::test_guard_f3b_no_wce_reason_is_the_fixed_string
+PASSED tests/test_rt_round4.py::test_guard_f1_llvm22_pipelines_run_clang_with_source_date_epoch_0[hookc-llvm22]
+PASSED tests/test_rt_round4.py::test_guard_f1_llvm22_pipelines_run_clang_with_source_date_epoch_0[hookc-llvm22-amd64]
+PASSED tests/test_rt_round4.py::test_guard_f1_llvm22_pipelines_run_clang_with_source_date_epoch_0[kvt-llvm22]
+PASSED tests/test_rt_round4.py::test_guard_f1_llvm22_pipelines_run_clang_with_source_date_epoch_0[kvt-llvm22-amd64]
+FAILED tests/test_rt_round4.py::test_rt4_f2_skip_worktree_edit_refused
+FAILED tests/test_rt_round4.py::test_rt4_f2_assume_unchanged_edit_refused
+FAILED tests/test_rt_round4.py::test_rt4_f2_visibly_dirty_edit_refused
+FAILED tests/test_rt_round4.py::test_rt4_f2_untracked_file_refused
+FAILED tests/test_rt_round4.py::test_rt4_f2_ignored_file_refused
+FAILED tests/test_rt_round4.py::test_rt4_f2_ignored_file_in_subdir_refused
+FAILED tests/test_rt_round4.py::test_rt4_f2_deleted_file_refused
+FAILED tests/test_rt_round4.py::test_rt4_f2_flag_without_edit_refused
+FAILED tests/test_rt_round4.py::test_rt4_f2_subpath_worktree_checked
+FAILED tests/test_rt_round4.py::test_guard_f2_symlink_in_worktree_refused
+FAILED tests/test_rt_round4.py::test_guard_f2_nested_git_dir_refused
+FAILED tests/test_rt_round4.py::test_guard_f2_worktree_files_unit
+FAILED tests/test_rt_round4.py::test_guard_f2_symlinked_dir_in_worktree_refused
+FAILED tests/test_rt_round4.py::test_guard_f2_symlinked_path_component_refused
+FAILED tests/test_rt_round4.py::test_rt4_f3_reproduce_no_wce_is_unverified
+FAILED tests/test_rt_round4.py::test_rt4_f3_wce_tool_unavailable_is_unverified
+FAILED tests/test_rt_round4.py::test_rt4_f3_no_wce_sidecar_reproduces_with_the_tool
+FAILED tests/test_rt_round4.py::test_guard_f3_regen_wce_unit
+FAILED tests/test_rt_round4.py::test_rt4_f3b_build_refuses_when_wce_tool_unavailable
+FAILED tests/test_rt_round4.py::test_rt4_f3b_sidecar_with_host_reason_refused
+FAILED tests/test_rt_round4.py::test_rt4_f3b_malformed_wce_block_refused[wce0-None]
+FAILED tests/test_rt_round4.py::test_rt4_f3b_malformed_wce_block_refused[wce1-WCE not computed (--no-wce)]
+FAILED tests/test_rt_round4.py::test_rt4_f3b_malformed_wce_block_refused[wce2-None]
+FAILED tests/test_rt_round4.py::test_rt4_f3b_malformed_wce_block_refused[wce3-None]
+FAILED tests/test_rt_round4.py::test_rt4_f3b_malformed_wce_block_refused[wce4-None]
+FAILED tests/test_rt_round4.py::test_rt4_f3b_malformed_wce_block_refused[wce5-None]
+FAILED tests/test_rt_round4.py::test_guard_f3b_make_metadata_refuses_reason_mismatch
+FAILED tests/test_rt_round4.py::test_rt4_f4_single_operator_caveat_carried
+FAILED tests/test_rt_round4.py::test_rt4_f4_platforms_not_rechecked_carried
+FAILED tests/test_rt_round4.py::test_rt4_f4_network_mismatch_refused
+FAILED tests/test_rt_round4.py::test_guard_f4_network_taken_from_report
+FAILED tests/test_rt_round4.py::test_guard_f4_operator_count_edges
+FAILED tests/test_rt_round4.py::test_rt4_h1_repo_filter_driver_never_runs
+FAILED tests/test_rt_round4.py::test_rt4_h1_included_filter_driver_never_runs
+FAILED tests/test_rt_round4.py::test_rt4_h1_risky_repo_config_refused
+FAILED tests/test_rt_round4.py::test_guard_h1_ordinary_clone_config_accepted
+FAILED tests/test_rt_round4.py::test_guard_h1_git_cmd_overrides
+FAILED tests/test_rt_round4.py::test_rt4_f1_xhc_bin127_defines_the_date_macros
+38 failed, 7 passed in 29.05s
+test_rt4_* items: 27, failed: 27, passed: 0

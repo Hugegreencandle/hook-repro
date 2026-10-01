@@ -1,0 +1,32 @@
+{
+  "stem": "0.hook",
+  "HookHash": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+  "size": 808,
+  "sha256": "5c572d41750440119473d729d2d146a3161ce09c699415cf0a138a2a3d16bb15",
+  "platforms": {
+    "linux/amd64": {
+      "recipe": "xhc-bin127",
+      "recipe_digest": "e77aa73b141b08eecf224d7f50d1d2ea595525126e982dff14631ee6678b9068",
+      "image_id": "sha256:3a61b7449ca387b7a2c1bc5110abd40e03c4496a1a2d7d70bb3cadb075cec752",
+      "builds_identical": true
+    }
+  },
+  "WCE": {
+    "hook": 149,
+    "cbak": 7
+  },
+  "wce_reason": null,
+  "warnings": [],
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "0a10b61b4f361384395a00ebc56e585f8389627f",
+      "path": "",
+      "tree": "ce026102306391a66f310e4838958481596277db",
+      "dirty": false
+    },
+    "tree_sha256": "be7d5a118f7141de298b0acb46ec4b6a35cd29cfdfd32efa0d987f48dd9a3bb8",
+    "file_count": 12,
+    "entry": null
+  }
+}

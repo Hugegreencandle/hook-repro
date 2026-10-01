@@ -1,0 +1,3 @@
+attacker build exit=3
+--- control: verify without --out
+--- verify --out vout (inside the checkout)

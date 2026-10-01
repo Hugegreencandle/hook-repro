@@ -1,0 +1,15 @@
+sources: claimReward.c
+guard_checker: pass
+clang_version: clang version 15.0.0
+wasm_opt_version: wasm-opt version 108 (version_108)
+HOOKC_WASM_OPT_RAN=1
+--- commands
+/tc/wasi-sdk/bin/clang -Wno-builtin-macro-redefined -D__DATE__="Jan  1 1970" -D__TIME__="00:00:00" -D__TIMESTAMP__="Thu Jan  1 00:00:00 1970" -O3 --sysroot=/tc/wasi-sdk/share/wasi-sysroot -xc -ffile-prefix-map=/work/src/= -fdiagnostics-print-source-range-info -Werror=implicit-function-declaration --no-standard-libraries -nostartfiles -Wl,--allow-undefined,--no-entry,--export-all -o /work/out.wasm -I/hdr -- claimReward.c
+/tc/wasm-opt --shrink-level=100000000 --coalesce-locals-learning --vacuum --merge-blocks --merge-locals --flatten --ignore-implicit-traps -ffm --const-hoisting --code-folding --code-pushing --dae-optimizing --dce --simplify-globals-optimizing --simplify-locals-nonesting --reorder-locals --rereloop --precompute-propagate --local-cse --remove-unused-brs --memory-packing -c --avoid-reinterprets -O3
+/tc/hook-cleaner
+/tc/wasm-opt --shrink-level=100000000 --coalesce-locals-learning --vacuum --merge-blocks --merge-locals --flatten --ignore-implicit-traps -ffm --const-hoisting --code-folding --code-pushing --dae-optimizing --dce --simplify-globals-optimizing --simplify-locals-nonesting --reorder-locals --rereloop --precompute-propagate --local-cse --remove-unused-brs --memory-packing -c --avoid-reinterprets -O3
+--- stages
+clang 1423 e42a2280e17162956fdb839773d3b9a24dd800d8763923b2890f668c74846e2a
+opt1 978 83b220e8735f8cc3a853e17185954ddecb6141a08d92fd660768fef1f73f0e91
+clean2 808 21d23b4c5b1477be6bab4defb2ef3fada3c78bbc48160f0ad1fe5136108f4f28
+opt3 763 37f75ae85716964537d138e601395dcd473cf4a99c222faed16eb355a5d74e83

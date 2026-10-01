@@ -1,0 +1,10 @@
+VERDICT: MISMATCH
+reason:  rebuilt HookHash 37F75AE85716964537D138E601395DCD473CF4A99C222FAED16EB355A5D74E83 != metadata HookHash 805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA
+size: reference=808 B, rebuilt=763 B (delta -45)
+first differing byte offset: 12
+  section type           differs            reference=37 rebuilt=37
+  section import         differs            reference=143 rebuilt=143
+  section function       differs            reference=3 rebuilt=3
+  section global         differs            reference=49 rebuilt=8
+  section code           differs            reference=341 rebuilt=338
+  func[10] hook                 differs            reference=320 rebuilt=320

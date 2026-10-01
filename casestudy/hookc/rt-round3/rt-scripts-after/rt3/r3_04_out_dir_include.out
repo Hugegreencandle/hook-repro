@@ -1,0 +1,12 @@
+attacker build exit=3
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import json,sys; d=json.load(open(sys.argv[1])); print('sidecar', d['HookHash'], d['source']['vcs'])
+                                 ~~~~^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<scratchpad>/rt3fix/rerun-after/rt3/work-r3-04/o/0.hook.metadata.json'
+--- control: reproduce with a fresh tmp out dir
+exit=3
+--- (a) reviewer reuses one --out dir: run 1 then run 2
+run1 exit=3
+--- (b) reviewer works inside the checkout: --src . --out repro
+exit=3

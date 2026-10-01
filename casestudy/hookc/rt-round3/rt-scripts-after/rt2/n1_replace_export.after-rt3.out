@@ -1,0 +1,8 @@
+[90m11:02AM[0m [32mINF[0m [1m0 commits scanned.[0m
+[90m11:02AM[0m [32mINF[0m [1mscanned ~25 bytes (25 bytes) in 22.1ms[0m
+[90m11:02AM[0m [32mINF[0m [1mno leaks found[0m
+commit f07e192903a50c43319938cfef20a99064e8cf4f tree fc7b6b352ffeed718fa1e4352cad5a17eaaddcec (replacement c7d6937d2f237010199fbbef309a354ab2b94fc7)
+git verify: cat-file -p C:hook.h => int x = 666; /* EVIL */
+GIT_NO_REPLACE_OBJECTS=1        => int x = 1; /* GENUINE */
+export vcs: {'type': 'git', 'commit': 'f07e192903a50c43319938cfef20a99064e8cf4f', 'path': '', 'tree': 'fc7b6b352ffeed718fa1e4352cad5a17eaaddcec', 'dirty': False}
+exported hook.h: int x = 1; /* GENUINE */

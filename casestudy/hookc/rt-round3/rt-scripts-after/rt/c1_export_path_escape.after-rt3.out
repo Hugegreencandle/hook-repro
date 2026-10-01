@@ -1,0 +1,7 @@
+crafted commit d3901f09df71a691265f37343400b20ac70e2c86
+100644 blob b052f81f23aa82f4ff1d552586cd1e5e6bdc0b02	../../PWNED_dotdot.txt
+100644 blob b052f81f23aa82f4ff1d552586cd1e5e6bdc0b02	<scratchpad>/rt3fix/rerun-after/rt/work-c1/PWNED_abs.txt
+100644 blob 9d2a844c56ce40768d8f00297b0f000ccf4ce655	hook.c
+hookc build exit=3
+UNVERIFIED: build error: git tree has an invalid or duplicate entry name b'../../PWNED_dotdot.txt'
+ls: <scratchpad>/rt3fix/rerun-after/rt/work-c1/PWNED_abs.txt: No such file or directory

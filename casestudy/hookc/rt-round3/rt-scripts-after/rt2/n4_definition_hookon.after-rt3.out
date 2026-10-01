@@ -1,0 +1,6 @@
+(a) definition HookOn = another installer choice -> MISMATCH exit 2
+   reason: bytes match the chain but HookDefinition disagrees with the sidecar: HookCallbackFee 0 != WCE.cbak 0
+   rows: [('Fee', True, True), ('HookCallbackFee', False, True), ('HookOn', False, False), ('HookCanEmit', None, False)]
+(b) HookOnV2 definition, no HookOn field -> MISMATCH exit 2
+   reason: bytes match the chain but HookDefinition disagrees with the sidecar: HookCallbackFee 0 != WCE.cbak 0
+   rows: [('Fee', True, True), ('HookCallbackFee', False, True), ('HookOn', None, False), ('HookCanEmit', None, False)]

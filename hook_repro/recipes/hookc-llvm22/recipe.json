@@ -1,0 +1,143 @@
+{
+ "name": "hookc-llvm22",
+ "summary": "hookc canonical C toolchain (linux/arm64): upstream LLVM 22.1.7 clang -Oz -> binaryen 130 wasm-opt pass list -> wabt 1.0.41 wasm-strip -> guard_hoist.py -> wasm-validate, official Xahau/xahaud hook/*.h headers at release bb244ef. Same pipeline as kvt-llvm22.",
+ "platform": "linux/arm64",
+ "base_image": "python@sha256:eb5be8e5b4d0a159c237946bbdd06356dda5d19c30fc4f7843e8046d3a590333",
+ "base_image_note": "docker.io/library/python:3.12-slim-bookworm (3.12.14), linux/arm64/v8 manifest (index sha256:392307d22300de8b5986851a12d9176dfc0fc073e65bf6523ebd7dcbeb23564e). Python is needed for guard_hoist.py.",
+ "artifacts": [
+  {
+   "name": "llvm",
+   "url": "https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.7/LLVM-22.1.7-Linux-ARM64.tar.xz",
+   "sha256": "118ca2d3ad9da34367e05735317854e7977db45dc4c02a32af58da64c23b8789",
+   "unpack": "tar",
+   "strip_prefix": "LLVM-22.1.7-Linux-ARM64/",
+   "include_prefix": [
+    "LLVM-22.1.7-Linux-ARM64/bin/clang",
+    "LLVM-22.1.7-Linux-ARM64/bin/clang-22",
+    "LLVM-22.1.7-Linux-ARM64/bin/lld",
+    "LLVM-22.1.7-Linux-ARM64/bin/wasm-ld",
+    "LLVM-22.1.7-Linux-ARM64/lib/clang/22/include/"
+   ],
+   "into": "tc/llvm"
+  },
+  {
+   "name": "binaryen",
+   "url": "https://github.com/WebAssembly/binaryen/releases/download/version_130/binaryen-version_130-aarch64-linux.tar.gz",
+   "sha256": "e6ae6e09ac40f4e14bc5be6f687c58e2995c84170013975fa641809dd3b480a0",
+   "unpack": "tar",
+   "strip_prefix": "binaryen-version_130/",
+   "include_prefix": [
+    "binaryen-version_130/bin/wasm-opt",
+    "binaryen-version_130/lib/"
+   ],
+   "into": "tc/binaryen"
+  },
+  {
+   "name": "wabt",
+   "url": "https://github.com/WebAssembly/wabt/releases/download/1.0.41/wabt-1.0.41-linux-arm64.tar.gz",
+   "sha256": "5e35416ee8725dc7cc0572e4392a8117cbf008b0e34c0db65c75506b0299cdbf",
+   "unpack": "tar",
+   "strip_prefix": "wabt-1.0.41/",
+   "include_prefix": [
+    "wabt-1.0.41/bin/wasm-strip",
+    "wabt-1.0.41/bin/wasm-objdump",
+    "wabt-1.0.41/bin/wasm-validate",
+    "wabt-1.0.41/lib/"
+   ],
+   "into": "tc/wabt"
+  },
+  {
+   "name": "libxml2",
+   "url": "https://deb.debian.org/debian/pool/main/libx/libxml2/libxml2_2.9.14+dfsg-1.3~deb12u6_arm64.deb",
+   "sha256": "0bc00975e459387535a4bbabe98a398f0e77c9ab82474face18d01ae8ed0dae4",
+   "unpack": "deb",
+   "strip_prefix": "./usr/lib/aarch64-linux-gnu/",
+   "include_prefix": [
+    "./usr/lib/aarch64-linux-gnu/libxml2.so.2",
+    "./usr/lib/aarch64-linux-gnu/libxml2.so.2.9.14"
+   ],
+   "into": "tc/lib"
+  },
+  {
+   "name": "libicu72",
+   "url": "https://deb.debian.org/debian/pool/main/i/icu/libicu72_72.1-3+deb12u1_arm64.deb",
+   "sha256": "4f5d892fd81110435e45ed0a5f1b12899d7ff989d51db283cbc043f5631646d8",
+   "unpack": "deb",
+   "strip_prefix": "./usr/lib/aarch64-linux-gnu/",
+   "include_prefix": [
+    "./usr/lib/aarch64-linux-gnu/"
+   ],
+   "into": "tc/lib"
+  },
+  {
+   "name": "error.h",
+   "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/error.h",
+   "sha256": "682ae265dfdda491572af1fcb6c156cfb937a6f13667defed3167ce3814049cd",
+   "into": "hdr/error.h"
+  },
+  {
+   "name": "extern.h",
+   "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/extern.h",
+   "sha256": "83b077aa763f1a3bbbc38cc3669039ec9fcbc7543f5c1c63226bfd4bfbf94eb0",
+   "into": "hdr/extern.h"
+  },
+  {
+   "name": "hookapi.h",
+   "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/hookapi.h",
+   "sha256": "5927617ba052f51651a4a7478a91b5a98ce1340d5946b588a8f963c4d188e211",
+   "into": "hdr/hookapi.h"
+  },
+  {
+   "name": "macro.h",
+   "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/macro.h",
+   "sha256": "4e7c6f4142476ef022f92b4428b5298f653a81147472e140764981fc5dcc9d25",
+   "into": "hdr/macro.h"
+  },
+  {
+   "name": "sfcodes.h",
+   "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/sfcodes.h",
+   "sha256": "2f03622fb396b6116c9b9d0455efff320049fa2cb9cb8c8fbbf49e70580db8c9",
+   "into": "hdr/sfcodes.h"
+  },
+  {
+   "name": "tts.h",
+   "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/tts.h",
+   "sha256": "5baa7ca07b0c1d40299c7d2d80902846467ae8eae2767e7b268be5ab1cede628",
+   "into": "hdr/tts.h"
+  },
+  {
+   "name": "ls_flags.h",
+   "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/ls_flags.h",
+   "sha256": "733bd02a19ee7bef7ea0d74192999142f501e60efe1928656ee699f7ca3a933b",
+   "into": "hdr/ls_flags.h"
+  },
+  {
+   "name": "tx_flags.h",
+   "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/tx_flags.h",
+   "sha256": "49f66ba0a77743b36e182f6f7df28454b0893f6bc0ae31b5c7d320b7e99b8538",
+   "into": "hdr/tx_flags.h"
+  }
+ ],
+ "vendored": [
+  "guard_hoist.py"
+ ],
+ "pipeline": "pipeline.sh",
+ "jail": true,
+ "params": {
+  "ENTRY": {
+   "default": "",
+   "allowed_pattern": "^[A-Za-z0-9_][A-Za-z0-9_.-]*\\.c$|^$"
+  }
+ },
+ "presets": {
+  "deploy": {}
+ },
+ "tool_versions": {
+  "clang": "22.1.7 upstream release LLVM-22.1.7-Linux-ARM64 (the hook was originally built with Homebrew llvm 22.1.7_1 on macOS arm64)",
+  "wasm-opt": "binaryen version_130",
+  "wabt": "1.0.41 (wasm-strip, wasm-objdump used by guard_hoist.py, wasm-validate)",
+  "runtime libs": "Debian bookworm libxml2 2.9.14+dfsg-1.3~deb12u6 + libicu72 72.1-3+deb12u1 (arm64 .deb, sha256-pinned; wasm-ld needs libxml2.so.2)",
+  "guard_hoist.py": "vendored from KVT's deployable-hook build scripts (originally developed for an internal project; snapshot of 2026-07-06), sha256 d6ee360a0c03dd6b89961563b2f266a3f07613c5d95224cccf4afac3478546b4",
+  "headers": "Xahau/xahaud hook/*.h at release bb244ef7 (2026-06-21), each file sha256-pinned; tts.h = rshooks-core 0.2.3 vendored tts.h (sha256 5baa7ca0...)"
+ }
+}

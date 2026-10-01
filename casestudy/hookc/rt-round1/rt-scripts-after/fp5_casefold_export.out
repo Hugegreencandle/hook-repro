@@ -1,0 +1,17 @@
+commit e406a08bc7ee804ae5fd6fc0041eda6add1acaa0 tree:
+100644 blob c62507236f1ba9e0a362e7a7276f792d968f991f	Cfg.h
+100644 blob a337946827ae38adc037e46c4444368fc9e96c82	cfg.h
+100644 blob e2ecda175a8722e34af2566558494ccb10770aa1	hook.c
+  git show X:Cfg.h => #define LIMIT 10
+macOS hookc build --git exit=3
+ls: <scratch>/rt-after/work-fp5/mac: No such file or directory
+Traceback (most recent call last):
+  File "<string>", line 1, in <module>
+    import json;d=json.load(open('<scratch>/rt-after/work-fp5/mac/0.hook.metadata.json'));print('mac HookHash',d['HookHash'],'vcs.commit',d['source']['vcs']['commit'],'file_count',d['source']['file_count'])
+                            ~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+FileNotFoundError: [Errno 2] No such file or directory: '<scratch>/rt-after/work-fp5/mac/0.hook.metadata.json'
+macOS reproduce --git exit=1
+Traceback (most recent call last):
+  File "<frozen runpy>", line 203, in _run_module_as_main
+reference build exit=0
+reference (Linux-equivalent) HookHash FA5FA33200BEAAB217646AF0B8529C6025BFD410CC2FEFCF2F52957F70918B8C

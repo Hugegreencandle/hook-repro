@@ -1,0 +1,6 @@
+hook-repro-rt4fix: 1 mutants from tools/mutants.py; baseline green 134.0s; mutant timeout 900s; gate: -B -m pytest -q -x -p no:cacheprovider
+  [1/1] KILLED      141.2s t+275s  rt FP1: --src HEAD tree not checked
+  1  killed    rt FP1: --src HEAD tree not checked                  hook_repro/hookc.py
+
+1 mutants, 1 killed, 0 survived/stale
+exit=0

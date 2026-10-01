@@ -1,0 +1,3 @@
+container uid 4242, USER=mallory, TZ=Asia/Tokyo, LC_ALL/LANG=ja_JP.UTF-8, SOURCE_DATE_EPOCH=1700000000 (pipeline re-exports its own fixed env)
+xhc-bin127 classic  rc=0 sha512 805351ce26fb79da (= baseline)
+hookc-llvm22 arm64  rc=0 sha512 78be208ac93c9af6 (= baseline)

@@ -1,0 +1,13 @@
+sidecar WCE {'hook': 9, 'cbak': 0}
+(0) control reproduce exit=0
+VERDICT: REPRODUCED
+(a) reproduce --no-wce exit=3
+VERDICT: UNVERIFIED
+reason:  bytes reproduce (HookHash 34D53ADC416028B6158992D66434FF19C8F9A120DD002169DD0B140674F479DE) but the sidecar states WCE {"cbak": 0, "hook": 9} but this run has --no-wce, so it was not recomputed; WCE NOT checked
+(b) reproduce, WCE tool unavailable exit=3
+VERDICT: UNVERIFIED
+reason:  bytes reproduce (HookHash 34D53ADC416028B6158992D66434FF19C8F9A120DD002169DD0B140674F479DE) but the sidecar's WCE could not be recomputed: WCE tool unavailable: docker tag hook-repro/hookc-wce:7eb3bd03a78f7109 is bound to sha256:d19813cd80e8ed4f4329229797557ac9015527ba8ba64627614409eaed74ce
+VERDICT: UNVERIFIED
+reason:  sidecar regeneration failed: WceUnavailable: the sidecar's WCE could not be recomputed: WCE tool unavailable: docker tag hook-repro/hookc-wce:7eb3bd03a78f7109 is bound to sha256:d19813cd80e8ed4f4329229797557ac9015527ba8ba64627614409eaed74ce8f, which is not the image hook-repro recorded buil
+verify exit=3 (chain read SIMULATED)
+verify metadata_diff None

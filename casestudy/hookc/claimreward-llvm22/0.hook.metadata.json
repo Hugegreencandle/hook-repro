@@ -1,0 +1,229 @@
+{
+  "index": 0,
+  "hook_fn": "hook",
+  "cbak_fn": "cbak",
+  "name": "hook",
+  "description": null,
+  "HookOn": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFEFFFFFFFFFFFFFFFFFBFFFFF",
+  "HookCanEmit": "FFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFFBFFFFFFFFFFFFFFFFFFBFFFFF",
+  "HookName": null,
+  "HookHash": "78BE208AC93C9AF660231403B9A1AD7AB4632B7564F98B588A070E39486AAACC",
+  "WCE": {
+    "hook": 133,
+    "cbak": 7
+  },
+  "builder": {
+    "name": "hookc",
+    "version": "0.5.0",
+    "toolchain": "hookc-llvm22",
+    "preset": "deploy",
+    "params": {
+      "ENTRY": "claimReward.c"
+    },
+    "cc": "clang version 22.1.7 (https://github.com/llvm/llvm-project a255c1ed36a1d06f79bd2633ba9f8d900153007c)",
+    "wasm_opt_version": "wasm-opt version 130 (version_130)",
+    "commands": [
+      "clang --target=wasm32-unknown-unknown-wasm -Oz -nostdlib -ffreestanding -Wno-int-conversion -ffile-prefix-map=/work/src/= -mno-bulk-memory -Wl,--no-entry -Wl,--allow-undefined -Wl,--export=hook -Wl,--export-if-defined=cbak -I/hdr -o /work/out.wasm -- claimReward.c",
+      "wasm-opt --inlining-optimizing --always-inline-max-function-size 1000000 --shrink-level=100000000 --coalesce-locals-learning --vacuum --merge-blocks --merge-locals --flatten --ignore-implicit-traps -ffm --const-hoisting --code-folding --code-pushing --dae-optimizing --dce --simplify-globals-optimizing --simplify-locals-nonesting --reorder-locals --rereloop --precompute-propagate --local-cse --remove-unused-brs --memory-packing -c --avoid-reinterprets -Oz",
+      "wasm-strip",
+      "python3 guard_hoist.py",
+      "wasm-validate"
+    ],
+    "wasm_opt": true,
+    "env": {
+      "LC_ALL": "C",
+      "SOURCE_DATE_EPOCH": "0",
+      "TZ": "UTC"
+    },
+    "platforms": {
+      "linux/amd64": {
+        "recipe": "hookc-llvm22-amd64",
+        "recipe_digest": "f96756675eb248f22a7be8a6ea71db0ffc75646bc6d0e1c892705a09838be5af",
+        "base_image": "python@sha256:1aaa65a85fda306ffb8b910824d4e93bdce61e212c7e87168123ea3073b41a1a",
+        "artifacts": [
+          {
+            "name": "llvm",
+            "sha256": "edb0522b41e261819c06ea437d249f9b8acfa413d3805bc9920eec6fb76ff830",
+            "url": "https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.7/LLVM-22.1.7-Linux-X64.tar.xz"
+          },
+          {
+            "name": "binaryen",
+            "sha256": "0a18362361ad05465118cd8eeb72edaeec89de6894bc283576ef4e07aa3babcc",
+            "url": "https://github.com/WebAssembly/binaryen/releases/download/version_130/binaryen-version_130-x86_64-linux.tar.gz"
+          },
+          {
+            "name": "wabt",
+            "sha256": "83f8122e924745fcd70636e3594bc01c4c47f2d4c8f3c63b5d70d3f83a482677",
+            "url": "https://github.com/WebAssembly/wabt/releases/download/1.0.41/wabt-1.0.41-linux-x64.tar.gz"
+          },
+          {
+            "name": "libxml2",
+            "sha256": "4460e39dda10a815881374217cde08474747cfa018358cd8612c14b390eff53b",
+            "url": "https://deb.debian.org/debian/pool/main/libx/libxml2/libxml2_2.9.14+dfsg-1.3~deb12u6_amd64.deb"
+          },
+          {
+            "name": "libicu72",
+            "sha256": "f7f6f99c6d7b025914df2447fc93e11d22c44c0c8bdd8b6f36691c9e7ddcef88",
+            "url": "https://deb.debian.org/debian/pool/main/i/icu/libicu72_72.1-3+deb12u1_amd64.deb"
+          },
+          {
+            "name": "error.h",
+            "sha256": "682ae265dfdda491572af1fcb6c156cfb937a6f13667defed3167ce3814049cd",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/error.h"
+          },
+          {
+            "name": "extern.h",
+            "sha256": "83b077aa763f1a3bbbc38cc3669039ec9fcbc7543f5c1c63226bfd4bfbf94eb0",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/extern.h"
+          },
+          {
+            "name": "hookapi.h",
+            "sha256": "5927617ba052f51651a4a7478a91b5a98ce1340d5946b588a8f963c4d188e211",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/hookapi.h"
+          },
+          {
+            "name": "macro.h",
+            "sha256": "4e7c6f4142476ef022f92b4428b5298f653a81147472e140764981fc5dcc9d25",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/macro.h"
+          },
+          {
+            "name": "sfcodes.h",
+            "sha256": "2f03622fb396b6116c9b9d0455efff320049fa2cb9cb8c8fbbf49e70580db8c9",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/sfcodes.h"
+          },
+          {
+            "name": "tts.h",
+            "sha256": "5baa7ca07b0c1d40299c7d2d80902846467ae8eae2767e7b268be5ab1cede628",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/tts.h"
+          },
+          {
+            "name": "ls_flags.h",
+            "sha256": "733bd02a19ee7bef7ea0d74192999142f501e60efe1928656ee699f7ca3a933b",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/ls_flags.h"
+          },
+          {
+            "name": "tx_flags.h",
+            "sha256": "49f66ba0a77743b36e182f6f7df28454b0893f6bc0ae31b5c7d320b7e99b8538",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/tx_flags.h"
+          }
+        ]
+      },
+      "linux/arm64": {
+        "recipe": "hookc-llvm22",
+        "recipe_digest": "a42076d8eec09f6843ff105fb16f012a4844c4fac7960325882c92c06d79c2bf",
+        "base_image": "python@sha256:eb5be8e5b4d0a159c237946bbdd06356dda5d19c30fc4f7843e8046d3a590333",
+        "artifacts": [
+          {
+            "name": "llvm",
+            "sha256": "118ca2d3ad9da34367e05735317854e7977db45dc4c02a32af58da64c23b8789",
+            "url": "https://github.com/llvm/llvm-project/releases/download/llvmorg-22.1.7/LLVM-22.1.7-Linux-ARM64.tar.xz"
+          },
+          {
+            "name": "binaryen",
+            "sha256": "e6ae6e09ac40f4e14bc5be6f687c58e2995c84170013975fa641809dd3b480a0",
+            "url": "https://github.com/WebAssembly/binaryen/releases/download/version_130/binaryen-version_130-aarch64-linux.tar.gz"
+          },
+          {
+            "name": "wabt",
+            "sha256": "5e35416ee8725dc7cc0572e4392a8117cbf008b0e34c0db65c75506b0299cdbf",
+            "url": "https://github.com/WebAssembly/wabt/releases/download/1.0.41/wabt-1.0.41-linux-arm64.tar.gz"
+          },
+          {
+            "name": "libxml2",
+            "sha256": "0bc00975e459387535a4bbabe98a398f0e77c9ab82474face18d01ae8ed0dae4",
+            "url": "https://deb.debian.org/debian/pool/main/libx/libxml2/libxml2_2.9.14+dfsg-1.3~deb12u6_arm64.deb"
+          },
+          {
+            "name": "libicu72",
+            "sha256": "4f5d892fd81110435e45ed0a5f1b12899d7ff989d51db283cbc043f5631646d8",
+            "url": "https://deb.debian.org/debian/pool/main/i/icu/libicu72_72.1-3+deb12u1_arm64.deb"
+          },
+          {
+            "name": "error.h",
+            "sha256": "682ae265dfdda491572af1fcb6c156cfb937a6f13667defed3167ce3814049cd",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/error.h"
+          },
+          {
+            "name": "extern.h",
+            "sha256": "83b077aa763f1a3bbbc38cc3669039ec9fcbc7543f5c1c63226bfd4bfbf94eb0",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/extern.h"
+          },
+          {
+            "name": "hookapi.h",
+            "sha256": "5927617ba052f51651a4a7478a91b5a98ce1340d5946b588a8f963c4d188e211",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/hookapi.h"
+          },
+          {
+            "name": "macro.h",
+            "sha256": "4e7c6f4142476ef022f92b4428b5298f653a81147472e140764981fc5dcc9d25",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/macro.h"
+          },
+          {
+            "name": "sfcodes.h",
+            "sha256": "2f03622fb396b6116c9b9d0455efff320049fa2cb9cb8c8fbbf49e70580db8c9",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/sfcodes.h"
+          },
+          {
+            "name": "tts.h",
+            "sha256": "5baa7ca07b0c1d40299c7d2d80902846467ae8eae2767e7b268be5ab1cede628",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/tts.h"
+          },
+          {
+            "name": "ls_flags.h",
+            "sha256": "733bd02a19ee7bef7ea0d74192999142f501e60efe1928656ee699f7ca3a933b",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/ls_flags.h"
+          },
+          {
+            "name": "tx_flags.h",
+            "sha256": "49f66ba0a77743b36e182f6f7df28454b0893f6bc0ae31b5c7d320b7e99b8538",
+            "url": "https://raw.githubusercontent.com/Xahau/xahaud/bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2/hook/tx_flags.h"
+          }
+        ]
+      }
+    },
+    "platforms_built": [
+      "linux/amd64",
+      "linux/arm64"
+    ],
+    "wce": {
+      "tool": "xahaud validateGuards (include/xrpl/hook/Guard.h), GUARD_CHECKER_BUILD",
+      "xahaud_commit": "bb244ef7729503a0317bcff0f8fdaa93ca5cb7d2",
+      "recipe": "hookc-wce",
+      "recipe_digest": "7eb3bd03a78f710938dd001fdc4f9bc3b28a091ee38785fcf6fe29f392d05688",
+      "headers": {
+        "Guard.h": "705e7e9cf8b2e02f0a031a86ad9ddd292ba19e838a14f7a4e5a23c93e6d6c518",
+        "Enum.h": "82cd19d717dbf8d33bf0e1bc357d7c57e9457a629e3b6d7e03777b67f4e4e0d8",
+        "hook_api.macro": "868ccad771110eb78ff23e7679076c6b2d9e2f8811a6dcfedea67c5e54c45b4c"
+      },
+      "bound": "worst-case count of wasm instructions per validateGuards (guard-derived loop multipliers; host-function internals not counted); SetHook stores the same numbers as HookDefinition Fee / HookCallbackFee via computeExecutionFee",
+      "reason": null
+    }
+  },
+  "human": {
+    "on": {
+      "form": "list",
+      "HookOn": [
+        "Cron"
+      ],
+      "HookOnIncoming": null,
+      "HookOnOutgoing": null
+    },
+    "HookCanEmit": [
+      "ClaimReward"
+    ],
+    "HookName": null
+  },
+  "chain": null,
+  "source": {
+    "vcs": {
+      "type": "git",
+      "commit": "0a10b61b4f361384395a00ebc56e585f8389627f",
+      "path": "",
+      "tree": "ce026102306391a66f310e4838958481596277db",
+      "dirty": false
+    },
+    "tree_sha256": "be7d5a118f7141de298b0acb46ec4b6a35cd29cfdfd32efa0d987f48dd9a3bb8",
+    "file_count": 12,
+    "entry": "claimReward.c"
+  }
+}

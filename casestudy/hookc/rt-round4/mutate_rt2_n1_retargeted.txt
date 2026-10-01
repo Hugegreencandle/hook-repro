@@ -1,0 +1,7 @@
+hook-repro-rt4fix: 1 mutants from tools/mutants.py; baseline green 155.2s; mutant timeout 900s; gate: -B -m pytest -q -x -p no:cacheprovider
+  [1/1] KILLED       41.2s t+197s  rt2 N1: --no-replace-objects not passed
+  1  killed    rt2 N1: --no-replace-objects not passed              hook_repro/hookc.py
+
+1 mutants, 1 killed, 0 survived/stale
+exit=0
+mutate exit=0

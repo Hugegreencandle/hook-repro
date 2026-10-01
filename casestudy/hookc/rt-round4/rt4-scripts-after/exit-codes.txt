@@ -1,0 +1,6 @@
+f2_dirty_src_worktree exit=0
+f1_build_date exit=0
+f1b_timestamp exit=0
+f3_wce_unavailable_is_mismatch exit=0
+f3b_null_wce_reason_host_specific exit=0
+f4_bind_drops_caveats exit=1

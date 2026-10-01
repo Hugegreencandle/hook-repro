@@ -1,0 +1,148 @@
+{
+  "builds": [
+    {
+      "image_id": "sha256:71ed9debbb6b7d69931ec7ca24af1dcad3f50443670a656719191fd4e596d1b3",
+      "n": 1,
+      "params": {
+        "CLANG_OPT": "-O3",
+        "STAGES": "opt,clean,opt",
+        "WASMOPT": "builder2025"
+      },
+      "recipe_digest": "13455c906e3c01aca7a51973acac2600cc34393582e7a3dddeb8fa33f2256b81",
+      "sha256": "e5ef897114c41715472cdff4641e4a40bb41d519ca5ce586c2925582a3bd0788",
+      "sha512half": "37F75AE85716964537D138E601395DCD473CF4A99C222FAED16EB355A5D74E83",
+      "size": 763,
+      "source_tree_sha256": "d390030d5da2425d3e208ee78672221f56803bf6ed0d879c9c118be57ec115fc"
+    },
+    {
+      "image_id": "sha256:71ed9debbb6b7d69931ec7ca24af1dcad3f50443670a656719191fd4e596d1b3",
+      "n": 2,
+      "params": {
+        "CLANG_OPT": "-O3",
+        "STAGES": "opt,clean,opt",
+        "WASMOPT": "builder2025"
+      },
+      "recipe_digest": "13455c906e3c01aca7a51973acac2600cc34393582e7a3dddeb8fa33f2256b81",
+      "sha256": "e5ef897114c41715472cdff4641e4a40bb41d519ca5ce586c2925582a3bd0788",
+      "sha512half": "37F75AE85716964537D138E601395DCD473CF4A99C222FAED16EB355A5D74E83",
+      "size": 763,
+      "source_tree_sha256": "d390030d5da2425d3e208ee78672221f56803bf6ed0d879c9c118be57ec115fc"
+    }
+  ],
+  "diff": {
+    "exports_equal": true,
+    "first_diff_offset": 12,
+    "functions": [
+      {
+        "index": 9,
+        "name": "cbak",
+        "on_ledger": 14,
+        "rebuilt": 14,
+        "status": "same"
+      },
+      {
+        "index": 10,
+        "name": "hook",
+        "on_ledger": 320,
+        "rebuilt": 320,
+        "status": "differs"
+      }
+    ],
+    "identical": false,
+    "imports_equal": true,
+    "sections": [
+      {
+        "on_ledger": 37,
+        "rebuilt": 37,
+        "section": "type",
+        "status": "differs"
+      },
+      {
+        "on_ledger": 143,
+        "rebuilt": 143,
+        "section": "import",
+        "status": "differs"
+      },
+      {
+        "on_ledger": 3,
+        "rebuilt": 3,
+        "section": "function",
+        "status": "differs"
+      },
+      {
+        "on_ledger": 3,
+        "rebuilt": 3,
+        "section": "memory",
+        "status": "same"
+      },
+      {
+        "on_ledger": 49,
+        "rebuilt": 8,
+        "section": "global",
+        "status": "differs"
+      },
+      {
+        "on_ledger": 15,
+        "rebuilt": 15,
+        "section": "export",
+        "status": "same"
+      },
+      {
+        "on_ledger": 341,
+        "rebuilt": 338,
+        "section": "code",
+        "status": "differs"
+      },
+      {
+        "on_ledger": 189,
+        "rebuilt": 189,
+        "section": "data",
+        "status": "same"
+      }
+    ],
+    "size": {
+      "on_ledger": 808,
+      "rebuilt": 763
+    },
+    "size_delta": -45
+  },
+  "distinct_operators": 2,
+  "generated_utc": "2026-10-01T01:53:07Z",
+  "hookhash": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+  "ledger": {
+    "ledger_hash": "671B0CE03351EA2F2B6DBA898695BC58B6D209EB22F34D9F0F8D21A440A56ED8",
+    "ledger_index": 26196831
+  },
+  "network": "xahau-mainnet",
+  "params": {},
+  "preset": "builder-2025",
+  "reads": [
+    {
+      "build_version": "2026.6.21-release+3350",
+      "hook_set_txn": "C7469131A46D07E777D4FCAFD574F64CF7E25EF0A4428564F5F6986F7CEC8AAE",
+      "ledger_hash": "671B0CE03351EA2F2B6DBA898695BC58B6D209EB22F34D9F0F8D21A440A56ED8",
+      "ledger_index": 26196831,
+      "network_id": 21337,
+      "node_key": "n9JYxms4BTRi8v2YmsUH4fiV4Zco9CqWcmdY1ddY3BBEocLcEkMD",
+      "sha512half": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+      "size": 808,
+      "url": "https://xahau.network"
+    },
+    {
+      "build_version": "2026.6.21-release+3350",
+      "hook_set_txn": "C7469131A46D07E777D4FCAFD574F64CF7E25EF0A4428564F5F6986F7CEC8AAE",
+      "ledger_hash": "671B0CE03351EA2F2B6DBA898695BC58B6D209EB22F34D9F0F8D21A440A56ED8",
+      "ledger_index": 26196831,
+      "network_id": 21337,
+      "node_key": "n9JAe6yk1aEQAiFR9wFcbK6cZbomNXPaWs2Bt2dQ3Ki8rZrDXUQr",
+      "sha512half": "805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+      "size": 808,
+      "url": "https://cluster.cbotlabs.xyz"
+    }
+  ],
+  "reason": "deterministic rebuild 37F75AE85716964537D138E601395DCD473CF4A99C222FAED16EB355A5D74E83 differs from on-ledger 805351CE26FB79DA00647CEFED502F7E15C2ACCCE254F11DEFEDDCE241F8E9CA",
+  "recipe": "xhc-bin127",
+  "schema": "hook-repro/verify-report/v1",
+  "source_dir": "casestudy/claimreward/src",
+  "verdict": "MISMATCH"
+}

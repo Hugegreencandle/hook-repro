@@ -71,7 +71,13 @@ Each of these limits what a verdict means:
 - **The Hooks Builder toolchain (`xhc-bin127`) is x86_64-only**, so its cross-architecture determinism
   cannot be tested.
 - **ClaimReward's toolchain was reconstructed.** It is one of several equivalent configurations
-  (`casestudy/claimreward/matrix.*`). The author did not state a toolchain.
+  (`casestudy/claimreward/matrix.*`). The author did not record a toolchain at build time. Asked
+  afterwards (2026-10-01), he recalled the Hooks Toolkit default build server
+  (`hook-buildbox.xrpl.org`), but no longer has the machine he built on. That fits the matrix: the
+  deployed bytes match clang `-O3` → wasm-opt `-O3` → hook-cleaner, which is the build server's
+  2023-era pipeline in Xahau/xrpl-hooks-compiler (`c2wasm-api/src/index.ts` @b8d3692). The Feb 2025
+  pipeline in that repo (wasm-opt, hook-cleaner, wasm-opt again; the `builder-2025` preset) does
+  NOT match. This is a likely toolchain, not a proven one: the server's deployed history is not public.
 - **The chain read is not a proof.** "Two operators" means two different self-reported `pubkey_node`
   values at the same validated ledger hash. That is fingerprint evidence, not proof of independent parties.
   No SHAMap proof is checked.

@@ -229,11 +229,24 @@ def plant(root):
         f.write(B.content_digest(os.path.join(root, "vendor")))
 
 
-@pytest.mark.parametrize("key", ["prefix16", "full"])
-def test_rt5_p3_planted_vendor_tree_with_complete_marker_not_used(tmp_path, monkeypatch, key):
+def planted_run(tmp_path, monkeypatch, key):
     src, digest, fetched = vendor_setup(tmp_path, monkeypatch)
-    plant(os.path.join(str(tmp_path / "cache"), "vendor", digest[:16] if key == "prefix16" else digest))
+    plant(os.path.join(str(tmp_path / "cache"), "vendor", key(digest)))
     vdir, info = B.prepare_source_vendor(str(src), {"LOCK": "Cargo.lock"}, log=lambda *_: None)
+    return digest, fetched, vdir, info
+
+
+def test_rt5_p3_planted_vendor_tree_with_complete_marker_not_used(tmp_path, monkeypatch):
+    # the reviewer's probe: a tree + self-consistent .complete planted at the 64-bit-prefix key
+    digest, fetched, vdir, info = planted_run(tmp_path, monkeypatch, lambda d: d[:16])
+    assert fetched == ["ab" * 32]  # re-derived from the sha256-pinned crate
+    with open(os.path.join(vdir, "serde-1.0.0", "lib.rs")) as f:
+        assert f.read() == "// GENUINE\n"
+    assert info["vendor_digest"] == digest
+
+
+def test_guard_p3_planted_at_full_digest_key_not_used(tmp_path, monkeypatch):
+    digest, fetched, vdir, info = planted_run(tmp_path, monkeypatch, lambda d: d)
     assert fetched == ["ab" * 32]  # re-derived from the sha256-pinned crate
     with open(os.path.join(vdir, "serde-1.0.0", "lib.rs")) as f:
         assert f.read() == "// GENUINE\n"

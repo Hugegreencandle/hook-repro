@@ -739,6 +739,30 @@ def wasm_opt_ran(log):
     return vals[0] == WASM_OPT_LINES[1]
 
 
+LOG_FIELDS = ("cc", "wasm_opt_version", "commands", "wasm_opt")
+
+
+def log_fields(log):
+    """The builder fields a sidecar takes from a twin's build log (RT5 P1)."""
+    return {"cc": _log_field(log, "clang_version"), "wasm_opt_version": _log_field(log, "wasm_opt_version"),
+            "commands": _log_commands(log), "wasm_opt": wasm_opt_ran(log)}
+
+
+def twin_log_disagreement(logs):
+    """logs: [(platform, build log)], first twin first. None if every twin's log yields the same
+    builder.cc / wasm_opt_version / commands / wasm_opt, else a description of the first twin
+    that differs (RT5 P1: the sidecar records one twin's log, so every other twin's must agree)."""
+    (p0, l0), rest = logs[0], logs[1:]
+    f0 = log_fields(l0)
+    for p, l in rest:
+        f = log_fields(l)
+        bad = [k for k in LOG_FIELDS if f[k] != f0[k]]
+        if bad:
+            return "the %s and %s build logs state different builder.%s (%s)" % (
+                p0, p, "/".join(bad), "; ".join("%s: %r != %r" % (k, f0[k], f[k]) for k in bad))
+    return None
+
+
 def wce_pin():
     r = buildmod.load_recipe(WCE_RECIPE)
     return {"tool": "xahaud validateGuards (include/xrpl/hook/Guard.h), GUARD_CHECKER_BUILD",
@@ -840,14 +864,15 @@ def make_metadata(decls, wasm, wce, wce_reason, tc_name, preset, params, log_txt
     if (wce is None) != (wce_reason == NO_WCE_REASON) or (wce is not None and wce_reason is not None):
         raise HookcError("WCE %r with reason %r: a sidecar has either validateGuards' numbers (reason null) or WCE "
                          "null with reason %r" % (wce, wce_reason, NO_WCE_REASON))
+    lf = log_fields(log_txt)
     on = hook_mask(decls["on"]) if decls["on_form"] == "list" else ("0" * 64 if decls["on_form"] == "all" else None)
     builder = {
         "name": BUILDER_NAME, "version": HOOKC_VERSION,
         "toolchain": tc_name, "preset": preset, "params": dict(sorted(params.items())),
-        "cc": _log_field(log_txt, "clang_version"),
-        "wasm_opt_version": _log_field(log_txt, "wasm_opt_version"),
-        "commands": _log_commands(log_txt),
-        "wasm_opt": wasm_opt_ran(log_txt),
+        "cc": lf["cc"],
+        "wasm_opt_version": lf["wasm_opt_version"],
+        "commands": lf["commands"],
+        "wasm_opt": lf["wasm_opt"],
         "env": dict(sorted(buildmod.FIXED_ENV.items())),
         "platforms": pins,
         "platforms_built": built,
@@ -1194,6 +1219,10 @@ def build(src=None, git=None, rev=None, path="", tc_name="kvt-llvm22", preset=No
                     first, sha512half(w0), plat, sha512half(results[plat][1]),
                     json.dumps(wasm_diff(w0, results[plat][1], first, plat))[:2000]))
         m0 = results[first][0]
+        disagree = twin_log_disagreement([(pl, results[pl][0]["container_log"]) for pl in plats])
+        if disagree:
+            raise HookcError("TWIN BUILD LOGS DISAGREE: %s. The sidecar records one builder block for every "
+                             "twin; no sidecar written" % disagree)
         resolved = m0["params"]
         sb = source_block(src_dir, info, entry_of(tc_name, resolved))
         if with_wce:
@@ -1300,7 +1329,7 @@ def reproduce(metadata_path, src=None, git=None, platform=None, ref_wasm=None, o
     re-checked; with `platform`, only that twin is rebuilt and platforms_built is reported as
     the original build's record, not re-checked. Verdict REPRODUCED iff the rebuilds of the
     git export of the sidecar's commit/path are identical, their SHA512Half is the metadata
-    HookHash, the sidecar regenerated from them is byte-identical to the given one, and (if
+    HookHash, the sidecar regenerated from EACH twin's rebuild is byte-identical to the given one, and (if
     given) the reference wasm is those same bytes."""
     meta = load_metadata_file(metadata_path)
     rep = {"schema": "hookc/reproduce-report/v1", "metadata": os.path.basename(metadata_path),
@@ -1345,15 +1374,18 @@ def reproduce(metadata_path, src=None, git=None, platform=None, ref_wasm=None, o
                     rep["diff"] = wasm_diff(ref, w2, "reference", "rebuilt")
                 return rep
         built = None if platform else [p for p, _, _, _ in got]
-        try:
-            ok, why, rep["metadata_diff"] = sidecar_check(meta, wasm, m, info, with_wce, log, built)
-        except WceUnavailable as e:  # a tool that did not run compared nothing: UNVERIFIED
-            rep["reason"] = "bytes reproduce (HookHash %s) but %s; WCE NOT checked" % (meta["hookhash"], e)
-            return rep
-        if not ok:
-            rep["verdict"] = "MISMATCH"
-            rep["reason"] = "bytes reproduce but " + why
-            return rep
+        # RT5 P1: the sidecar is regenerated from EVERY rebuilt twin's manifest (build log), so a
+        # twin whose log states another compiler / command line / wasm-opt stage is a MISMATCH
+        for p2, _, m2, w2 in got:
+            try:
+                ok, why, rep["metadata_diff"] = sidecar_check(meta, w2, m2, info, with_wce, log, built)
+            except WceUnavailable as e:  # a tool that did not run compared nothing: UNVERIFIED
+                rep["reason"] = "bytes reproduce (HookHash %s) but %s; WCE NOT checked" % (meta["hookhash"], e)
+                return rep
+            if not ok:
+                rep["verdict"] = "MISMATCH"
+                rep["reason"] = "bytes reproduce but (%s twin) %s" % (p2, why)
+                return rep
         rep["platforms_built_rechecked"] = built is not None
         rep["verdict"] = "REPRODUCED"
         rep["reason"] = ("two clean rebuilds on each of %s of git %s:%s are byte-identical, HookHash %s, sidecar "

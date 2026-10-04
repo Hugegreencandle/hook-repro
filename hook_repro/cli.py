@@ -149,10 +149,9 @@ def cmd_verify(a):
             rep = verify(a.hookhash, src_dir, twins[0][1], a.network, params, a.preset, a.out,
                          allow_single_operator=a.allow_single_operator, metadata=meta,
                          sidecar=lambda wasm, m, built: hookc.sidecar_check(meta, wasm, m, info, log=log, built=built),
-                         twins=twins, recheck_platforms_built=not plat)
+                         twins=twins, recheck_platforms_built=not plat, source_vcs=info["vcs"])
         finally:
             shutil.rmtree(cleanup, ignore_errors=True)
-        rep["source_vcs"] = info["vcs"]
     else:
         rep = verify(a.hookhash, a.src, recipe, a.network, params, a.preset, a.out,
                      allow_single_operator=a.allow_single_operator, metadata=meta)

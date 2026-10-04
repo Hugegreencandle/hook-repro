@@ -39,6 +39,13 @@ def report_caveats(rep):
         out.append("chain read from %s distinct operator(s), not two" % d)
     if rep.get("platforms_built_rechecked") is False:
         out.append("builder.platforms_built NOT re-checked (rebuilt only %s)" % "+".join(rep.get("platforms_rebuilt") or []))
+    # RT5 P5: a null-WCE (--no-wce) sidecar leaves HookDefinition Fee/HookCallbackFee uncompared
+    rows = (rep.get("definition_check") or {}).get("fields") or []
+    uncompared = [str(r.get("definition")) for r in rows if r.get("enforced") and r.get("match") is None]
+    wce = ((rep.get("metadata") or {}).get("doc") or {}).get("WCE")
+    if uncompared or (isinstance(wce, dict) and wce.get("hook") is None):
+        out.append("HookDefinition %s NOT compared: the sidecar's WCE is null (--no-wce)"
+                   % "/".join(uncompared or ["Fee/HookCallbackFee"]))
     return out
 
 

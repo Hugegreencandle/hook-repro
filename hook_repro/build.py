@@ -8,7 +8,7 @@ too but is not portable (docker layer metadata is not reproducible).
 
 Local-cache trust (fail-closed): a CAS artifact is re-hashed every time it is used; a build
 context is rebuilt from verified artifacts whenever an image must be built (no `.complete`
-shortcut); a vendor tree is re-hashed against the digest recorded when it was made; and a
+shortcut); a cargo vendor tree is re-derived from verified .crate artifacts on every use; and a
 docker tag is used only if it is still bound to the image ID hook-repro recorded when it
 built that image. The local docker daemon itself is trusted.
 
@@ -403,31 +403,22 @@ def source_lock_path(src_dir, params):
 
 def prepare_source_vendor(src_dir, params, log=print):
     """Fetch (sha256-pinned by the source's own Cargo.lock) and unpack every crates.io
-    dependency into a cached `directory` vendor tree; returns (dir, info)."""
+    dependency into a `directory` vendor tree; returns (dir, info). The tree is keyed by the
+    FULL lock digest and re-derived on every use from the sha256-verified CAS .crate files
+    (which are re-hashed on every use): an existing tree, and any marker file next to it, is
+    never trusted (RT5 P3), the same rule as a build context."""
     lock = source_lock_path(src_dir, params)
     crates = cargo_lock.parse_lock(lock)
     digest = cargo_lock.lock_digest(crates)
-    root = os.path.join(CACHE, "vendor", digest[:16])
-    done = os.path.join(root, ".complete")
-    ok = False
-    if os.path.exists(done):
-        # the vendor tree is mounted into the build: re-hash it against the digest recorded
-        # when it was unpacked from sha256-verified crates
-        with open(done) as f:
-            ok = f.read().strip() == content_digest(os.path.join(root, "vendor"))
-        if not ok:
-            log("vendor tree %s changed since it was unpacked; rebuilding it" % digest[:16])
-    if not ok:
-        if os.path.lexists(root):
-            shutil.rmtree(root)
-        os.makedirs(os.path.join(root, "vendor"))
-        for n, v, sha in crates:
-            a = cargo_lock.crate_artifact(n, v, sha, "vendor")
-            unpack_artifact(a, fetch_artifact(a, log), root)
-        with open(done, "w") as f:
-            f.write(content_digest(os.path.join(root, "vendor")))
     info = {"lock": params.get("LOCK") or "Cargo.lock", "lock_sha256": sha256_file(lock),
             "vendor_digest": digest, "crates": [list(c) for c in crates]}
+    root = os.path.join(CACHE, "vendor", digest)
+    if os.path.lexists(root):
+        shutil.rmtree(root)
+    os.makedirs(os.path.join(root, "vendor"))
+    for n, v, sha in crates:
+        a = cargo_lock.crate_artifact(n, v, sha, "vendor")
+        unpack_artifact(a, fetch_artifact(a, log), root)
     return os.path.join(root, "vendor"), info
 
 

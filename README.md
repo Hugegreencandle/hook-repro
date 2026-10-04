@@ -82,7 +82,8 @@ Each of these limits what a verdict means:
   values at the same validated ledger hash. That is fingerprint evidence, not proof of independent parties.
   No SHAMap proof is checked.
 - **The local Docker daemon and the git binary are trusted.** Downloaded artifacts and cached images are
-  re-checked against their pins on every use.
+  re-checked against their pins on every use; build contexts and cargo vendor trees are re-derived from
+  those re-checked artifacts, never reused from the cache.
 - **Pinned URLs can disappear.** If one does, the build fails closed on its sha256 and the recipe needs a
   mirror.
 - **WCE is xahaud's own number** (Guard.h at the pinned commit), never an estimate. It holds for that
@@ -123,7 +124,8 @@ the full HookHash), `1` usage error.
 
 `bind-review --verify-report R` copies into the binding what qualifies R's verdict: `network`,
 `distinct_operators`, `caveat`, `platforms_built_rechecked`, `platforms_rebuilt`, plus a `caveats` list in
-plain words (a single-operator read, a twin not re-checked). A `--network` that is not R's network is a
+plain words (a single-operator read, a twin not re-checked, HookDefinition `Fee`/`HookCallbackFee` not
+compared because the sidecar's WCE is null from `--no-wce`). A `--network` that is not R's network is a
 problem (NOT BOUND, exit 3); without `--network` the binding takes R's (RT round 4 F4).
 
 ## Trust model of the chain read
@@ -140,7 +142,8 @@ hostnames can still answer consistently. No SHAMap proof of the HookDefinition i
 
 - Artifacts in `~/.cache/hook-repro/cas/` are re-hashed against their pin every time they are used.
 - A build context is rebuilt from verified artifacts whenever an image has to be built (no `.complete`
-  shortcut). A cargo vendor tree is re-hashed on every use against the digest recorded when it was unpacked.
+  shortcut). A cargo vendor tree is re-derived on every use from the sha256-verified `.crate` artifacts, at
+  `vendor/<full 64-hex lock digest>`; a tree or marker file already in the cache is never trusted (RT round 5 P3).
 - A docker tag `hook-repro/<recipe>:<digest16>` is used only while it is still bound to the image ID that
   hook-repro recorded when it built it (`~/.cache/hook-repro/images/`); otherwise the build is refused. Both
   builds of a double build must run the same image ID, and the manifest records it. The local docker daemon
@@ -246,8 +249,8 @@ hook-repro build <src> --metadata 0.main.metadata.json --param CRATE=path/to/cra
   `cargo install --locked --offline`, and its inputs are the published crate plus the 99 crates in its own
   Cargo.lock, each pinned by sha256. `tools/gen_rshooks_recipe.py` generates the recipe from the .crate file.
 - **Hook dependencies:** every crates.io package in the source's own `Cargo.lock` (`LOCK`) is fetched from
-  static.crates.io and checked against its lockfile `checksum`. The packages are unpacked into a cached
-  `directory` vendor tree, which is mounted read-only at `/vendor`. Git sources, other registries and missing
+  static.crates.io and checked against its lockfile `checksum`. The packages are unpacked, on every build,
+  into a fresh `directory` vendor tree, which is mounted read-only at `/vendor`. Git sources, other registries and missing
   checksums are refused. The build then runs `--locked --offline` with `--network none`.
 - **Fixed build settings:** `SOURCE_DATE_EPOCH=0` and `CARGO_BUILD_JOBS=1`. `--remap-path-prefix` is applied
   for `/work/src`, `/vendor` and `CARGO_HOME`. A source that sets `rustflags` in `.cargo/config*` is refused,
@@ -281,7 +284,7 @@ hook-repro verify --hookhash H --src DIR --metadata M                         # 
   file, any symlink, and any index entry flagged skip-worktree or assume-unchanged (`git ls-files -v` tag other
   than `H`) is refused (exit 3). `git status` is not trusted for this. The build still uses only the export;
   the check is there because the work tree is what a reviewer reads. They then regenerate the
-  ENTIRE sidecar (source block included) from what was built and byte-compare it; nothing is copied from the
+  ENTIRE sidecar (source block included) from what was built, once per rebuilt twin, and byte-compare it; nothing is copied from the
   given sidecar except the declarations in its `human` block, which are re-validated.
 - **Export safety.** Refused (exit 3): absolute, empty, `.` or `..` components, backslash or control
   characters, `.git` in any case, `__pycache__`/`.hook-repro`, names that are not UTF-8, and paths that
@@ -319,7 +322,8 @@ hook-repro verify --hookhash H --src DIR --metadata M                         # 
 
 - Builds twice per platform twin in fresh `--network none` containers and refuses unless every build is
   byte-identical (within and across linux/arm64 + linux/amd64 where the toolchain has both twins;
-  `xhc-bin127` is x86_64-only).
+  `xhc-bin127` is x86_64-only), and unless every twin's build log states the same `cc`, `wasm_opt_version`,
+  `commands` and `wasm_opt` (RT round 5 P1): the sidecar has one `builder` block for all twins.
 - Metadata: the same top-level keys and formatting as rshooks sidecars (rshooks-build 0.2.3
   `entry_sidecar.rs` key order, serde pretty JSON + newline), plus a trailing `source` block (git commit +
   tree + content tree sha256 + entry). It is NOT a drop-in rshooks sidecar: `builder` has hookc's own keys
@@ -340,7 +344,7 @@ hook-repro verify --hookhash H --src DIR --metadata M                         # 
 | `HookHash` | Enforced | = SHA512Half of both rebuilds; `verify`: must equal `--hookhash` (else UNVERIFIED) and the chain's CreateCode |
 | `source.vcs`, `tree_sha256`, `file_count` | Enforced | regenerated from the git export actually built |
 | `source.entry` | Enforced | must equal the toolchain's entry param in `builder.params` (else refused) |
-| `builder.*` (toolchain, platforms digests, params, preset, cc, commands, wasm_opt, env, wce pin) | Enforced | pinned recipe digest must match locally; the rest regenerated from the rebuild and byte-compared |
+| `builder.*` (toolchain, platforms digests, params, preset, cc, commands, wasm_opt, env, wce pin) | Enforced | pinned recipe digest must match locally; the rest regenerated from the rebuild and byte-compared, once per rebuilt twin from that twin's own manifest and build log (a twin whose log states another `cc`, `wasm_opt_version`, `commands` or `wasm_opt` is MISMATCH, RT round 5 P1) |
 | `builder.platforms_built` | Enforced by `reproduce` and `verify --metadata` without `--platform` | the twins the build actually built (twice each) and byte-compared; `builder.platforms` lists every PINNED twin and is not a build claim. Without `--platform`, `reproduce` and `verify` rebuild EVERY listed twin twice (native and, on another architecture, emulated), every rebuild must be identical (and in `verify` equal to the on-ledger CreateCode), and the claim is regenerated from the twins rebuilt: the report says `platforms_built_rechecked: true`. A listed twin that builds other bytes is MISMATCH. With `--platform P` only P is rebuilt: the report says `platforms_built_rechecked: false` and its reason says `builder.platforms_built` is the original build's record, NOT re-checked |
 | `index`, `hook_fn`, `cbak_fn`, `name`, `HookOn`, `HookCanEmit`, `HookName`, `description`, `human` | Enforced | declarations re-validated from `human`, masks recomputed, byte-compared |
 | `WCE` | Enforced | recomputed by xahaud validateGuards (pinned) and byte-compared; `verify`: HookDefinition `Fee` must equal `WCE.hook`, and `HookCallbackFee` must equal `WCE.cbak` when `WCE.cbak > 0` and must be ABSENT when `WCE.cbak` is 0, because SetHook writes `Fee` always and `HookCallbackFee` only `if (maxInstrCountCbak > 0)` (xahaud `SetHook.cpp` @bb244ef:1873-1881; `computeExecutionFee` is the identity, `applyHook.cpp` :696-703). An absent field is compared, never skipped (else MISMATCH); only a `null` WCE (a `--no-wce` sidecar) leaves the rows uncompared, and the reason says so. A sidecar that states a WCE is checked only by running the pinned tool: if this run cannot (`--no-wce`, the `hookc-wce` image unusable, a tool error) the verdict is UNVERIFIED (exit 3, "WCE NOT checked"), never MISMATCH: a tool that did not run compared nothing (RT round 4 F3). A `null`-WCE sidecar states no WCE and regenerates as `null` whether or not the tool runs. These are the only enforced definition rows; the verify reason names only the rows actually compared and equal |
@@ -409,6 +413,9 @@ exactly the command's own `-v` mounts; R3-02 runs every C recipe's real `pipelin
 `tests/test_rt_round4.py` does the same for round 4 (F2 `--src` work tree vs the blobs built, F1 clang-15 date
 macros, F3/F3b WCE tool failure, F4 bind-review qualifications, H1 the repository's own git config): every
 `test_rt4_*` test (27 items) fails on cd2c3b7 (`casestudy/hookc/rt-round4/test_rt_round4_on_cd2c3b7.txt`).
+`tests/test_rt5.py` does the same for the round-5 review (P1 every twin's build log compared, P2 `source_vcs` in
+the verify report on disk, P3 vendor tree re-derived, P5 bind-review caveat for a `--no-wce` sidecar): every
+`test_rt5_*` test fails on 57a8efd.
 `tests/test_public_paths.py` pins the portable paths in manifests and verify reports (both tests fail on the
 code before that change).
 

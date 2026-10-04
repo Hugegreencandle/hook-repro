@@ -466,8 +466,10 @@ def test_rt5_ha_src_repo_root_still_reproduces(fake, tmp_path):
 
 
 def test_rt5_src_head_moved_but_files_restored_refused(fake, tmp_path):
-    # the work tree bytes equal the sidecar's blobs, but HEAD is another commit: the checkout a
-    # reviewer has is not the sidecar's commit -> refused, not REPRODUCED
+    # the work tree bytes equal the sidecar's blobs, but HEAD:<path> is another TREE: the check is
+    # tree-level (HEAD:<path> must be the sidecar's source.vcs.tree), not commit-level; a HEAD that
+    # is another commit with the same tree at <path> is accepted and the export of the sidecar's
+    # own commit is built -> here refused, not REPRODUCED
     r, m = built(fake, tmp_path)
     (r / "hook.c").write_bytes(BAD_C)
     git(r, "commit", "-qam", "move HEAD")

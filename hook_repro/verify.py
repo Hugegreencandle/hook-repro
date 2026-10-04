@@ -9,7 +9,8 @@ deterministic, two-operator-confirmed read is NOT a pass):
               sidecar whose HookHash is not the requested one
 
 With a hookc sidecar (--metadata) the bytes must also justify the sidecar: the sidecar is
-regenerated from the rebuild of the git export and must be byte-identical (else MISMATCH),
+regenerated from the rebuild of the git export on EVERY rebuilt twin (each twin's own build
+log) and must be byte-identical each time (else MISMATCH),
 and the chain's HookDefinition Fee must equal the sidecar's WCE.hook and HookCallbackFee must
 equal WCE.cbak (or be absent when WCE.cbak is 0: SetHook.cpp @bb244ef:1877 writes it only when
 the callback count is > 0), else MISMATCH: SetHook derives both from the bytes
@@ -50,19 +51,24 @@ DEFINITION_FIELDS = ("Fee", "HookCallbackFee", "HookOn", "HookCanEmit")
 
 def verify(hookhash, src, recipe="xhc-bin127", network="xahau-mainnet", params=None, preset=None,
            out_dir=None, transport=None, builder=None, allow_single_operator=False, endpoints=None, metadata=None,
-           sidecar=None, twins=None, recheck_platforms_built=False):
+           sidecar=None, twins=None, recheck_platforms_built=False, source_vcs=None):
     """sidecar: for a hookc sidecar, callable(wasm, manifest, built) -> (ok, reason, diff) that
     regenerates it from this rebuild (hookc.sidecar_check); required when metadata has one.
     twins: [(platform, recipe)] to rebuild twice EACH (default [(None, recipe)]); every twin's
     rebuild must be deterministic and equal the on-ledger CreateCode. recheck_platforms_built:
     the twins are exactly the sidecar's builder.platforms_built (no --platform restriction), so
-    that claim is regenerated from what was rebuilt; otherwise it is reported NOT re-checked."""
+    that claim is regenerated from what was rebuilt; otherwise it is reported NOT re-checked.
+    The sidecar is regenerated from EVERY twin's rebuild (its own manifest and build log) and
+    each must be byte-identical (RT5 P1). source_vcs: the git commit/tree the rebuild was
+    exported from; recorded in the report before it is written (RT5 P2)."""
     builder = builder or default_builder
     twins = twins or [(None, recipe)]
     rep = {"schema": REPORT_SCHEMA, "generated_utc": _now(), "hookhash": (hookhash or "").upper(),
            "network": network, "source_dir": buildmod.portable_path(src), "recipe": recipe,
            "preset": preset, "params": params or {}, "verdict": "UNVERIFIED", "reason": None,
            "reads": [], "builds": [], "diff": None}
+    if source_vcs is not None:
+        rep["source_vcs"] = source_vcs
     if metadata:
         rep["metadata"] = {k: v for k, v in metadata.items() if k != "text"}
         rep["metadata_hookhash_matches"] = metadata["hookhash"] == rep["hookhash"]
@@ -135,21 +141,22 @@ def verify(hookhash, src, recipe="xhc-bin127", network="xahau-mainnet", params=N
                 sha512half(b1), " (%s twin)" % plat if plat else "", rep["hookhash"])
             rep["diff"] = wasm_diff(onledger, b1)
             return _finish(rep, out_dir, onledger)
-    b1, m1 = per_twin[0][1], per_twin[0][2]
     rechecked = bool(hookc_doc and recheck_platforms_built)
     if hookc_doc:
         if sidecar is None:
             rep["reason"] = "hookc sidecar given but not regenerated from this rebuild"
             return _finish(rep, out_dir, onledger)
-        try:
-            ok, why, rep["metadata_diff"] = sidecar(b1, m1, [p for p, _ in twins] if rechecked else None)
-        except Exception as e:  # a sidecar that cannot be regenerated is not confirmed
-            rep["reason"] = "sidecar regeneration failed: %s: %s" % (type(e).__name__, str(e)[:1500])
-            return _finish(rep, out_dir, onledger)
-        if not ok:
-            rep["verdict"] = "MISMATCH"
-            rep["reason"] = "bytes match the chain but the " + why
-            return _finish(rep, out_dir, onledger)
+        for plat, bt, mt in per_twin:
+            try:
+                ok, why, rep["metadata_diff"] = sidecar(bt, mt, [p for p, _ in twins] if rechecked else None)
+            except Exception as e:  # a sidecar that cannot be regenerated is not confirmed
+                rep["reason"] = "sidecar regeneration failed%s: %s: %s" % (
+                    " (%s twin)" % plat if plat else "", type(e).__name__, str(e)[:1500])
+                return _finish(rep, out_dir, onledger)
+            if not ok:
+                rep["verdict"] = "MISMATCH"
+                rep["reason"] = "bytes match the chain but the %s%s" % ("(%s twin) " % plat if plat else "", why)
+                return _finish(rep, out_dir, onledger)
         dc = rep["definition_check"] = definition_check(metadata["doc"], f["reads"])
         if "fields" not in dc:
             rep["reason"] = "cannot check the sidecar against the HookDefinition: " + dc["note"]

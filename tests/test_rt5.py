@@ -300,3 +300,64 @@ def test_guard_p5_report_caveats_unit():
     informational = dict(row, definition="HookOn", enforced=False)
     assert BIND.report_caveats({"distinct_operators": 2, "definition_check": {"fields": [informational]},
                                 "metadata": {"doc": {"WCE": {"hook": 1, "cbak": 0}}}}) == []
+
+
+# ---------------- P1 follow-up: a twin whose BYTES differ is named by the byte check ----------------
+# With the sidecar regenerated from every twin (P1), a twin that builds other bytes would ALSO fail
+# the sidecar comparison (its HookHash differs). That must not become the reported reason: the
+# report has to say the bytes differ (and, in verify, attach the diff), never "bytes reproduce" /
+# "bytes match the chain". These tests kill mutants "rt2 N6" and "rt3 R3-05".
+
+def second_twin_bytes_differ(fake, tmp_path, monkeypatch):
+    rc, r, out = build_both(tmp_path, monkeypatch, {})
+    assert rc == 0
+    real = B.run_container
+
+    def per_arch(recipe, image, src_dir, out_dir, params, timeout=None, vendor_dir=None):
+        w = real(recipe, image, src_dir, out_dir, params, timeout, vendor_dir)
+        if recipe["platform"] == "linux/arm64":  # the second twin now builds other bytes
+            w = w + bytes([0, 2, 1, 0x61])
+            with open(os.path.join(out_dir, "hook.wasm"), "wb") as f:
+                f.write(w)
+        return w
+    monkeypatch.setattr(B, "run_container", per_arch)
+    return r, out
+
+
+def test_guard_p1_reproduce_names_second_twin_bytes_not_sidecar(fake, tmp_path, monkeypatch, capsys):
+    r, out = second_twin_bytes_differ(fake, tmp_path, monkeypatch)
+    rc, rep = reproduce_json(capsys, out, r)
+    assert rc == 2 and rep["verdict"] == "MISMATCH"
+    assert rep["reason"].startswith("rebuilt HookHash ") and "(linux/arm64) != metadata HookHash" in rep["reason"]
+    assert "bytes reproduce" not in rep["reason"] and rep["metadata_diff"] == []
+
+
+def test_guard_p1_verify_names_second_twin_chain_difference_not_sidecar(fake, tmp_path, monkeypatch, capsys):
+    r, out = second_twin_bytes_differ(fake, tmp_path, monkeypatch)
+    rc, rep = verify_json(monkeypatch, capsys, out, r)
+    assert rc == 2 and rep["verdict"] == "MISMATCH"
+    assert "differs from on-ledger" in rep["reason"] and "(linux/arm64 twin)" in rep["reason"]
+    assert "bytes match the chain" not in rep["reason"] and rep["diff"] is not None
+    assert "metadata_diff" not in rep
+
+
+def test_guard_p1_verify_names_the_nondeterministic_twin(fake, tmp_path, monkeypatch, capsys):
+    """Fast, early kill for mutant "rt3 R3-03: failing twin not named" (its round-3 killer runs late in
+    the suite and timed out under a loaded full mutation run)."""
+    rc, r, out = build_both(tmp_path, monkeypatch, {})
+    assert rc == 0
+    real, n = B.run_container, {"arm": 0}
+
+    def flaky_arm(recipe, image, src_dir, out_dir, params, timeout=None, vendor_dir=None):
+        w = real(recipe, image, src_dir, out_dir, params, timeout, vendor_dir)
+        if recipe["platform"] == "linux/arm64":
+            n["arm"] += 1
+            if n["arm"] == 2:  # the second arm64 build differs from the first
+                w = w + bytes([0, 2, 1, 0x61])
+                with open(os.path.join(out_dir, "hook.wasm"), "wb") as f:
+                    f.write(w)
+        return w
+    monkeypatch.setattr(B, "run_container", flaky_arm)
+    rc, rep = verify_json(monkeypatch, capsys, out, r)
+    assert rc == 3 and rep["verdict"] == "UNVERIFIED"
+    assert "rebuild on linux/arm64 is NOT deterministic" in rep["reason"]

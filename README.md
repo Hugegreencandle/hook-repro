@@ -226,7 +226,8 @@ empty for that one container.
 
 | recipe | toolchain | presets |
 |---|---|---|
-| `xhc-bin127` | Hooks Builder toolchain: xrpl-hooks-compiler v1.27 bin.zip (wasi-sdk clang 15, hook-cleaner, guard_checker), binaryen 108 wasm-opt, xahaud headers @8bcebde | `classic` (clang -O2, wasm-opt -O2, clean), `builder-2025` (Builder pipeline 2025-02 to 2026-07), `builder-2026-07` (current Builder) |
+| `buildbox-2026-10` | **Live Hooks Builder** (hook-buildbox.xrpl.org, used by builder.xahau.network and hooks-builder.xrpl.org), matched byte-for-byte 2026-10-06 on 4 sources: the `xhc-bin127` binaries and headers; clang -O3 with wasm-opt on PATH (the clang 15 driver runs `wasm-opt -O3` after the link), one wasm-opt pass (fixed list + -O3), hook-cleaner. Provenance in its `recipe.json`. | `buildbox-2026-10` |
+| `xhc-bin127` | Hooks Builder toolchain: xrpl-hooks-compiler v1.27 bin.zip (wasi-sdk clang 15, hook-cleaner, guard_checker), binaryen 108 wasm-opt, xahaud headers @8bcebde | `classic` (clang -O2, wasm-opt -O2, clean), `builder-2025` and `builder-2026-07`: **do not match the live Builder** (checked 2026-10-06; kept for old manifests; the CLI prints a NOTE) |
 | `kvt-llvm22` | KVT's deployable-hook pipeline (`build_deploy.sh`): LLVM 22.1.7, binaryen 130, wabt 1.0.41, guard_hoist.py, xahc headers @ec05936 | `deploy` |
 | `kvt-llvm22-amd64` | linux/amd64 twin of `kvt-llvm22` (LLVM 22.1.7 X64, binaryen 130 x86_64, wabt 1.0.41 x64, amd64 .debs) | `deploy` |
 | `hookc-llvm22` / `-amd64` | hookc canonical C toolchain: the kvt-llvm22 pipeline with official xahaud `hook/*.h` @bb244ef, arm64 + amd64 twins | `deploy` |
@@ -391,7 +392,11 @@ had run it (`rt-round*-rerun.sh`, `probes.sh`) say so in their header.
 ```
 python3 -m venv .venv && .venv/bin/pip install pytest
 .venv/bin/python -B -m pytest -q -p no:cacheprovider tests   # offline, no Docker needed
+HOOK_REPRO_DOCKER_TESTS=1 .venv/bin/python -B -m pytest -q -p no:cacheprovider tests/test_buildbox.py   # opt-in, needs Docker
 ```
+
+The last line (opt-in, needs docker) rebuilds three Hooks Builder IDE templates with `buildbox-2026-10` and
+compares them to outputs recorded from the live service on 2026-10-06 (`tests/fixtures/buildbox/`).
 
 The tests run offline against recorded fixtures: real two-operator RPC responses for the ClaimReward hook,
 its 808-byte CreateCode, a real 808-byte near-miss build, and a wat2wasm module. The rshooks tests use rshooks

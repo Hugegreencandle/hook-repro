@@ -153,6 +153,9 @@ def cmd_verify(a):
         finally:
             shutil.rmtree(cleanup, ignore_errors=True)
     else:
+        if buildmod.preset_note(recipe, a.preset):
+            print("NOTE: preset %s of %s %s" % (a.preset, recipe, buildmod.preset_note(recipe, a.preset)),
+                  file=sys.stderr)
         rep = verify(a.hookhash, a.src, recipe, a.network, params, a.preset, a.out,
                      allow_single_operator=a.allow_single_operator, metadata=meta)
     if a.json:

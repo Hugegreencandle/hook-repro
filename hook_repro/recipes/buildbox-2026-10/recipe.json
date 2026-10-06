@@ -1,0 +1,109 @@
+{
+  "name": "buildbox-2026-10",
+  "summary": "Live Hooks Builder remote compiler (hook-buildbox.xrpl.org, used by builder.xahau.network and hooks-builder.xrpl.org) as observed 2026-10-06: the xhc-bin127 binaries and headers, with clang -O3 whose driver runs wasm-opt -O3 after the link (wasm-opt on PATH), then one wasm-opt pass (fixed list + -O3), then hook-cleaner. Byte-identical to the live service on 4 sources (2026-10-06).",
+  "platform": "linux/amd64",
+  "base_image": "node@sha256:c7bde48048debf58dba50f8d2ba674854bdf7dfc8c43bd468f19a5212facfdbe",
+  "base_image_note": "docker.io/library/node:17-alpine, linux/amd64 platform manifest (index sha256:76e638eb0d73ac5f0b76d70df3ce1ddad941ac63595d44092b625e2cd557ddbf); same base as xrpl-hooks-compiler docker/Dockerfile. Supplies musl + libstdc++ for the dynamically linked toolchain.",
+  "artifacts": [
+    {
+      "name": "bin.zip",
+      "url": "https://github.com/XRPLF/xrpl-hooks-compiler/releases/download/v1.27/bin.zip",
+      "sha256": "d6a94b6a0d3c38b0431eff28d3a3b68c9c9d2e74ec2afc0f50b71d4faa413891",
+      "unpack": "zip",
+      "strip_prefix": "bin/",
+      "exclude_prefix": [
+        "__MACOSX/",
+        "bin/clangd",
+        "bin/qjsc"
+      ],
+      "into": "tc"
+    },
+    {
+      "name": "wasm-opt",
+      "url": "https://raw.githubusercontent.com/XRPLF/xrpl-hooks-compiler/61f3a0798a0ca584c8d8954b59ea6c991f334e18/docker/wasm-opt",
+      "sha256": "36f78112c8d629e27f8c68be89bee47c245cbde8794e1ff56c03212c02dc8484",
+      "into": "tc/wasm-opt",
+      "mode": 493
+    },
+    {
+      "name": "error.h",
+      "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/error.h",
+      "sha256": "682ae265dfdda491572af1fcb6c156cfb937a6f13667defed3167ce3814049cd",
+      "into": "hdr/error.h"
+    },
+    {
+      "name": "extern.h",
+      "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/extern.h",
+      "sha256": "897cbeaf0f20526cb431653c040af6914b2d42e61023fb4864b66c4afb8b4cba",
+      "into": "hdr/extern.h"
+    },
+    {
+      "name": "hookapi.h",
+      "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/hookapi.h",
+      "sha256": "f8dabdc9950dfededc6d86973e4904e4c83d1dea08ce690a7665f5747c1d513e",
+      "into": "hdr/hookapi.h"
+    },
+    {
+      "name": "macro.h",
+      "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/macro.h",
+      "sha256": "4e7c6f4142476ef022f92b4428b5298f653a81147472e140764981fc5dcc9d25",
+      "into": "hdr/macro.h"
+    },
+    {
+      "name": "sfcodes.h",
+      "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/sfcodes.h",
+      "sha256": "fa5d0a61bfb569a03594f9eb8e8b584e8ef08b2b3ab800f7f16e19bc7c844c8a",
+      "into": "hdr/sfcodes.h"
+    },
+    {
+      "name": "tts.h",
+      "url": "https://raw.githubusercontent.com/Xahau/xahaud/8bcebdea4262dac468646acb2ece683082d450d2/hook/tts.h",
+      "sha256": "5b55f9274c128c910ab3d754efda4a9fcf35da1fc1fafa037d63b5a568b46265",
+      "into": "hdr/tts.h"
+    }
+  ],
+  "pipeline": "pipeline.sh",
+  "jail": true,
+  "params": {
+    "CLANG_OPT": {
+      "default": "-O3",
+      "allowed": [
+        "-O3"
+      ]
+    },
+    "WASMOPT": {
+      "default": "builder2025",
+      "allowed": [
+        "builder2025"
+      ]
+    },
+    "STAGES": {
+      "default": "opt,clean",
+      "allowed": [
+        "opt,clean"
+      ]
+    }
+  },
+  "presets": {
+    "buildbox-2026-10": {
+      "CLANG_OPT": "-O3",
+      "WASMOPT": "builder2025",
+      "STAGES": "opt,clean"
+    }
+  },
+  "tool_versions": {
+    "clang": "15.0.0, XRPLF/llvm-project fork via XRPLF/wasi-sdk (submodules 4ca7eaa / 628938f), prebuilt in xrpl-hooks-compiler release v1.27 bin.zip (bin.zip v1.26 carries a byte-identical clang-15)",
+    "wasm-ld": "lld 15 from the same bin.zip",
+    "wasm-opt": "binaryen version 108, static x86-64 binary committed at xrpl-hooks-compiler docker/wasm-opt (7ed1c44, 2022-06-13)",
+    "hook-cleaner": "XRPLF/hook-cleaner-c b856a36 (prebuilt in bin.zip v1.27)",
+    "guard_checker": "RichardAH/guard-checker de69e8a (prebuilt in bin.zip v1.27)",
+    "headers": "Xahau/xahaud hook/*.h at 8bcebdea (xrpl-hooks-compiler submodule from b932c7b, 2025-11-13)"
+  },
+  "provenance": {
+    "matched_on": "2026-10-06 (UTC 09:14-09:20 for controls); remote service, not pinned by its operator; re-check before relying on it",
+    "service": "https://hook-buildbox.xrpl.org/api/build (GET /api/version -> 404 on 2026-10-06, so not at Xahau/xrpl-hooks-compiler f900a8a)",
+    "server_source": "github.com/Xahau/xrpl-hooks-compiler: no public commit has exactly the live task list (build, optimize, clean, guard check) plus the [path] redaction; closest are 3a96de2/36328f8 (security/compile-sandbox, path redaction) and a9cac30/02eb666 (fixed clang -O3 + pass list). Live diagnostics cite xahaud headers @8bcebde line numbers.",
+    "reference_image": "ghcr.io/xahau/xrpl-hooks-compiler@sha256:ee7f71e3c69632d8df0bb35ced83ea406815c141e1ebc8a378484f66e55635d5 (tag git-02eb666, linux/amd64 manifest): same clang-15, wasm-ld, wasm-opt, hook-cleaner, guard_checker and header bytes as this recipe; the stated pipeline run in that image gives the same bytes as the live service",
+    "implicit_stage": "clang 15 WebAssembly driver: after wasm-ld it runs `wasm-opt <out> -O<n> -o <out>` when wasm-opt is found on PATH and -O is given (seen with clang -### in the reference image: \"/usr/bin/wasm-opt\" \"/tmp/o.wasm\" \"-O3\" \"-o\" \"/tmp/o.wasm\")"
+  }
+}

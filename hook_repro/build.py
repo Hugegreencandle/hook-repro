@@ -71,6 +71,21 @@ class BuildError(RuntimeError):
     pass
 
 
+# Presets kept for old builds that are known NOT to match the live Hooks Builder. Kept as code, not in
+# recipe.json, so the xhc-bin127 recipe digest (and every manifest that cites it) stays the same.
+PRESET_NOTES = {
+    ("xhc-bin127", "builder-2025"): "does not match the live Hooks Builder (checked 2026-10-06); for Builder "
+                                    "hooks use --recipe buildbox-2026-10",
+    ("xhc-bin127", "builder-2026-07"): "does not match the live Hooks Builder (checked 2026-10-06: clang -O0 "
+                                       "is wrong, and wasm-opt is not on PATH for the clang driver); for Builder "
+                                       "hooks use --recipe buildbox-2026-10",
+}
+
+
+def preset_note(recipe_name, preset):
+    return PRESET_NOTES.get((recipe_name, preset))
+
+
 def list_recipes():
     return sorted(d for d in os.listdir(RECIPES_DIR)
                   if os.path.exists(os.path.join(RECIPES_DIR, d, "recipe.json")))
@@ -528,6 +543,8 @@ def build(src_dir, recipe_name, params=None, preset=None, out_dir=None, log=prin
     """Build once, write hook.wasm + build-manifest.json to out_dir, return manifest."""
     recipe = load_recipe(recipe_name)
     p = resolve_params(recipe, params, preset)
+    if preset_note(recipe_name, preset):
+        log("NOTE: preset %s of %s %s" % (preset, recipe_name, preset_note(recipe_name, preset)))
     stage_root = tempfile.mkdtemp(prefix="hook-repro-stage-", dir=_tmp_dir())
     try:
         staged = stage_source(src_dir, os.path.join(stage_root, "src"))

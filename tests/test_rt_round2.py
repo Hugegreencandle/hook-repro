@@ -515,7 +515,8 @@ def test_guard_n2_plain_names_accepted(fake, tmp_path, name):
     assert hookc("build", "--git", r, *TC, "--out", tmp_path / "o") == 0
 
 
-C_PIPELINES = ["hookc-llvm22", "hookc-llvm22-amd64", "kvt-llvm22", "kvt-llvm22-amd64", "xhc-bin127"]
+C_PIPELINES = ["hookc-llvm22", "hookc-llvm22-amd64", "kvt-llvm22", "kvt-llvm22-amd64", "xhc-bin127",
+               "buildbox-2026-10"]
 
 
 def pipeline_source_block(recipe):

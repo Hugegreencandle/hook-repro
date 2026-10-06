@@ -266,7 +266,7 @@ hook-repro build <src> --metadata 0.main.metadata.json --param CRATE=path/to/cra
 `./hookc` (= `hook-repro hookc`) is the C counterpart of rshooks-build's `<index>.<fn>.metadata.json`.
 
 ```
-hookc build --git REPO --rev R --path P [--entry f.c] --toolchain hookc-llvm22|kvt-llvm22|xhc-bin127 \
+hookc build --git REPO --rev R --path P [--entry f.c] --toolchain hookc-llvm22|kvt-llvm22|xhc-bin127|buildbox-2026-10 \
             [--platform all] [--on Cron] [--can-emit ClaimReward] [--decl hookc.toml] --out DIR
   -> DIR/<index>.hook.wasm + DIR/<index>.hook.metadata.json
 hookc reproduce --metadata M (--git REPO | --src WORKTREE) [--platform P] [--wasm published.wasm]

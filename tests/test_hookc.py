@@ -278,6 +278,20 @@ def test_platform_pins_cover_both_llvm_twins():
     assert list(HC.platform_pins("xhc-bin127")) == ["linux/amd64"]
 
 
+def test_buildbox_toolchain_pins_one_amd64_twin_and_its_preset():
+    # literal digest: recipe buildbox-2026-10 as published at 164541f (hook-repro recipes)
+    p = HC.platform_pins("buildbox-2026-10")
+    assert list(p) == ["linux/amd64"]
+    assert p["linux/amd64"]["recipe"] == "buildbox-2026-10"
+    assert p["linux/amd64"]["recipe_digest"] == "8da93100b630d594e1b282f230cf8ae322d9a1082f2b1f2196287d96105c9d4b"
+    assert HC.TOOLCHAINS["buildbox-2026-10"]["entry_param"] is None
+    fixed = {"CLANG_OPT": "-O3", "STAGES": "opt,clean", "WASMOPT": "builder2025"}
+    assert HC.preset_matches("buildbox-2026-10", "buildbox-2026-10", fixed)
+    assert not HC.preset_matches("buildbox-2026-10", "buildbox-2026-10", dict(fixed, CLANG_OPT="-O2"))
+    with pytest.raises(HC.HookcError):
+        HC.params_for("buildbox-2026-10", "a.c", {})
+
+
 def test_platform_pins_refuse_mislabelled_twin(monkeypatch):
     monkeypatch.setitem(HC.TOOLCHAINS, "kvt-llvm22", dict(HC.TOOLCHAINS["kvt-llvm22"], platforms={
         "linux/arm64": "kvt-llvm22-amd64", "linux/amd64": "kvt-llvm22"}))

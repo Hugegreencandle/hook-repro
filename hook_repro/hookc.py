@@ -67,6 +67,13 @@ TOOLCHAINS = {
         "entry_param": None,
         "note": "xrpl-hooks-compiler v1.27 bin.zip ships x86_64 Linux binaries only; there is no arm64 twin.",
     },
+    "buildbox-2026-10": {
+        "platforms": {"linux/amd64": "buildbox-2026-10"},
+        "default_preset": "buildbox-2026-10",
+        "entry_param": None,
+        "note": "the live Hooks Builder pipeline (matched 2026-10-06) uses the xrpl-hooks-compiler v1.27 bin.zip "
+                "x86_64 Linux binaries only; there is no arm64 twin.",
+    },
     "hookc-llvm22": {
         "platforms": {"linux/arm64": "hookc-llvm22", "linux/amd64": "hookc-llvm22-amd64"},
         "default_preset": "deploy",

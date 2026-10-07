@@ -223,7 +223,7 @@ def cmd_hookc_build(a):
         src=a.src, git=a.git, rev=a.rev, path=a.path or "", tc_name=a.toolchain, preset=a.preset,
         params=_params(a.param), entry=a.entry, platforms=plats, decls=decls, decl_warnings=warns,
         out_dir=a.out, with_wce=not a.no_wce, allow_unversioned=a.allow_unversioned,
-        log=lambda s: print(s, file=sys.stderr))
+        log=lambda s: print(s, file=sys.stderr), select=a.select)
     for w in summary["warnings"]:
         print("warning: " + w, file=sys.stderr)
     print(json.dumps(summary, indent=2))
@@ -262,6 +262,10 @@ def add_hookc_parsers(sp):
     s.add_argument("--preset", default=None)
     s.add_argument("--param", action="append")
     s.add_argument("--entry", default=None, help="the .c file to compile (toolchains with an entry selector)")
+    s.add_argument("--select", default=None, metavar="FILE.c",
+                   help="compile only this top-level .c (toolchains without an entry parameter, e.g. "
+                        "buildbox-2026-10 / xhc-bin127): the other top-level .c files are withheld from the "
+                        "container; recorded as source.entry + source.entry_selector")
     s.add_argument("--platform", action="append", help="linux/arm64, linux/amd64 or all (default: all twins)")
     s.add_argument("--decl", default=None, help="hookc.toml with a [hook] table")
     s.add_argument("--index", type=int, default=None)

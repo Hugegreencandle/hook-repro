@@ -266,7 +266,7 @@ hook-repro build <src> --metadata 0.main.metadata.json --param CRATE=path/to/cra
 `./hookc` (= `hook-repro hookc`) is the C counterpart of rshooks-build's `<index>.<fn>.metadata.json`.
 
 ```
-hookc build --git REPO --rev R --path P [--entry f.c] --toolchain hookc-llvm22|kvt-llvm22|xhc-bin127|buildbox-2026-10 \
+hookc build --git REPO --rev R --path P [--entry f.c | --select f.c] --toolchain hookc-llvm22|kvt-llvm22|xhc-bin127|buildbox-2026-10 \
             [--platform all] [--on Cron] [--can-emit ClaimReward] [--decl hookc.toml] --out DIR
   -> DIR/<index>.hook.wasm + DIR/<index>.hook.metadata.json
 hookc reproduce --metadata M (--git REPO | --src WORKTREE) [--platform P] [--wasm published.wasm]
@@ -274,6 +274,15 @@ hook-repro verify --hookhash H (--git REPO | --src WORKTREE) --metadata M [--pla
 hook-repro verify --hookhash H --src DIR --metadata M                         # rshooks sidecar
 ```
 
+- **One file from a directory: `--select f.c`.** `xhc-bin127` and `buildbox-2026-10` have no entry parameter:
+  their pinned pipelines compile and link every top-level `.c` (a directory with several hooks fails, e.g.
+  `wasm-ld: duplicate symbol: hook`). `--select f.c` withholds the OTHER top-level `.c` files from the container;
+  headers, subdirectories and every other file are passed as they are, and the recipes (and their digests) do
+  not change. The sidecar records `source.entry: "f.c"` and `source.entry_selector` (the withheld names and the
+  tree sha256 of what the container received); `source.tree_sha256` stays the hash of the whole directory.
+  `f.c` must be a regular file directly in the source dir: an absolute path, `..`, a subdirectory path, a
+  symlink, a non-`.c` name or a missing file is refused before anything is built. Without `--select`, builds and
+  sidecars are exactly as before. For `hookc-llvm22` / `kvt-llvm22` use `--entry`.
 - **Source = git objects.** A versioned build compiles only the exact committed blobs of `<commit>:<path>`,
   exported from git objects (`hookc build DIR` on a clean work tree exports its HEAD; ignored files,
   skip-worktree edits and eol conversion in the work tree are never compiled). `source.tree_sha256` is computed
@@ -344,7 +353,8 @@ hook-repro verify --hookhash H --src DIR --metadata M                         # 
 |---|---|---|
 | `HookHash` | Enforced | = SHA512Half of both rebuilds; `verify`: must equal `--hookhash` (else UNVERIFIED) and the chain's CreateCode |
 | `source.vcs`, `tree_sha256`, `file_count` | Enforced | regenerated from the git export actually built |
-| `source.entry` | Enforced | must equal the toolchain's entry param in `builder.params` (else refused) |
+| `source.entry` | Enforced | must equal the toolchain's entry param in `builder.params` (else refused), or, for a `--select` build, the entry named by `source.entry_selector` |
+| `source.entry_selector` (only with `--select`) | Enforced | `reproduce` / `verify --metadata` withhold the same files from the git export; `withheld`, `compiled_tree_sha256` and `compiled_file_count` are regenerated from what the container received and byte-compared |
 | `builder.*` (toolchain, platforms digests, params, preset, cc, commands, wasm_opt, env, wce pin) | Enforced | pinned recipe digest must match locally; the rest regenerated from the rebuild and byte-compared, once per rebuilt twin from that twin's own manifest and build log (a twin whose log states another `cc`, `wasm_opt_version`, `commands` or `wasm_opt` is MISMATCH, RT round 5 P1) |
 | `builder.platforms_built` | Enforced by `reproduce` and `verify --metadata` without `--platform` | the twins the build actually built (twice each) and byte-compared; `builder.platforms` lists every PINNED twin and is not a build claim. Without `--platform`, `reproduce` and `verify` rebuild EVERY listed twin twice (native and, on another architecture, emulated), every rebuild must be identical (and in `verify` equal to the on-ledger CreateCode), and the claim is regenerated from the twins rebuilt: the report says `platforms_built_rechecked: true`. A listed twin that builds other bytes is MISMATCH. With `--platform P` only P is rebuilt: the report says `platforms_built_rechecked: false` and its reason says `builder.platforms_built` is the original build's record, NOT re-checked |
 | `index`, `hook_fn`, `cbak_fn`, `name`, `HookOn`, `HookCanEmit`, `HookName`, `description`, `human` | Enforced | declarations re-validated from `human`, masks recomputed, byte-compared |

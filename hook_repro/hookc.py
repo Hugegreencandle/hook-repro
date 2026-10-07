@@ -651,14 +651,130 @@ def vcs_of_dir(src):
     return {"type": "git", "commit": commit, "path": rel, "tree": tree, "dirty": False}, None
 
 
-def source_block(src, info, entry):
+def source_block(src, info, entry, selection=None):
     """The metadata source block. Versioned: everything comes from the git export (info);
-    unversioned: tree hash of the directory, vcs null."""
+    unversioned: tree hash of the directory, vcs null. With an entry selection (--select, a
+    versioned export carries it as info["selection"]) the block also names the entry and
+    the `entry_selector` record; without one it is exactly the block hookc always wrote."""
     if info is not None:
-        return {"vcs": info["vcs"], "tree_sha256": info["tree_sha256"], "file_count": info["file_count"],
-                "entry": entry}
-    th, listing = tree_hash(src)
-    return {"vcs": None, "tree_sha256": th, "file_count": len(listing), "entry": entry}
+        sb = {"vcs": info["vcs"], "tree_sha256": info["tree_sha256"], "file_count": info["file_count"],
+              "entry": entry}
+        selection = info.get("selection", selection)
+    else:
+        th, listing = tree_hash(src)
+        sb = {"vcs": None, "tree_sha256": th, "file_count": len(listing), "entry": entry}
+    return with_selection(sb, selection)
+
+
+# ---------------- entry selector for toolchains that compile every top-level .c ----------------
+#
+# xhc-bin127 / buildbox-2026-10 have no ENTRY parameter: their pinned pipelines compile and link
+# every top-level *.c of /src (changing that would change the recipe digest). `--select F` is
+# hookc-side instead: the container receives a copy of the source dir WITHOUT the other top-level
+# .c files, so the unchanged pipeline compiles F alone. Every other file (headers, subdirectories,
+# non-.c files) is passed as it is. The sidecar records the selection as source.entry plus a
+# source.entry_selector block: the withheld files and the tree hash of what the container got.
+# source.tree_sha256 / file_count stay the hash of the WHOLE source dir (the git export).
+
+SELECT_MODE = "withhold-other-top-level-c"
+SELECTOR_KEYS = ("by", "mode", "withheld", "compiled_tree_sha256", "compiled_file_count")
+
+
+def check_select(tc_name, select):
+    """--select: a plain top-level .c file name, for a toolchain without an entry parameter.
+    Fails closed on anything else, with the reason."""
+    if select is None:
+        return None
+    if not isinstance(select, str) or not select:
+        raise HookcError("--select: give the name of one top-level .c file")
+    if toolchain(tc_name)["entry_param"]:
+        raise HookcError("toolchain %s has an entry parameter (%s); use --entry, not --select"
+                         % (tc_name, toolchain(tc_name)["entry_param"]))
+    if select.startswith("/") or select.startswith("\\") or os.path.isabs(select):
+        raise HookcError("--select %r is an absolute path; give a .c file name in the source dir" % select)
+    parts = re.split(r"[/\\]", select)
+    if ".." in parts:
+        raise HookcError("--select %r is a path traversal ('..'); give a .c file name in the source dir" % select)
+    if len(parts) > 1:
+        raise HookcError("--select %r names a path, not a top-level file; only a .c file directly in the "
+                         "source dir can be the entry" % select)
+    if not select.endswith(".c"):
+        raise HookcError("--select %r is not a .c file" % select)
+    if not ENTRY_RE.match(select):
+        raise HookcError("--select %r is not a plain .c file name (letters, digits, _ . -; no leading '-' or '.')"
+                         % select)
+    return select
+
+
+def _top_level_c(root):
+    """Top-level names ending in .c that are not directories (the pipelines' `find . -maxdepth 1
+    -type f -name '*.c'`; the staged copy holds regular files only), byte-sorted."""
+    return sorted((n for n in os.listdir(root) if n.endswith(".c") and not os.path.isdir(os.path.join(root, n))),
+                  key=lambda n: n.encode("utf-8"))
+
+
+def stage_selected(src_dir, select, dest):
+    """Copy src_dir to dest without every top-level .c other than `select`; returns the
+    selection record. `select` must be a regular top-level file of src_dir (not a symlink)."""
+    full = os.path.join(src_dir, select)
+    try:
+        st = os.lstat(full)
+    except FileNotFoundError:
+        raise HookcError("--select %s: no such file at the top level of the source dir" % select)
+    if stat.S_ISLNK(st.st_mode):
+        raise HookcError("--select %s is a symlink; the entry must be a regular file in the source dir" % select)
+    if not stat.S_ISREG(st.st_mode):
+        raise HookcError("--select %s is not a regular file" % select)
+    buildmod.stage_source(src_dir, dest)  # refuses symlinks and special files anywhere in the tree
+    withheld = [n for n in _top_level_c(dest) if n != select]
+    for n in withheld:
+        os.remove(os.path.join(dest, n))
+    if _top_level_c(dest) != [select]:
+        raise HookcError("--select %s: the staged source holds top-level .c files %s, not exactly the entry"
+                         % (select, _top_level_c(dest)))
+    th, listing = tree_hash(dest)
+    return {"entry": select, "withheld": withheld, "tree_sha256": th, "file_count": len(listing)}
+
+
+def with_selection(sb, selection):
+    """The source block with the entry selection recorded (sb unchanged when there is none)."""
+    if selection is None:
+        return sb
+    out = dict(sb, entry=selection["entry"])
+    out["entry_selector"] = {"by": BUILDER_NAME, "mode": SELECT_MODE, "withheld": list(selection["withheld"]),
+                             "compiled_tree_sha256": selection["tree_sha256"],
+                             "compiled_file_count": selection["file_count"]}
+    return out
+
+
+def compiled_tree(info):
+    """The tree hash the container must receive: the selection's, else the whole export's."""
+    sel = info.get("selection")
+    return sel["tree_sha256"] if sel else info["tree_sha256"]
+
+
+def check_entry_selector(tc, entry, sel):
+    """Strict parse of a sidecar's source.entry_selector (present only for a --select build)."""
+    if not isinstance(sel, dict) or tuple(sel) != SELECTOR_KEYS:
+        raise HookcError("source.entry_selector must have exactly the keys %s" % ", ".join(SELECTOR_KEYS))
+    if sel["by"] != BUILDER_NAME or sel["mode"] != SELECT_MODE:
+        raise HookcError("source.entry_selector by/mode %r/%r is not %s/%s"
+                         % (sel["by"], sel["mode"], BUILDER_NAME, SELECT_MODE))
+    try:
+        check_select(tc, entry)  # also refuses a toolchain that has an entry parameter
+    except HookcError as e:
+        raise HookcError("source.entry %r with an entry_selector: %s" % (entry, e))
+    if entry is None:
+        raise HookcError("source.entry_selector without source.entry; refusing")
+    w = sel["withheld"]
+    if (not isinstance(w, list) or not all(isinstance(n, str) and n.endswith(".c") and "/" not in n for n in w)
+            or w != sorted(set(w), key=lambda n: n.encode("utf-8")) or entry in w):
+        raise HookcError("source.entry_selector.withheld %r is not a sorted list of other top-level .c names" % (w,))
+    if not SHA_RE.match(str(sel["compiled_tree_sha256"])):
+        raise HookcError("source.entry_selector.compiled_tree_sha256 missing or malformed; refusing")
+    n = sel["compiled_file_count"]
+    if type(n) is not int or n < 1:
+        raise HookcError("source.entry_selector.compiled_file_count %r is not a positive integer" % (n,))
 
 
 def entry_of(tc_name, params):
@@ -984,6 +1100,9 @@ def parse_metadata(doc):
     entry = src.get("entry")
     if entry is not None and not ENTRY_RE.match(str(entry)):
         raise HookcError("source.entry %r is not a .c file name" % entry)
+    if "entry_selector" in src:  # a --select build: the entry is hookc's, not a recipe parameter
+        check_entry_selector(tc, entry, src["entry_selector"])
+        entry = None  # the params compile every top-level .c of what the container received
     for rname in toolchain(tc)["platforms"].values():
         try:
             full = buildmod.resolve_params(buildmod.load_recipe(rname), params, None)
@@ -1137,6 +1256,9 @@ def export_for_metadata(meta, src=None, git=None):
                 info["vcs"]["commit"], info["vcs"]["tree"], vcs["commit"], vcs["tree"]))
         if src:
             check_worktree_matches(repo, vcs["path"], info["listing"])
+        if "entry_selector" in meta["source"]:  # a --select sidecar: rebuild exactly that selection
+            info["selection"] = stage_selected(os.path.join(d, "src"), meta["source"]["entry"], os.path.join(d, "sel"))
+            return os.path.join(d, "sel"), info, d
     except BaseException:
         shutil.rmtree(d, ignore_errors=True)
         raise
@@ -1200,7 +1322,9 @@ def materialize(src=None, git=None, rev=None, path="", allow_unversioned=False):
 
 def build(src=None, git=None, rev=None, path="", tc_name="kvt-llvm22", preset=None, params=None,
           entry=None, platforms=None, decls=None, decl_warnings=(), out_dir=".", with_wce=True,
-          allow_unversioned=False, log=print):
+          allow_unversioned=False, log=print, select=None):
+    """select: hookc's entry selector for a toolchain without an entry parameter (see
+    stage_selected); None builds exactly as before."""
     tc = toolchain(tc_name)
     preset = preset or tc["default_preset"]
     plats = platforms or sorted(tc["platforms"])
@@ -1209,13 +1333,21 @@ def build(src=None, git=None, rev=None, path="", tc_name="kvt-llvm22", preset=No
             raise HookcError("toolchain %s has no %s twin. %s" % (tc_name, p, tc["note"]))
     decls = decls or normalize_decls({})[0]
     p = params_for(tc_name, entry, params)
+    check_select(tc_name, select)
     src_dir, info, cleanup = materialize(src, git, rev, path, allow_unversioned)
+    sel_root, sel, build_dir = None, None, src_dir
     try:
+        if select is not None:
+            sel_root = tempfile.mkdtemp(prefix="hookc-sel-", dir=_tmp_root())
+            build_dir = os.path.join(sel_root, "src")
+            sel = stage_selected(src_dir, select, build_dir)
         want_tree = info["tree_sha256"] if info else tree_hash(src_dir)[0]
+        if sel is not None:
+            want_tree = sel["tree_sha256"]
         results = {}
         for plat in plats:
             rname = tc["platforms"][plat]
-            m, wasm = _double_build(src_dir, rname, p, preset, os.path.join(out_dir, "builds", plat.replace("/", "-")),
+            m, wasm = _double_build(build_dir, rname, p, preset, os.path.join(out_dir, "builds", plat.replace("/", "-")),
                                     log, tree_sha256=want_tree)
             results[plat] = (m, wasm)
         first = plats[0]
@@ -1231,7 +1363,7 @@ def build(src=None, git=None, rev=None, path="", tc_name="kvt-llvm22", preset=No
             raise HookcError("TWIN BUILD LOGS DISAGREE: %s. The sidecar records one builder block for every "
                              "twin; no sidecar written" % disagree)
         resolved = m0["params"]
-        sb = source_block(src_dir, info, entry_of(tc_name, resolved))
+        sb = source_block(src_dir, info, entry_of(tc_name, resolved), sel)
         if with_wce:
             wce, why = run_wce(w0, log)
             if wce is None:
@@ -1260,6 +1392,8 @@ def build(src=None, git=None, rev=None, path="", tc_name="kvt-llvm22", preset=No
     finally:
         if cleanup:
             shutil.rmtree(cleanup, ignore_errors=True)
+        if sel_root:
+            shutil.rmtree(sel_root, ignore_errors=True)
 
 
 def metadata_diff(a, b, prefix=""):
@@ -1292,9 +1426,9 @@ def regenerate(meta, wasm, manifest, info, with_wce=True, log=print, built=None)
     except the declarations, which are re-validated from its readable `human` block, and
     (only when `built` is None, i.e. a single-twin rebuild) builder.platforms_built, which is
     then the original build's record and is reported as not re-checked."""
-    if manifest["source"]["tree_sha256"] != info["tree_sha256"]:
+    if manifest["source"]["tree_sha256"] != compiled_tree(info):
         raise HookcError("the container received tree %s, not the exported tree %s"
-                         % (manifest["source"]["tree_sha256"], info["tree_sha256"]))
+                         % (manifest["source"]["tree_sha256"], compiled_tree(info)))
     tc = meta["toolchain"]
     params = manifest["params"]
     decls = decls_from_human(meta["doc"])
@@ -1365,7 +1499,7 @@ def reproduce(metadata_path, src=None, git=None, platform=None, ref_wasm=None, o
         got = []
         for plat, recipe in twins:
             m, wasm = _double_build(src_dir, recipe, meta["params"], meta["preset"],
-                                    os.path.join(out_dir, plat.replace("/", "-")), log, tree_sha256=info["tree_sha256"])
+                                    os.path.join(out_dir, plat.replace("/", "-")), log, tree_sha256=compiled_tree(info))
             got.append((plat, recipe, m, wasm))
             rep["platforms_rebuilt"].append(plat)
         plat, recipe, m, wasm = got[0]
@@ -1373,6 +1507,8 @@ def reproduce(metadata_path, src=None, git=None, platform=None, ref_wasm=None, o
                           "recipe_digest": m["recipe"]["digest"], "image_id": m["image"]["image_id"],
                           "source": {"commit": info["vcs"]["commit"], "tree": info["vcs"]["tree"],
                                      "tree_sha256": info["tree_sha256"]}}
+        if info.get("selection"):
+            rep["rebuilt"]["source"]["entry_selector"] = with_selection({"entry": None}, info["selection"])["entry_selector"]
         for p2, _, _, w2 in got:
             if sha512half(w2) != meta["hookhash"]:
                 rep["verdict"] = "MISMATCH"
